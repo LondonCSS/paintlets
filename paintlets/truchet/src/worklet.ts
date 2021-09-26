@@ -134,5 +134,3 @@ export class Truchet implements houdini.PaintCtor {
     }
   }
 }
-
-(() => registerPaint("truchet", Truchet))();

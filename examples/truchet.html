@@ -9,16 +9,35 @@
     <link rel="stylesheet" href="./styles.css" />
     <style>
       .sample--1 {
-        background-color: darkblue;
-        background-image: paint(truchet);
+        --stroke-width: 1;
+        --stroke-colour: gold;
+        background-image: paint(truchet), linear-gradient(to bottom, #eecda3, #ef629f);
+      }
+
+      .sample--2 {
+        --tile-size: 20;
+        --stroke-width: 1;
+        --stroke-colour: #fff5;
+        background-image: paint(truchet), linear-gradient(to top, #373b44, #4286f4);
+      }
+
+      .sample--3 {
+        --tile-size: 30;
+        --stroke-width: 2;
+        --stroke-colour: #fffa;
+        background-image: paint(truchet), linear-gradient(to top, #ec38bc, #7303c0, #03001e); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
       }
     </style>
   </head>
   <body>
-    <div class="sample sample--1"></div>
+    <div class="samples">
+      <div class="sample sample--1"></div>
+      <div class="sample sample--2"></div>
+      <div class="sample sample--3"></div>
+    </div>
 
     <script type="module">
-      CSS.paintWorklet.addModule("../src/truchet/truchet.ts");
+      CSS.paintWorklet.addModule("../paintlets/truchet/src/index.ts");
     </script>
   </body>
 </html>

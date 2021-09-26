@@ -9,21 +9,20 @@
     <link rel="stylesheet" href="./styles.css" />
     <style>
       .sample {
-        --wh: 200px;
         --grid-unit: 64;
         --line-width: 1;
         --line-frequency: 12;
         --line-colour: #fff2;
       }
       .sample--1 {
-        background-image: paint(contours), linear-gradient(to top, cornflowerblue, hotpink);
+        background-image: paint(contour), linear-gradient(to top, cornflowerblue, hotpink);
       }
       .sample--2 {
-        background-image: paint(contours), linear-gradient(to right, gold, mediumseagreen);
+        background-image: paint(contour), linear-gradient(to right, gold, mediumseagreen);
       }
 
       .sample--3 {
-        background-image: paint(contours), linear-gradient(to top left, red, orange);
+        background-image: paint(contour), linear-gradient(to top left, red, orange);
       }
     </style>
   </head>
@@ -35,7 +34,7 @@
     </div>
 
     <script type="module">
-      CSS.paintWorklet.addModule("../paintlets/contours/src/index.ts");
+      CSS.paintWorklet.addModule("../paintlets/contour/src/index.ts");
     </script>
   </body>
 </html>
