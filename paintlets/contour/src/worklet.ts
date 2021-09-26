@@ -4,7 +4,6 @@ type Area = [number, number];
 type Point = [number, number];
 type PolyLine = Point[];
 type DefaultProps = typeof defaultProps;
-type DefaultPropKeys = keyof DefaultProps;
 
 import SimplexNoise from "simplex-noise";
 import { mapRange, linspace } from "canvas-sketch-util/math";
@@ -27,7 +26,7 @@ function getIsoLineFn(intervals: number[], gridUnit: number, [sizeX, sizeY]: Are
   return function (noiseData: PolyLine[]): PolyLine[] {
     const lines: PolyLine[] = [];
 
-    intervals.forEach((_: any, idx: number) => {
+    intervals.forEach((_: number, idx: number) => {
       if (idx > 0) {
         const lowerBand = intervals[idx - 1];
         const upperBand = intervals[idx];
@@ -81,7 +80,7 @@ function parseProps(props: houdini.StylePropertyMapReadOnly): DefaultProps {
   };
 }
 export class Contour implements houdini.PaintCtor {
-  static get inputProperties() {
+  static get inputProperties(): typeof inputProps {
     return inputProps;
   }
 
@@ -89,7 +88,7 @@ export class Contour implements houdini.PaintCtor {
     ctx: houdini.PaintRenderingContext2D,
     size: houdini.PaintSize,
     props: houdini.StylePropertyMapReadOnly
-  ) {
+  ): void {
     const { width, height } = size;
     const { gridUnit, lineWidth, lineFrequency, lineColour } = parseProps(props);
     const simplex = new SimplexNoise();

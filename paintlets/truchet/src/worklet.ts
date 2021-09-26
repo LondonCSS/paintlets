@@ -1,6 +1,7 @@
 import * as houdini from "../../../typings/houdini";
 import { Point, Tile, TileProps, TruchetProps } from "../types";
 
+const inputProps = ["--stroke-width", "--stroke-colour", "--tile-size", "--seed"];
 const defaultProps = {
   seed: 1,
   tileSize: 50,
@@ -89,20 +90,18 @@ function getTile(x: number, y: number, tileSize: number): Tile {
   };
 }
 
-function normalizeProps(props: houdini.StylePropertyMapReadOnly): TruchetProps {
-  const normalizedProps = {
-    seed: +props.get("--seed"),
-    tileSize: +props.get("--tile-size"),
-    lineWidth: +props.get("--stroke-width"),
-    strokeStyle: String(props.get("--stroke-colour")),
+function normalizeProps(rawProps: houdini.StylePropertyMapReadOnly): TruchetProps {
+  const props = {
+    seed: +String(rawProps.get("--seed")).trim(),
+    tileSize: +String(rawProps.get("--tile-size")).trim(),
+    lineWidth: +String(rawProps.get("--stroke-width")).trim(),
+    strokeStyle: String(rawProps.get("--stroke-colour")),
   };
 
-  const seed = normalizedProps.seed === 0 ? defaultProps.seed : normalizedProps.seed;
-  const lineWidth = normalizedProps.lineWidth === 0 ? defaultProps.lineWidth : normalizedProps.seed;
-  const tileSize =
-    normalizedProps.tileSize === 0 ? defaultProps.tileSize : normalizedProps.tileSize;
-  const strokeStyle =
-    normalizedProps.strokeStyle === "" ? defaultProps.strokeStyle : normalizedProps.strokeStyle;
+  const seed = props.seed === 0 ? defaultProps.seed : props.seed;
+  const lineWidth = props.lineWidth === 0 ? defaultProps.lineWidth : props.seed;
+  const tileSize = props.tileSize === 0 ? defaultProps.tileSize : props.tileSize;
+  const strokeStyle = props.strokeStyle === "" ? defaultProps.strokeStyle : props.strokeStyle;
 
   return {
     seed,
@@ -113,15 +112,15 @@ function normalizeProps(props: houdini.StylePropertyMapReadOnly): TruchetProps {
 }
 
 export class Truchet implements houdini.PaintCtor {
-  static get inputProperties() {
-    return ["--stroke-width", "--stroke-colour", "--tile-size", "--seed"];
+  static get inputProperties(): string[] {
+    return inputProps;
   }
 
   paint(
     ctx: houdini.PaintRenderingContext2D,
     size: houdini.PaintSize,
     props: houdini.StylePropertyMapReadOnly
-  ) {
+  ): void {
     const { strokeStyle, lineWidth, seed, tileSize } = normalizeProps(props);
     const tileProps = {
       strokeStyle,
