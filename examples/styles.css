@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 :root {
   --wh: 400px;
 }
@@ -11,8 +15,14 @@ body {
   margin: 0;
 }
 
+.samples {
+  display: flex;
+  gap: 1rem;
+
+  padding: 1rem;
+}
+
 .sample {
   width: var(--wh);
   height: var(--wh);
-  border: 1px solid #ccc;
 }

@@ -11,8 +11,6 @@ import { mapRange, linspace } from "canvas-sketch-util/math";
 import { clipPolylinesToBox } from "canvas-sketch-util/geometry";
 import { isoBands } from "marchingsquares";
 
-const simplex = new SimplexNoise();
-
 const inputProps = ["--grid-unit", "--line-colour", "--line-width", "--line-frequency"] as const;
 const defaultProps = {
   gridUnit: 96 * 2,
@@ -55,7 +53,7 @@ function getIsoLineFn(intervals: number[], gridUnit: number, [sizeX, sizeY]: Are
   };
 }
 
-function makeNoise(gridUnit: number): PolyLine[] {
+function makeNoise(simplex: SimplexNoise, gridUnit: number): PolyLine[] {
   const noiseData: PolyLine[] = [];
   for (let y = 0; y < gridUnit; y++) {
     noiseData[y] = [];
@@ -94,11 +92,12 @@ export class Contours implements houdini.PaintCtor {
   ) {
     const { width, height } = size;
     const { gridUnit, lineWidth, lineFrequency, lineColour } = parseProps(props);
+    const simplex = new SimplexNoise();
 
     const intervals = linspace(lineFrequency, gridUnit);
     const drawIsoLines = getIsoLineFn(intervals, gridUnit, [width, height]);
 
-    const noiseData = makeNoise(gridUnit);
+    const noiseData = makeNoise(simplex, gridUnit);
     const lines = drawIsoLines(noiseData);
 
     ctx.strokeStyle = lineColour;
