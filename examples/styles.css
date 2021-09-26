@@ -1,0 +1,18 @@
+:root {
+  --wh: 400px;
+}
+
+body {
+  display: grid;
+  place-content: center;
+  gap: 1rem;
+
+  min-height: 100vh;
+  margin: 0;
+}
+
+.sample {
+  width: var(--wh);
+  height: var(--wh);
+  border: 1px solid #ccc;
+}
