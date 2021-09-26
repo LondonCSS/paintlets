@@ -1,6 +1,13 @@
 import * as houdini from "../../../typings/houdini";
 import { Point, Tile, TileProps, TruchetProps } from "../types";
 
+const defaultProps = {
+  seed: 1,
+  tileSize: 50,
+  lineWidth: 3,
+  strokeStyle: "#fff",
+};
+
 const K = (4 * (Math.sqrt(2) - 1)) / 3.0;
 const KP = 1 - K;
 
@@ -43,11 +50,7 @@ function generateCurve(
   return [...cp1(), ...cp2(), p3.x, p3.y];
 }
 
-function drawTile(
-  ctx: houdini.PaintRenderingContext2D,
-  { x, y, w, h }: Tile,
-  props: TileProps
-) {
+function drawTile(ctx: houdini.PaintRenderingContext2D, { x, y, w, h }: Tile, props: TileProps) {
   const p1 = Point(x + w / 2, y);
   const p2 = Point(x + w, y + h / 2);
   const p3 = Point(x + w / 2, y + h);
@@ -88,18 +91,18 @@ function getTile(x: number, y: number, tileSize: number): Tile {
 
 function normalizeProps(props: houdini.StylePropertyMapReadOnly): TruchetProps {
   const normalizedProps = {
-    tileSize: +props.get("--tile-size"),
-    strokeStyle: String(props.get("--stroke-colour")),
-    lineWidth: +props.get("--stroke-width"),
     seed: +props.get("--seed"),
+    tileSize: +props.get("--tile-size"),
+    lineWidth: +props.get("--stroke-width"),
+    strokeStyle: String(props.get("--stroke-colour")),
   };
 
-  const seed = normalizedProps.seed === 0 ? 1 : normalizedProps.seed;
-  const lineWidth = normalizedProps.lineWidth === 0 ? 3 : normalizedProps.seed;
+  const seed = normalizedProps.seed === 0 ? defaultProps.seed : normalizedProps.seed;
+  const lineWidth = normalizedProps.lineWidth === 0 ? defaultProps.lineWidth : normalizedProps.seed;
   const tileSize =
-    normalizedProps.tileSize === 0 ? 50 : normalizedProps.tileSize;
+    normalizedProps.tileSize === 0 ? defaultProps.tileSize : normalizedProps.tileSize;
   const strokeStyle =
-    normalizedProps.strokeStyle === "" ? "#fff" : normalizedProps.strokeStyle;
+    normalizedProps.strokeStyle === "" ? defaultProps.strokeStyle : normalizedProps.strokeStyle;
 
   return {
     seed,
