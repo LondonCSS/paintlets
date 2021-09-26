@@ -1,4 +1,4 @@
-import * as houdini from "../../typings/houdini";
+import * as houdini from "../../../typings/houdini";
 
 type DefaultProps = typeof defaultProps;
 
@@ -143,5 +143,3 @@ export class Seigaiha implements houdini.PaintCtor {
     }
   }
 }
-
-(() => registerPaint("seigaiha", Seigaiha))();

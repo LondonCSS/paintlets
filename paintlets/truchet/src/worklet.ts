@@ -1,29 +1,5 @@
-import * as houdini from "../../typings/houdini";
-
-interface Point {
-  x: number;
-  y: number;
-}
-
-interface Tile {
-  x: number;
-  y: number;
-  w: number;
-  h: number;
-}
-
-interface TileProps {
-  strokeStyle: string;
-  lineWidth: number;
-  random: () => number;
-}
-
-interface TruchetProps {
-  seed: number;
-  lineWidth: number;
-  tileSize: number;
-  strokeStyle: string;
-}
+import * as houdini from "../../../typings/houdini";
+import { Point, Tile, TileProps, TruchetProps } from "../types";
 
 const K = (4 * (Math.sqrt(2) - 1)) / 3.0;
 const KP = 1 - K;

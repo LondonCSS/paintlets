@@ -3,6 +3,8 @@ import * as houdini from "../../../typings/houdini";
 type Area = [number, number];
 type Point = [number, number];
 type PolyLine = Point[];
+type DefaultProps = typeof defaultProps;
+type DefaultPropKeys = keyof DefaultProps;
 
 import SimplexNoise from "simplex-noise";
 import { mapRange, linspace } from "canvas-sketch-util/math";
@@ -11,7 +13,7 @@ import { isoBands } from "marchingsquares";
 
 const simplex = new SimplexNoise();
 
-const inputProps = ["--grid-unit", "--line-colour", "--line-width", "--line-frequency"];
+const inputProps = ["--grid-unit", "--line-colour", "--line-width", "--line-frequency"] as const;
 const defaultProps = {
   gridUnit: 96 * 2,
   lineColour: "#fff",
@@ -67,6 +69,19 @@ function makeNoise(gridUnit: number): PolyLine[] {
   return noiseData;
 }
 
+function parseProps(props: houdini.StylePropertyMapReadOnly): DefaultProps {
+  const gridUnit = +(props.get("--grid-unit") || defaultProps.gridUnit);
+  const lineWidth = +(props.get("--line-width") || defaultProps.lineWidth);
+  const lineFrequency = +(props.get("--line-frequency") || defaultProps.lineFrequency);
+  const lineColour = String(props.get("--line-colour")).trim() || defaultProps.lineColour;
+
+  return {
+    gridUnit,
+    lineWidth,
+    lineFrequency,
+    lineColour,
+  };
+}
 export class Contours implements houdini.PaintCtor {
   static get inputProperties() {
     return inputProps;
@@ -78,10 +93,7 @@ export class Contours implements houdini.PaintCtor {
     props: houdini.StylePropertyMapReadOnly
   ) {
     const { width, height } = size;
-    const gridUnit = +(props.get("--grid-unit") || defaultProps.gridUnit);
-    const lineWidth = +(props.get("--line-width") || defaultProps.lineWidth);
-    const lineFrequency = +(props.get("--line-frequency") || defaultProps.lineFrequency);
-    const lineColour = String(props.get("--line-colour")).trim() || defaultProps.lineColour;
+    const { gridUnit, lineWidth, lineFrequency, lineColour } = parseProps(props);
 
     const intervals = linspace(lineFrequency, gridUnit);
     const drawIsoLines = getIsoLineFn(intervals, gridUnit, [width, height]);
