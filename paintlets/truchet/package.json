@@ -6,7 +6,9 @@
   "keywords": [],
   "license": "ISC",
   "type": "module",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "main": "./dist/paintlet-truchet.umd.js",
   "module": "./dist/paintlet-truchet.es.js",
   "exports": {
@@ -16,17 +18,10 @@
     }
   },
   "devDependencies": {
-    "@tsconfig/recommended": "1.0.1",
-    "@types/node": "16.10.1",
-    "@typescript-eslint/eslint-plugin": "4.31.2",
-    "@typescript-eslint/parser": "4.31.2",
-    "eslint": "7.32.0",
-    "typescript": "4.4.3",
     "vite": "2.5.10"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint",
     "build": "vite build"
   }
 }

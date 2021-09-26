@@ -85,7 +85,7 @@ function normalizeProps(
 }
 
 export class Seigaiha implements houdini.PaintCtor {
-  static get inputProperties() {
+  static get inputProperties(): string[] {
     return inputProperties;
   }
 
@@ -98,7 +98,7 @@ export class Seigaiha implements houdini.PaintCtor {
     ctx: houdini.PaintRenderingContext2D,
     { width, height }: houdini.PaintSize,
     rawProps: houdini.StylePropertyMapReadOnly
-  ) {
+  ): void {
     const props = normalizeProps(rawProps, defaultProps);
     const [colourA, colourB] = props.colours;
 
@@ -114,8 +114,8 @@ export class Seigaiha implements houdini.PaintCtor {
     ctx.strokeStyle = props.strokeColour;
     ctx.lineWidth = props.strokeWidth;
 
-    for (var col = 0; col <= iterationsY; col++) {
-      for (var row = 0; row <= iterationsX; row++) {
+    for (let col = 0; col <= iterationsY; col++) {
+      for (let row = 0; row <= iterationsX; row++) {
         x = xGap * row;
         y = yGap * col;
         colour = row == Math.round(center) ? colourB : colourA;
