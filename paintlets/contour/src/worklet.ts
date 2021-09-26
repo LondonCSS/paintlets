@@ -80,7 +80,7 @@ function parseProps(props: houdini.StylePropertyMapReadOnly): DefaultProps {
     lineColour,
   };
 }
-export class Contours implements houdini.PaintCtor {
+export class Contour implements houdini.PaintCtor {
   static get inputProperties() {
     return inputProps;
   }

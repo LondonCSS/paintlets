@@ -11,13 +11,27 @@
       .sample--1 {
         background-image: paint(seigaiha);
       }
+      .sample--2 {
+        --stroke-color: gold;
+        --colours: #348F50, #56B4D3;
+        background-image: paint(seigaiha);
+      }
+      .sample--3 {
+        --stroke-color: #BBD2C5;
+        --colours:  #536976, #292E49;
+        background-image: paint(seigaiha);
+      }
     </style>
   </head>
   <body>
-    <div class="sample sample--1"></div>
+    <div class="samples">
+      <div class="sample sample--1"></div>
+      <div class="sample sample--2"></div>
+      <div class="sample sample--3"></div>
+    </div>
 
     <script type="module">
-      CSS.paintWorklet.addModule("../src/seigaiha/seigaiha.ts");
+      CSS.paintWorklet.addModule("../paintlets/seigaiha/src/index.ts");
     </script>
   </body>
 </html>
