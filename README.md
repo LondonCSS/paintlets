@@ -28,5 +28,17 @@ Examples are live: changes made to the paintlet source are immediately reflected
 
 ## TODO
 
-- [ ] Build process for all paintlets
+### Paintlets
 - [ ] Standardise how to read in props
+
+### Infra
+- [x] Build process for all paintlets
+- [x] Create common vite.config.js that reads in from package.json
+- [ ] Limit TS linting to TS files
+
+### Publish
+- [ ] Create an examples/index.html listing
+- [ ] Make /examples the source of /build
+- [ ] Add DATgui config and make styles configurable & exportable
+- [ ] Use component.ai API for gradients
+- [ ] Host at paintlets.londoncss.dev

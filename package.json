@@ -6,7 +6,7 @@
   "keywords": [],
   "license": "ISC",
   "type": "module",
-  "packageManager": "pnpm@6.11.0",
+  "packageManager": "pnpm@6.15.2",
   "devDependencies": {
     "@tsconfig/recommended": "1.0.1",
     "@typescript-eslint/eslint-plugin": "4.31.2",
