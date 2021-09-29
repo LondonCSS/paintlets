@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Paintlets</title>
+    <link rel="stylesheet" href="./examples/styles.scss" />
+  </head>
+  <body>
+    <ul class="index">
+      <li class="contour">
+        <a href="./examples/contour.html"><span>Contour</span></a>
+      </li>
+      <li class="seigaiha">
+        <a href="./examples/seigaiha.html"><span>Seigaiha</span></a>
+      </li>
+      <li class="truchet">
+        <a href="./examples/truchet.html"><span>Truchet</span></a>
+      </li>
+    </ul>
+
+    <script type="module">
+      CSS.paintWorklet.addModule("./paintlets/contour/src/index.ts");
+      CSS.paintWorklet.addModule("./paintlets/seigaiha/src/index.ts");
+      CSS.paintWorklet.addModule("./paintlets/truchet/src/index.ts");
+    </script>
+  </body>
+</html>

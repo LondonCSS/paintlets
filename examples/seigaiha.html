@@ -6,25 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
 
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./styles.scss" />
     <style>
+
       .samples {
-        --radius: 55;
         --wh: 360px;
+        --radius: 55;
+      }
+
+      .sample {
+        background-image: paint(seigaiha);
       }
 
       .sample--1 {
-        background-image: paint(seigaiha);
+        /* use defaults */
       }
+
       .sample--2 {
-        --stroke-color: gold;
+        --stroke-colour: gold;
         --colours: #348f50, #56b4d3;
-        background-image: paint(seigaiha);
       }
+
       .sample--3 {
-        --stroke-color: #bbd2c5;
+        --stroke-colour: #bbd2c5;
         --colours: #536976, #292e49;
-        background-image: paint(seigaiha);
       }
     </style>
   </head>

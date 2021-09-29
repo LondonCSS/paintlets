@@ -1,0 +1,98 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --wh: 200px;
+  --bg: #222;
+
+  --stroke-width: 1;
+  --stroke-colour: #fff6;
+  --line-width: 0.5;
+  --line-colour: #fff6;
+
+  // TODO namespace variables!
+
+  // TODO make "seigaiha" inherit colours
+  // TODO Allow a single colour
+  --colours: var(--bg), var(--bg);
+
+  // TODO make these defaults for "contour"
+  --grid-unit: 64;
+  --line-frequency: 16;
+}
+
+body {
+  display: grid;
+  place-content: center;
+  gap: 1rem;
+
+  min-height: 100vh;
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+}
+
+a {
+  color: inherit;
+}
+
+.index {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--wh), 1fr));
+  gap: 1rem;
+
+  width: 70vw;
+  margin: 0;
+  padding: 1rem;
+  list-style: none;
+
+  & > * {
+    overflow: hidden;
+    border-radius: 1rem;
+    aspect-ratio: 1;
+    background-color: var(--bg);
+  }
+
+  a {
+    display: grid;
+    align-items: flex-end;
+
+    width: 100%;
+    aspect-ratio: 1;
+    text-decoration: none;
+
+    span {
+      padding: 0.5rem;
+      text-transform: lowercase;
+      letter-spacing: 2px;
+      font-variant: small-caps;
+      background: #fffd;
+      color: #000;
+    }
+  }
+}
+
+.samples {
+  display: flex;
+  gap: 1rem;
+
+  padding: 1rem;
+}
+
+.sample {
+  width: var(--wh);
+  border-radius: 1rem;
+  aspect-ratio: 1;
+}
+
+.contour {
+  background-image: paint(contour);
+}
+
+.seigaiha {
+  background-image: paint(seigaiha);
+}
+
+.truchet {
+  background-image: paint(truchet);
+}
