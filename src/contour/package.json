@@ -6,7 +6,9 @@
   "author": "Oliver Turner",
   "license": "ISC",
   "type": "module",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "main": "./dist/paintlet-contour.umd.js",
   "module": "./dist/paintlet-contour.es.js",
   "exports": {
@@ -21,7 +23,7 @@
     "simplex-noise": "3.0.0"
   },
   "devDependencies": {
-    "vite": "2.5.10"
+    "vite": "2.6.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
