@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Contours</title>
 
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./styles.scss" />
     <style>
       .sample {
         --grid-unit: 64;
@@ -18,10 +18,13 @@
         background-image: paint(contour), linear-gradient(to top, cornflowerblue, hotpink);
       }
       .sample--2 {
+        --line-colour: #0001;
         background-image: paint(contour), linear-gradient(to right, gold, mediumseagreen);
       }
 
       .sample--3 {
+        --line-width: 1;
+        --line-colour: #ffd70088;
         background-image: paint(contour), linear-gradient(to top left, red, orange);
       }
     </style>

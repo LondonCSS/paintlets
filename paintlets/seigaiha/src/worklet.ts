@@ -2,12 +2,7 @@ import * as houdini from "../../../typings/houdini";
 
 type DefaultProps = typeof defaultProps;
 
-const inputProperties = [
-  "--radius",
-  "--stroke-width",
-  "--stroke-color",
-  "--colours",
-];
+const inputProperties = ["--radius", "--stroke-width", "--stroke-colour", "--colours"];
 
 const defaultProps = {
   radius: 50,
@@ -18,12 +13,7 @@ const defaultProps = {
   colours: ["#0b605f", "#402132"],
 };
 
-function makeCircle(
-  ctx: houdini.PaintRenderingContext2D,
-  x: number,
-  y: number,
-  radius: number
-) {
+function makeCircle(ctx: houdini.PaintRenderingContext2D, x: number, y: number, radius: number) {
   ctx.beginPath();
   ctx.arc(x, y, radius, 0, Math.PI * 2);
   ctx.stroke();
@@ -35,9 +25,9 @@ function makeCircles(
   x: number,
   y: number,
   radius: number,
-  color: string
+  colour: string
 ) {
-  ctx.fillStyle = color;
+  ctx.fillStyle = colour;
 
   ctx.beginPath();
   ctx.arc(x, y, radius, 0, Math.PI * 2);
@@ -55,31 +45,16 @@ function normalizeProps(
   rawProps: houdini.StylePropertyMapReadOnly,
   opts: DefaultProps
 ): DefaultProps {
-  const props = {} as DefaultProps;
-  for (const [k, v] of rawProps.entries()) {
-    const value = v.toString();
-    const isSet = value.length > 0;
+  const rawColours = String(rawProps.get("--colours"))
+    .split(",")
+    .map((s) => s.trim());
 
-    switch (k) {
-      case "--radius":
-        props.radius = isSet ? parseInt(value, 10) : opts.radius;
-        break;
-
-      case "--stroke-width":
-        props.strokeWidth = isSet ? parseFloat(value) : opts.strokeWidth;
-        break;
-
-      case "--stroke-color":
-        props.strokeColour = isSet ? value.trim() : opts.strokeColour;
-        break;
-
-      case "--colours":
-        props.colours = isSet
-          ? value.split(",").map((s: string) => s.trim())
-          : opts.colours;
-        break;
-    }
-  }
+  const props = {
+    radius: +(String(rawProps.get("--radius")) || opts.radius),
+    strokeWidth: +(String(rawProps.get("--stroke-width")) || opts.strokeWidth),
+    strokeColour: rawProps.get("--stroke-colour") || opts.strokeColour,
+    colours: rawColours.length > 0 ? rawColours : opts.colours,
+  } as DefaultProps;
 
   return props;
 }
@@ -100,13 +75,25 @@ export class Seigaiha implements houdini.PaintCtor {
     rawProps: houdini.StylePropertyMapReadOnly
   ): void {
     const props = normalizeProps(rawProps, defaultProps);
-    const [colourA, colourB] = props.colours;
+    const [colourA, colourB] = props.colours || defaultProps.colours;
 
     const iterationsX = width / props.radius / 2;
     const iterationsY = (height / props.radius) * 2;
     const xGap = props.radius * 2;
 
+    console.log({ props });
+    console.log({
+      colourA,
+      colourB,
+      iterationsX,
+      iterationsY,
+      xGap,
+    });
+
     // TODO make 7 less of a magic number: use radius * 0.8
+    // TODO clamp values so that Infinity isn't possible
+    // TODO WRITE TESTS!
+
     const yGap = (height + props.radius * 2) / iterationsY - 7;
     let center = Math.round(iterationsX / 2);
     let x: number, y: number, colour: string, random: number;
