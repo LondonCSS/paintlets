@@ -7,6 +7,6 @@
     "checkJs": false,
     "noEmit": true
   },
-  "include": ["typings/*", "paintlets/*/src/**/*"],
+  "include": ["typings/*", "src/**/*"],
   "exclude": [".eslintrc.cjs"]
 }
