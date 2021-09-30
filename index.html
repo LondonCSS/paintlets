@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Paintlets</title>
     <link rel="stylesheet" href="./src/styles.scss" />
-
     <style>
       :root {
         --bg: #222;
@@ -42,6 +41,10 @@
     </ul>
 
     <script type="module">
+      if (CSS["paintWorklet"] === undefined) {
+        await import("https://unpkg.com/css-paint-polyfill");
+      }
+
       if (import.meta.env.PROD) {
         import("./src/contour/dist/paintlet-contour.es.js?url").then((workletURL) => {
           CSS.paintWorklet.addModule(workletURL.default);
