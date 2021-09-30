@@ -81,15 +81,6 @@ export class Seigaiha implements houdini.PaintCtor {
     const iterationsY = (height / props.radius) * 2;
     const xGap = props.radius * 2;
 
-    console.log({ props });
-    console.log({
-      colourA,
-      colourB,
-      iterationsX,
-      iterationsY,
-      xGap,
-    });
-
     // TODO make 7 less of a magic number: use radius * 0.8
     // TODO clamp values so that Infinity isn't possible
     // TODO WRITE TESTS!

@@ -42,13 +42,21 @@
     </ul>
 
     <script type="module">
-      import contourWorklet from  "./src/contour/dist/paintlet-contour.es.js?url";
-      import seigaihaWorklet from "./src/seigaiha/dist/paintlet-seigaiha.es.js?url";
-      import truchetWorklet from  "./src/truchet/dist/paintlet-truchet.es.js?url";
-
-      CSS.paintWorklet.addModule(contourWorklet);
-      CSS.paintWorklet.addModule(seigaihaWorklet);
-      CSS.paintWorklet.addModule(truchetWorklet);
+      if (import.meta.env.PROD) {
+        import("./src/contour/dist/paintlet-contour.es.js?url").then((workletURL) => {
+          CSS.paintWorklet.addModule(workletURL.default);
+        });
+        import("./src/seigaiha/dist/paintlet-seigaiha.es.js?url").then((workletURL) => {
+          CSS.paintWorklet.addModule(workletURL.default);
+        });
+        import("./src/truchet/dist/paintlet-truchet.es.js?url").then((workletURL) => {
+          CSS.paintWorklet.addModule(workletURL.default);
+        });
+      } else {
+        CSS.paintWorklet.addModule("./src/contour/src/index.ts");
+        CSS.paintWorklet.addModule("./src/seigaiha/src/index.ts");
+        CSS.paintWorklet.addModule("./src/truchet/src/index.ts");
+      }
     </script>
   </body>
 </html>
