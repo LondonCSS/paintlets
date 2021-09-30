@@ -3,7 +3,7 @@
  * @typedef {(import("vite").UserConfigExport)} UserConfigExport
  */
 
-// import fs from "fs";
+import fs from "fs";
 import path from "path";
 import { URL } from "url";
 import { defineConfig } from "vite";
@@ -12,16 +12,20 @@ const rootPath = new URL(".", import.meta.url).pathname;
 
 // TODO Automatically create routes for all files in `/examples`
 const examplePath = path.join(rootPath, "examples");
-// const pages = fs.readdirSync(examplePath)
+const examplePages = fs.readdirSync(examplePath);
+const exampleRoutes = {};
+for (const page of examplePages) {
+  const pagePath = path.join(examplePath, page);
+  const pageName = page.replace(/\.html$/, "");
+  exampleRoutes[pageName] = pagePath;
+}
 
 export default defineConfig({
   build: {
     rollupOptions: {
       input: {
         main: path.resolve(rootPath, "index.html"),
-        contour: path.resolve(rootPath, "examples/contour.html"),
-        seigaiha: path.resolve(rootPath, "examples/seigaiha.html"),
-        truchet: path.resolve(rootPath, "examples/truchet.html"),
+        ...exampleRoutes
       },
     },
   },
