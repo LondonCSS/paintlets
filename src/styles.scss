@@ -4,22 +4,6 @@
 
 :root {
   --wh: 200px;
-  --bg: #222;
-
-  --stroke-width: 1;
-  --stroke-colour: #fff6;
-  --line-width: 0.5;
-  --line-colour: #fff6;
-
-  // TODO namespace variables!
-
-  // TODO make "seigaiha" inherit colours
-  // TODO Allow a single colour
-  --colours: var(--bg), var(--bg);
-
-  // TODO make these defaults for "contour"
-  --grid-unit: 64;
-  --line-frequency: 16;
 }
 
 body {
@@ -46,7 +30,7 @@ a {
   padding: 1rem;
   list-style: none;
 
-  & > * {
+  li {
     overflow: hidden;
     border-radius: 1rem;
     aspect-ratio: 1;
@@ -72,15 +56,7 @@ a {
   }
 }
 
-.samples {
-  display: flex;
-  gap: 1rem;
-
-  padding: 1rem;
-}
-
 .sample {
-  width: var(--wh);
   border-radius: 1rem;
   aspect-ratio: 1;
 }
