@@ -6,9 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
 
-    <link rel="stylesheet" href="/styles.scss" />
+    <link rel="stylesheet" href="../src/styles.scss" />
     <style>
-
       .samples {
         --wh: 360px;
         --radius: 55;
@@ -19,7 +18,9 @@
       }
 
       .sample--1 {
-        /* use defaults */
+        /* TODO use defaults */
+        --stroke-colour: #fffa;
+        --colours: #0b605f, #402132;
       }
 
       .sample--2 {
@@ -34,11 +35,11 @@
     </style>
   </head>
   <body>
-    <div class="samples">
-      <div class="sample sample--1"></div>
-      <div class="sample sample--2"></div>
-      <div class="sample sample--3"></div>
-    </div>
+    <ul class="index">
+      <li class="sample sample--1"></li>
+      <li class="sample sample--2"></li>
+      <li class="sample sample--3"></li>
+    </ul>
 
     <script type="module">
       CSS.paintWorklet.addModule("../src/seigaiha/src/index.ts");
