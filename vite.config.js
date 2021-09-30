@@ -9,12 +9,13 @@ import { URL } from "url";
 import { defineConfig } from "vite";
 
 const rootPath = new URL(".", import.meta.url).pathname;
+
+// TODO Automatically create routes for all files in `/examples`
 const examplePath = path.join(rootPath, "examples");
 // const pages = fs.readdirSync(examplePath)
 
 export default defineConfig({
   build: {
-    target: "esnext", // support top-level await
     rollupOptions: {
       input: {
         main: path.resolve(rootPath, "index.html"),
