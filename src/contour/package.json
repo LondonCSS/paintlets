@@ -23,7 +23,7 @@
     "simplex-noise": "3.0.0"
   },
   "devDependencies": {
-    "vite": "2.6.1"
+    "vite": "2.6.2"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
