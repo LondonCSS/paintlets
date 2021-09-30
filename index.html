@@ -31,20 +31,24 @@
   <body>
     <ul class="index">
       <li class="contour">
-        <a href="/contour.html"><span>Contour</span></a>
+        <a href="/examples/contour.html"><span>Contour</span></a>
       </li>
       <li class="seigaiha">
-        <a href="/seigaiha.html"><span>Seigaiha</span></a>
+        <a href="/examples/seigaiha.html"><span>Seigaiha</span></a>
       </li>
       <li class="truchet">
-        <a href="/truchet.html"><span>Truchet</span></a>
+        <a href="/examples/truchet.html"><span>Truchet</span></a>
       </li>
     </ul>
 
     <script type="module">
-      CSS.paintWorklet.addModule("./src/contour/src/index.ts");
-      CSS.paintWorklet.addModule("./src/seigaiha/src/index.ts");
-      CSS.paintWorklet.addModule("./src/truchet/src/index.ts");
+      import contourWorklet from  "./src/contour/dist/paintlet-contour.es.js?url";
+      import seigaihaWorklet from "./src/seigaiha/dist/paintlet-seigaiha.es.js?url";
+      import truchetWorklet from  "./src/truchet/dist/paintlet-truchet.es.js?url";
+
+      CSS.paintWorklet.addModule(contourWorklet);
+      CSS.paintWorklet.addModule(seigaihaWorklet);
+      CSS.paintWorklet.addModule(truchetWorklet);
     </script>
   </body>
 </html>
