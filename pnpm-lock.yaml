@@ -5,6 +5,7 @@ importers:
   .:
     specifiers:
       '@tsconfig/recommended': 1.0.1
+      '@types/node': 16.10.2
       '@typescript-eslint/eslint-plugin': 4.32.0
       '@typescript-eslint/parser': 4.32.0
       eslint: 7.32.0
@@ -13,6 +14,7 @@ importers:
       vite: 2.6.2
     devDependencies:
       '@tsconfig/recommended': 1.0.1
+      '@types/node': 16.10.2
       '@typescript-eslint/eslint-plugin': 4.32.0_1eacf2495a01e8a68ffa99482308e8ec
       '@typescript-eslint/parser': 4.32.0_eslint@7.32.0+typescript@4.4.3
       eslint: 7.32.0
@@ -126,6 +128,10 @@ packages:
 
   /@types/json-schema/7.0.9:
     resolution: {integrity: sha512-qcUXuemtEu+E5wZSJHNxUXeCZhAfXKQ41D+duX+VYPde7xyEVZci+/oXKJL13tnRs9lR2pr4fod59GT6/X1/yQ==}
+    dev: true
+
+  /@types/node/16.10.2:
+    resolution: {integrity: sha512-zCclL4/rx+W5SQTzFs9wyvvyCwoK9QtBpratqz2IYJ3O8Umrn0m3nsTv0wQBk9sRGpvUe9CwPDrQFB10f1FIjQ==}
     dev: true
 
   /@typescript-eslint/eslint-plugin/4.32.0_1eacf2495a01e8a68ffa99482308e8ec:
