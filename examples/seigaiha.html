@@ -42,8 +42,13 @@
     </ul>
 
     <script type="module">
-      import workletURL from "../src/seigaiha/dist/paintlet-seigaiha.es.js?url";
-      CSS.paintWorklet.addModule(workletURL);
+      if (import.meta.env.PROD) {
+        import("../src/seigaiha/dist/paintlet-seigaiha.es.js?url").then((workletURL) => {
+          CSS.paintWorklet.addModule(workletURL.default);
+        });
+      } else {
+        CSS.paintWorklet.addModule("../src/seigaiha/src/index.ts");
+      }
     </script>
   </body>
 </html>
