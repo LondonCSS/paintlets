@@ -1,6 +1,6 @@
 # paintlets
 
-A collection of Houdini paintlets as featured on [LondonCSS.dev](https://www.LondonCSS.dev)
+A collection of Houdini paintlets as featured on [paintlets.londoncss.dev](https://paintlets.londoncss.dev)
 
 ## Contour
 
