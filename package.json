@@ -24,6 +24,6 @@
     "prebuild": "[[ $CI = true ]] && npx pnpm@6 install -r --store=node_modules/.pnpm-store || echo skiping pnpm install",
     "build": "pnpm run -r build && vite build",
     "dev": "vite",
-    "serve": "vite preview"
+    "serve": "pnpm build && vite preview"
   }
 }

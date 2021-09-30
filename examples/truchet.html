@@ -37,7 +37,8 @@
     </ul>
 
     <script type="module">
-      CSS.paintWorklet.addModule("../src/truchet/src/index.ts");
+      import workletURL from "../src/truchet/dist/paintlet-truchet.es.js?url";
+      CSS.paintWorklet.addModule(workletURL);
     </script>
   </body>
 </html>
