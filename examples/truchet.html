@@ -28,6 +28,7 @@
         background-image: paint(truchet), linear-gradient(to top, #ec38bc, #7303c0, #03001e); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
       }
     </style>
+    <script src="https://unpkg.com/css-paint-polyfill"></script>
   </head>
   <body>
     <ul class="index">
@@ -37,10 +38,6 @@
     </ul>
 
     <script type="module">
-      if (CSS["paintWorklet"] === undefined) {
-        await import("https://unpkg.com/css-paint-polyfill");
-      }
-
       if (import.meta.env.PROD) {
         import("../src/truchet/dist/paintlet-truchet.es.js?url").then((workletURL) => {
           CSS.paintWorklet.addModule(workletURL.default);
