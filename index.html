@@ -2,31 +2,49 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <title>Paintlets</title>
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Paintlets</title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <meta name="theme-color" content="#ffffff" />
+
     <link rel="stylesheet" href="./src/styles.scss" />
     <style>
       :root {
         --bg: #222;
 
+        /* TODO namespace variables! */
         --stroke-width: 1;
         --stroke-colour: #fff6;
         --line-width: 0.5;
         --line-colour: #fff6;
+      }
 
-        /* TODO namespace variables! */
-
-        /* TODO make "seigaiha" inherit colours */
-        /* TODO Allow a single colour */
-        --colours: var(--bg), var(--bg);
-
+      .contour {
         /* TODO make these defaults for "contour" */
-        --grid-unit: 64;
+        --grid-unit: 192;
         --line-frequency: 16;
       }
+
+      .seigaiha {
+        /* TODO make "seigaiha" inherit colours? */
+        /* TODO Allow a single colour */
+        --colours: var(--bg) var(--bg);
+      }
+
+      .truchet {
+        /* TODO make "seigaiha" inherit colours? */
+        /* TODO Allow a single colour */
+        --tile-size: 30;
+      }
     </style>
-    <script src="https://unpkg.com/css-paint-polyfill"></script>
   </head>
   <body>
     <ul class="index">
@@ -42,16 +60,24 @@
     </ul>
 
     <script type="module">
+      if (CSS["paintWorklet"] === undefined) {
+        await import("https://unpkg.com/css-paint-polyfill");
+      }
+
       if (import.meta.env.PROD) {
-        import("./src/contour/dist/paintlet-contour.es.js?url").then((workletURL) => {
-          CSS.paintWorklet.addModule(workletURL.default);
-        });
-        import("./src/seigaiha/dist/paintlet-seigaiha.es.js?url").then((workletURL) => {
-          CSS.paintWorklet.addModule(workletURL.default);
-        });
-        import("./src/truchet/dist/paintlet-truchet.es.js?url").then((workletURL) => {
-          CSS.paintWorklet.addModule(workletURL.default);
-        });
+        try {
+          const worklets = await Promise.all([
+            import("./src/contour/dist/paintlet-contour.es.js?url"),
+            import("./src/seigaiha/dist/paintlet-seigaiha.es.js?url"),
+            import("./src/truchet/dist/paintlet-truchet.es.js?url"),
+          ]);
+
+          for (const worklet of worklets) {
+            CSS.paintWorklet.addModule(worklet.default);
+          }
+        } catch (error) {
+          console.error(error);
+        }
       } else {
         CSS.paintWorklet.addModule("./src/contour/src/index.ts");
         CSS.paintWorklet.addModule("./src/seigaiha/src/index.ts");

@@ -22,6 +22,7 @@ for (const page of examplePages) {
 
 export default defineConfig({
   build: {
+    target: "esnext",
     rollupOptions: {
       input: {
         main: path.resolve(rootPath, "index.html"),
