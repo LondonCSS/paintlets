@@ -1,4 +1,4 @@
-export interface Point {
+export interface PointXY {
   x: number;
   y: number;
 }
@@ -14,11 +14,4 @@ export interface TileProps {
   strokeStyle: string;
   lineWidth: number;
   random: () => number;
-}
-
-export interface TruchetProps {
-  seed: number;
-  lineWidth: number;
-  tileSize: number;
-  strokeStyle: string;
 }

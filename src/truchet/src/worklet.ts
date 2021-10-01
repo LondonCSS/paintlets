@@ -1,8 +1,14 @@
 import * as houdini from "../../../typings/houdini";
-import { Point, Tile, TileProps, TruchetProps } from "../types";
+import { PointXY, Tile, TileProps } from "../types";
 
-const inputProps = ["--stroke-width", "--stroke-colour", "--tile-size", "--seed"];
-const defaultProps = {
+import { parseInput } from "../../utils";
+
+type DefaultProps = typeof defaultProps;
+type InputKey = typeof inputProps[number];
+type InputRecord = Record<InputKey, string>;
+
+export const inputProps = ["--seed", "--stroke-width", "--stroke-colour", "--tile-size"] as const;
+export const defaultProps = {
   seed: 1,
   tileSize: 50,
   lineWidth: 3,
@@ -12,7 +18,7 @@ const defaultProps = {
 const K = (4 * (Math.sqrt(2) - 1)) / 3.0;
 const KP = 1 - K;
 
-const Point = (x: number, y: number): Point => ({ x, y });
+const Point = (x: number, y: number): PointXY => ({ x, y });
 
 /**
  * @param {number} seed
@@ -26,9 +32,9 @@ function RandomGenerator(seed: number): () => number {
 }
 
 function generateCurve(
-  p1: Point,
-  p2: Point,
-  p3: Point
+  p1: PointXY,
+  p2: PointXY,
+  p3: PointXY
 ): [number, number, number, number, number, number] {
   /**
    * @returns {[number, number]}
@@ -58,7 +64,7 @@ function drawTile(ctx: houdini.PaintRenderingContext2D, { x, y, w, h }: Tile, pr
   const p4 = Point(x, y + h / 2);
   const p5 = Point(x + w / 2, y + h / 2);
 
-  const arcs: [Point, Point, Point][] =
+  const arcs: [PointXY, PointXY, PointXY][] =
     props.random() < 0.5
       ? [
           [p1, p5, p2],
@@ -90,46 +96,42 @@ function getTile(x: number, y: number, tileSize: number): Tile {
   };
 }
 
-function normalizeProps(rawProps: houdini.StylePropertyMapReadOnly): TruchetProps {
-  const props = {
-    seed: +String(rawProps.get("--seed")).trim(),
-    tileSize: +String(rawProps.get("--tile-size")).trim(),
-    lineWidth: +String(rawProps.get("--stroke-width")).trim(),
-    strokeStyle: String(rawProps.get("--stroke-colour")),
-  };
-
-  const seed = props.seed === 0 ? defaultProps.seed : props.seed;
-  const lineWidth = props.lineWidth === 0 ? defaultProps.lineWidth : props.seed;
-  const tileSize = props.tileSize === 0 ? defaultProps.tileSize : props.tileSize;
-  const strokeStyle = props.strokeStyle === "" ? defaultProps.strokeStyle : props.strokeStyle;
+export function normalizeProps(
+  rawProps: houdini.StylePropertyMapReadOnly,
+  opts: DefaultProps
+): DefaultProps {
+  const props = {} as InputRecord;
+  for (const [key, value] of rawProps.entries()) {
+    props[key as InputKey] = value.toString().trim();
+  }
 
   return {
-    seed,
-    lineWidth,
-    tileSize,
-    strokeStyle,
+    seed: parseInput(props["--seed"], opts.seed, "int") as number,
+    tileSize: parseInput(props["--tile-size"], opts.tileSize, "int") as number,
+    lineWidth: parseInput(props["--stroke-width"], opts.lineWidth, "float") as number,
+    strokeStyle: parseInput(props["--stroke-colour"], opts.strokeStyle) as string,
   };
 }
 
 export class Truchet implements houdini.PaintCtor {
-  static get inputProperties(): string[] {
+  static get inputProperties(): typeof inputProps {
     return inputProps;
   }
 
   paint(
     ctx: houdini.PaintRenderingContext2D,
-    size: houdini.PaintSize,
+    { width, height }: houdini.PaintSize,
     props: houdini.StylePropertyMapReadOnly
   ): void {
-    const { strokeStyle, lineWidth, seed, tileSize } = normalizeProps(props);
+    const { strokeStyle, lineWidth, seed, tileSize } = normalizeProps(props, defaultProps);
     const tileProps = {
       strokeStyle,
       lineWidth,
       random: RandomGenerator(seed),
     };
 
-    for (let colIndex = 0; colIndex < size.width / tileSize; colIndex++) {
-      for (let rowIndex = 0; rowIndex < size.height / tileSize; rowIndex++) {
+    for (let colIndex = 0; colIndex < width / tileSize; colIndex++) {
+      for (let rowIndex = 0; rowIndex < height / tileSize; rowIndex++) {
         const tileXYWH = getTile(colIndex, rowIndex, tileSize);
         drawTile(ctx, tileXYWH, tileProps);
       }

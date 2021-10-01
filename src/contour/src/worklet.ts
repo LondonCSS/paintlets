@@ -1,18 +1,29 @@
 import * as houdini from "../../../typings/houdini";
 
+import { parseInput } from "../../utils";
+
 type Area = [number, number];
 type Point = [number, number];
 type PolyLine = Point[];
+
 type DefaultProps = typeof defaultProps;
+type InputKey = typeof inputProps[number];
+type InputRecord = Record<InputKey, string>;
 
 import SimplexNoise from "simplex-noise";
 import { mapRange, linspace } from "canvas-sketch-util/math";
 import { clipPolylinesToBox } from "canvas-sketch-util/geometry";
 import { isoBands } from "marchingsquares";
 
-const inputProps = ["--grid-unit", "--line-colour", "--line-width", "--line-frequency"] as const;
-const defaultProps = {
-  gridUnit: 96 * 2,
+export const inputProps = [
+  "--grid-unit",
+  "--line-colour",
+  "--line-width",
+  "--line-frequency",
+] as const;
+
+export const defaultProps = {
+  gridUnit: 192,
   lineColour: "#fff",
   lineWidth: 0.1,
   lineFrequency: 12,
@@ -66,19 +77,23 @@ function makeNoise(simplex: SimplexNoise, gridUnit: number): PolyLine[] {
   return noiseData;
 }
 
-function parseProps(props: houdini.StylePropertyMapReadOnly): DefaultProps {
-  const gridUnit = +(props.get("--grid-unit") || defaultProps.gridUnit);
-  const lineWidth = +(props.get("--line-width") || defaultProps.lineWidth);
-  const lineFrequency = +(props.get("--line-frequency") || defaultProps.lineFrequency);
-  const lineColour = String(props.get("--line-colour")).trim() || defaultProps.lineColour;
+export function normalizeProps(
+  rawProps: houdini.StylePropertyMapReadOnly,
+  opts: DefaultProps
+): DefaultProps {
+  const props = {} as InputRecord;
+  for (const [key, value] of rawProps.entries()) {
+    props[key as InputKey] = value.toString().trim();
+  }
 
   return {
-    gridUnit,
-    lineWidth,
-    lineFrequency,
-    lineColour,
+    gridUnit: parseInput(props["--grid-unit"], opts.gridUnit, "int") as number,
+    lineWidth: parseInput(props["--line-width"], opts.lineWidth, "float") as number,
+    lineFrequency: parseInput(props["--line-frequency"], opts.lineFrequency, "int") as number,
+    lineColour: parseInput(props["--line-colour"], opts.lineColour) as string,
   };
 }
+
 export class Contour implements houdini.PaintCtor {
   static get inputProperties(): typeof inputProps {
     return inputProps;
@@ -86,11 +101,13 @@ export class Contour implements houdini.PaintCtor {
 
   paint(
     ctx: houdini.PaintRenderingContext2D,
-    size: houdini.PaintSize,
-    props: houdini.StylePropertyMapReadOnly
+    { width, height }: houdini.PaintSize,
+    rawProps: houdini.StylePropertyMapReadOnly
   ): void {
-    const { width, height } = size;
-    const { gridUnit, lineWidth, lineFrequency, lineColour } = parseProps(props);
+    const { gridUnit, lineWidth, lineFrequency, lineColour } = normalizeProps(
+      rawProps,
+      defaultProps
+    );
     const simplex = new SimplexNoise();
 
     const intervals = linspace(lineFrequency, gridUnit);

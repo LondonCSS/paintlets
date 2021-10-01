@@ -1,10 +1,13 @@
 import * as houdini from "../../../typings/houdini";
 
+import { parseInput } from "../../utils";
+
 type DefaultProps = typeof defaultProps;
+type InputKey = typeof inputProps[number];
+type InputRecord = Record<InputKey, string>;
 
-const inputProperties = ["--radius", "--stroke-width", "--stroke-colour", "--colours"];
-
-const defaultProps = {
+export const inputProps = ["--radius", "--stroke-width", "--stroke-colour", "--colours"] as const;
+export const defaultProps = {
   radius: 50,
   strokeWidth: 0.5,
   strokeColour: "#b6b58e",
@@ -41,27 +44,26 @@ function makeCircles(
   makeCircle(ctx, x, y, radius * 0.8);
 }
 
-function normalizeProps(
+export function normalizeProps(
   rawProps: houdini.StylePropertyMapReadOnly,
   opts: DefaultProps
 ): DefaultProps {
-  const rawColours = String(rawProps.get("--colours"))
-    .split(",")
-    .map((s) => s.trim());
+  const props = {} as InputRecord;
+  for (const [key, value] of rawProps.entries()) {
+    props[key as InputKey] = value.toString().trim();
+  }
 
-  const props = {
-    radius: +(String(rawProps.get("--radius")) || opts.radius),
-    strokeWidth: +(String(rawProps.get("--stroke-width")) || opts.strokeWidth),
-    strokeColour: rawProps.get("--stroke-colour") || opts.strokeColour,
-    colours: rawColours.length > 0 ? rawColours : opts.colours,
-  } as DefaultProps;
-
-  return props;
+  return {
+    radius: parseInput(props["--radius"], opts.radius, "int") as number,
+    colours: parseInput(props["--colours"], opts.colours, "colours") as string[],
+    strokeWidth: parseInput(props["--stroke-width"], opts.strokeWidth, "float") as number,
+    strokeColour: parseInput(props["--stroke-colour"], opts.strokeColour) as string,
+  };
 }
 
 export class Seigaiha implements houdini.PaintCtor {
-  static get inputProperties(): string[] {
-    return inputProperties;
+  static get inputProperties(): typeof inputProps {
+    return inputProps;
   }
 
   /**
