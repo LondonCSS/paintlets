@@ -43,10 +43,13 @@
     </ul>
 
     <script type="module">
+      if (CSS["paintWorklet"] === undefined) {
+        await import("https://unpkg.com/css-paint-polyfill");
+      }
+
       if (import.meta.env.PROD) {
-        import("../src/seigaiha/dist/paintlet-seigaiha.es.js?url").then((workletURL) => {
-          CSS.paintWorklet.addModule(workletURL.default);
-        });
+        const workletURL = await import("../src/seigaiha/dist/paintlet-seigaiha.es.js?url");
+        CSS.paintWorklet.addModule(workletURL.default);
       } else {
         CSS.paintWorklet.addModule("../src/seigaiha/src/index.ts");
       }
