@@ -1,6 +1,6 @@
 import * as houdini from "../../../typings/houdini";
 
-import { parseInput } from "../../utils";
+import { parseInput } from "../../../lib/utils";
 
 type Area = [number, number];
 type Point = [number, number];
@@ -95,9 +95,7 @@ export function normalizeProps(
 }
 
 export class Contour implements houdini.PaintCtor {
-  static get inputProperties(): typeof inputProps {
-    return inputProps;
-  }
+  public static inputProperties = inputProps;
 
   paint(
     ctx: houdini.PaintRenderingContext2D,
