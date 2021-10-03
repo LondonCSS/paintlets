@@ -7,6 +7,6 @@
     "checkJs": false,
     "noEmit": true
   },
-  "include": ["typings/*", "src/**/*"],
+  "include": ["typings/*", "src/**/*", "lib/utils.ts"],
   "exclude": [".eslintrc.cjs"]
 }

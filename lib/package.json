@@ -1,0 +1,33 @@
+{
+  "name": "@londoncss/paintlet-utils",
+  "description": "",
+  "version": "1.0.0",
+  "author": "Oliver Turner",
+  "keywords": [],
+  "license": "ISC",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/utils.umd.js",
+  "module": "./dist/utils.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/utils.es.js",
+      "require": "./dist/utils.umd.js"
+    }
+  },
+  "devDependencies": {
+    "@babel/core": "7.15.5",
+    "@babel/preset-env": "7.15.6",
+    "@babel/preset-typescript": "7.15.0",
+    "@types/jest": "27.0.2",
+    "babel-jest": "27.2.4",
+    "jest": "27.2.4",
+    "vite": "2.6.2"
+  },
+  "scripts": {
+    "test": "jest",
+    "build": "vite build"
+  }
+}

@@ -1,7 +1,7 @@
 import * as houdini from "../../../typings/houdini";
 import { PointXY, Tile, TileProps } from "../types";
 
-import { parseInput } from "../../utils";
+import { parseInput } from "../../../lib/utils";
 
 type DefaultProps = typeof defaultProps;
 type InputKey = typeof inputProps[number];
@@ -114,9 +114,7 @@ export function normalizeProps(
 }
 
 export class Truchet implements houdini.PaintCtor {
-  static get inputProperties(): typeof inputProps {
-    return inputProps;
-  }
+  static inputProperties = inputProps;
 
   paint(
     ctx: houdini.PaintRenderingContext2D,
