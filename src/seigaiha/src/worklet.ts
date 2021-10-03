@@ -8,7 +8,7 @@ type InputRecord = Record<InputKey, string>;
 
 export const inputProps = ["--radius", "--stroke-width", "--stroke-colour", "--colours"] as const;
 export const defaultProps = {
-  radius: 50,
+  radius: 55,
   strokeWidth: 0.5,
   strokeColour: "#b6b58e",
   // colours: ["#202237", "#0b605f"],
@@ -77,19 +77,21 @@ export class Seigaiha implements houdini.PaintCtor {
     rawProps: houdini.StylePropertyMapReadOnly
   ): void {
     const props = normalizeProps(rawProps, defaultProps);
-    const [colourA, colourB] = props.colours || defaultProps.colours;
-
+    const [colourA, colourB] = props.colours;
     const iterationsX = width / props.radius / 2;
-    const iterationsY = (height / props.radius) * 2;
+    const iterationsY = ((height + props.radius * 2) / props.radius) * 2;
     const xGap = props.radius * 2;
 
     // TODO make 7 less of a magic number: use radius * 0.8
     // TODO clamp values so that Infinity isn't possible
     // TODO WRITE TESTS!
 
-    const yGap = (height + props.radius * 2) / iterationsY - 7;
+    const yGap = (height + props.radius * 2) / iterationsY - 5;
     let center = Math.round(iterationsX / 2);
-    let x: number, y: number, colour: string, random: number;
+    let x: number;
+    let y: number;
+    let colour: string;
+    let random: number;
 
     ctx.strokeStyle = props.strokeColour;
     ctx.lineWidth = props.strokeWidth;

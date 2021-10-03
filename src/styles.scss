@@ -29,13 +29,13 @@ a {
   margin: 0;
   padding: 1rem;
   list-style: none;
+}
 
-  li {
-    overflow: hidden;
-    border-radius: 1rem;
-    aspect-ratio: 1;
-    background-color: var(--bg);
-  }
+.sample {
+  overflow: hidden;
+  border-radius: 1rem;
+  aspect-ratio: 1;
+  background-color: var(--bg);
 
   a {
     display: grid;
@@ -44,21 +44,16 @@ a {
     width: 100%;
     aspect-ratio: 1;
     text-decoration: none;
-
-    span {
-      padding: 0.5rem;
-      text-transform: lowercase;
-      letter-spacing: 2px;
-      font-variant: small-caps;
-      background: #fffd;
-      color: #000;
-    }
   }
-}
 
-.sample {
-  border-radius: 1rem;
-  aspect-ratio: 1;
+  span {
+    padding: 0.5rem;
+    text-transform: lowercase;
+    letter-spacing: 2px;
+    font-variant: small-caps;
+    background: #fffd;
+    color: #000;
+  }
 }
 
 .contour {
