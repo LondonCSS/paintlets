@@ -26,19 +26,26 @@ Examples are live: changes made to the paintlet source are immediately reflected
 ## TODO
 
 ### Paintlets
-- [x] Add controls for parameters
-- [x] Standardise how to read in props
+- Patterns:
+    - Hexo
+    - Kumiko
+    - Kumiko + Simplex
+    - Vivrant
+- Borders:
+    - Bubbles
+    - Futuristic
+### Infra
+- [ ] Limit TS linting to TS files
 - [ ] Move example files into packages: src/<paintlet>/index.html
 - [ ] Make file names less repetitive
-
-### Infra
+- [ ] Add controls for parameters
+- [x] Standardise how to read in props
 - [x] Build process for all paintlets
 - [x] Create common vite.config.js that reads in from package.json
-- [ ] Limit TS linting to TS files
-- [ ] Tests for all paintlets
+- [x] Tests for all paintlets
     - [x] Contour
     - [x] Seigaiha
-    - [ ] Truchet
+    - [x] Truchet
 
 ### Publish
 - [ ] Make index.html generative?
