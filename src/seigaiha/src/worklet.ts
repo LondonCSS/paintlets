@@ -88,13 +88,7 @@ export class Seigaiha implements houdini.PaintCtor {
     const { radius, ringNum } = props;
     const [colourA, colourB] = props.colours;
 
-    console.log({
-      // ...props,
-      // width,
-      // height,
-      colourA,
-      colourB,
-    });
+    console.log({ colourA, colourB });
 
     ctx.fillStyle = colourA;
     ctx.lineWidth = props.strokeWidth;
