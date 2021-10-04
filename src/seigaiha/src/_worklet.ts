@@ -1,6 +1,6 @@
 import * as houdini from "../../../typings/houdini";
 
-import { parseInput } from "../../../lib/utils";
+import { parseInput } from "@londoncss/paintlet-utils";
 
 type DefaultProps = typeof defaultProps;
 type InputKey = typeof inputProps[number];

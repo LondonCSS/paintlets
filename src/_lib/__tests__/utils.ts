@@ -20,7 +20,7 @@ describe("utils", () => {
           ["red", "hsl(300, 25%, 0)", "rgba(255,255,255,.5)", "green", "blue"],
         ],
       ])("%s", (input, expected) => {
-        expect(parseInput(input, "black", "colours")).toEqual(expected);
+        expect(parseInput(input as string, "black", "colours")).toEqual(expected);
       });
     });
   });
