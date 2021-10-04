@@ -3,3 +3,18 @@ NPM_FLAGS = "--version"
 
 [build]
 command = "npx pnpm install --store=node_modules/.pnpm-store && npx pnpm build"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = '''
+      default-src 'self';
+      script-src 'self' 'unsafe-inline' https://storage.googleapis.com;
+      style-src 'self' 'unsafe-inline';
+      object-src 'none'
+    '''
+    Feature-Policy = "fullscreen 'self'"
+    Referrer-Policy = "same-origin"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
