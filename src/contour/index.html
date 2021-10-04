@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Contours</title>
 
-    <link rel="stylesheet" href="../src/styles.scss" />
+    <link rel="stylesheet" href="../_lib/styles.scss" />
     <style>
       .sample {
         --grid-unit: 64;
@@ -42,10 +42,10 @@
       }
 
       if (import.meta.env.PROD) {
-        const workletURL = await import("../src/contour/dist/paintlet-contour.es.js?url");
+        const workletURL = await import("./dist/paintlet-contour.es.js?url");
         CSS.paintWorklet.addModule(workletURL.default);
       } else {
-        CSS.paintWorklet.addModule("../src/contour/src/index.ts");
+        CSS.paintWorklet.addModule("./src/index.ts");
       }
     </script>
   </body>

@@ -14,17 +14,17 @@ import { defineConfig } from "vite";
  * @returns {UserConfigExport}
  */
 export function getConfig(baseUrl) {
-  const paintletPath = new URL(".", baseUrl).pathname;
-  const srcPath = path.resolve(paintletPath, "src");
-  const paintletName = path.dirname(srcPath).split(path.sep).pop();
-  const paintletId = `paintlet-${paintletName}`;
+  const modulePath = new URL(".", baseUrl).pathname;
+  const srcPath = path.resolve(modulePath, "src");
+  const moduleName = path.dirname(srcPath).split(path.sep).pop();
+  const moduleId = `paintlet-${moduleName}`;
 
   return defineConfig({
     build: {
       lib: {
         entry: path.resolve(srcPath, "index.ts"),
-        name: paintletId,
-        fileName: (format) => `${paintletId}.${format}.js`,
+        name: moduleId,
+        fileName: (format) => `${moduleId}.${format}.js`,
       },
     },
   });

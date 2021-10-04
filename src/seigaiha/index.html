@@ -6,26 +6,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
 
-    <link rel="stylesheet" href="../src/styles.scss" />
+    <link rel="stylesheet" href="../_lib/styles.scss" />
     <style>
+      .samples {
+        --wh: 360px;
+        --radius: 55;
+      }
+
+      .sample {
+        background-image: paint(seigaiha);
+      }
+
       .sample--1 {
-        --stroke-width: 1;
-        --stroke-colour: gold;
-        background-image: paint(truchet), linear-gradient(to bottom, #eecda3, #ef629f);
       }
 
       .sample--2 {
-        --tile-size: 20;
-        --stroke-width: 1;
-        --stroke-colour: #fff5;
-        background-image: paint(truchet), linear-gradient(to top, #373b44, #4286f4);
+        --stroke-width: 8;
+        --stroke-colour: hsl(340, 0%, 40%);
+        --colours: hsl(340, 0%, 50%) #292e49;
+        --rings: 4;
       }
 
       .sample--3 {
-        --tile-size: 30;
         --stroke-width: 2;
-        --stroke-colour: #fffa;
-        background-image: paint(truchet), linear-gradient(to top, #ec38bc, #7303c0, #03001e); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        --stroke-colour: hsl(200deg, 50%, 40%);
+        --colours: hsl(200deg, 50%, 30%) #292e49;
+        --rings: 8;
+        --radius: 70;
       }
     </style>
     <script src="https://unpkg.com/css-paint-polyfill"></script>
@@ -43,10 +50,10 @@
       }
 
       if (import.meta.env.PROD) {
-        const workletURL = await import("../src/truchet/dist/paintlet-truchet.es.js?url");
+        const workletURL = await import("./dist/paintlet-seigaiha.es.js?url");
         CSS.paintWorklet.addModule(workletURL.default);
       } else {
-        CSS.paintWorklet.addModule("../src/truchet/src/index.ts");
+        CSS.paintWorklet.addModule("./src/index.ts");
       }
     </script>
   </body>
