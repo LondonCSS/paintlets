@@ -1,3 +1,8 @@
-import { getConfig } from "../_lib/vite.config.base.js";
+import { getLibConfig } from "../_lib/vite-config.js";
+import { defineConfig } from "vite";
 
-export default getConfig(import.meta.url);
+export default defineConfig({
+  build: {
+    lib: getLibConfig(import.meta.url),
+  },
+});

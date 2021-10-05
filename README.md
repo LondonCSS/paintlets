@@ -54,3 +54,4 @@ Examples are live: changes made to the paintlet source are immediately reflected
 - [x] Host at paintlets.londoncss.dev
 - [ ] Add DATgui config and make styles configurable & exportable
 - [ ] Use component.ai API for gradients
+- [ ] Dynamically generate example screenshots for README.md (via Github Actions?)

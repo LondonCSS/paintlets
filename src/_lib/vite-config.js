@@ -2,30 +2,25 @@
 
 /**
  * @typedef {(import("vite").UserConfig)} UserConfig
- * @typedef {(import("vite").UserConfigExport)} UserConfigExport
+ * @typedef {(import("vite").LibraryOptions)} LibraryOptions
  */
 
 import path from "path";
 import { URL } from "url";
-import { defineConfig } from "vite";
 
 /**
  * @param {string} baseUrl
- * @returns {UserConfigExport}
+ * @returns {LibraryOptions}
  */
-export function getConfig(baseUrl) {
+export function getLibConfig(baseUrl) {
   const modulePath = new URL(".", baseUrl).pathname;
   const srcPath = path.resolve(modulePath, "src");
   const moduleName = path.dirname(srcPath).split(path.sep).pop();
   const moduleId = `paintlet-${moduleName}`;
 
-  return defineConfig({
-    build: {
-      lib: {
-        entry: path.resolve(srcPath, "index.ts"),
-        name: moduleId,
-        fileName: (format) => `${moduleId}.${format}.js`,
-      },
-    },
-  });
+  return {
+    entry: path.resolve(srcPath, "index.ts"),
+    name: moduleId,
+    fileName: (format) => `${moduleId}.${format}.js`,
+  };
 }
