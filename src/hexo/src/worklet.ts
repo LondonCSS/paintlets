@@ -8,25 +8,35 @@ type InputKey = typeof inputProps[number];
 type DefaultProps = typeof defaultProps;
 type InputRecord = Record<InputKey, string>;
 type StyleKey = keyof typeof styles;
+type FillProps = { h: string; s: string; l: string; a: string };
 
 export const inputProps = [
   "--style",
   "--radius",
-  "--hue",
   "--gap",
+  "--fill",
   "--stroke-width",
   "--stroke-colour",
 ] as const;
 export const defaultProps = {
   style: "overlay" as StyleKey,
   radius: 16,
-  hue: 180,
   gap: 0,
+  fill: "",
   strokeWidth: 0,
   strokeColour: "#fff",
 };
 
 const a = (2 * Math.PI) / 6;
+
+const hslRegex = /hsla?\((\d{1,3}),\s*(\d{1,3})%,\s*(\d{1,3})%,?\s?(\d*\.?\d+)?\)/g;
+
+function parseFill(fill: string): FillProps | undefined {
+  if (fill.length) {
+    const [h, s, l, a] = [...fill.matchAll(hslRegex)][0].slice(1);
+    return { h, s, l, a };
+  }
+}
 
 function drawHex(x: number, y: number, rad: number) {
   const path = new Path2D();
@@ -39,38 +49,30 @@ function drawHex(x: number, y: number, rad: number) {
 }
 
 function rainbow(n: number) {
-  const h = Math.floor((360 * n) / 3);
-  const hsl = `hsl(${h}, 50%, 50%)`;
+  const h = Math.floor((360 * (n - 1)) / 2);
+  const hsl = `hsl(${h}, 55%, 55%)`;
   return hsl;
 }
 
-function monochrome(n: number) {
-  const l = Math.floor((100 * n) / 2);
-  const hsl = `hsl(0, 0%, ${l}%)`;
+function hue(n: number, fillProps?: FillProps) {
+  const { h, s, a } = { h: "0", s: "50", a: "1", ...fillProps };
+  const l = Math.floor(50 * n + 25) / 2;
+  const hsl = `hsl(${h}, ${s}%, ${l}%, ${a})`;
   return hsl;
 }
 
-function hue(n: number, h: number) {
-  const l = Math.floor((100 * n) / 2);
-  const hsl = `hsl(${h}, 50%, ${l}%)`;
-  return hsl;
-}
+function overlay(n: number, fillProps?: FillProps) {
+  const { h, s, l } = { h: "0", s: "0", l: "100", ...fillProps };
+  const a = (n - 0.75) / 2;
 
-function overlay(n: number) {
-  // const a = n / 2 - 0.25;
-  const a = (n - 1) / 2;
-
-  console.log(a);
-
-  const hsl = `hsla(0, 100%, 100%, ${a})`;
+  const hsl = `hsla(${h}, ${s}%, ${l}%, ${a})`;
   return hsl;
 }
 
 const styles = {
-  rainbow,
-  monochrome,
   hue,
   overlay,
+  rainbow,
 };
 
 function getStyle(style: StyleKey) {
@@ -89,8 +91,8 @@ export function normalizeProps(
   return {
     style: parseInput(props["--style"], opts.style) as StyleKey,
     radius: parseInput(props["--radius"], opts.radius, "int") as number,
-    hue: parseInput(props["--hue"], opts.hue, "int") as number,
     gap: parseInput(props["--gap"], opts.gap, "float") as number,
+    fill: parseInput(props["--fill"], opts.fill) as string,
     strokeWidth: parseInput(props["--stroke-width"], opts.strokeWidth, "float") as number,
     strokeColour: parseInput(props["--stroke-colour"], opts.strokeColour) as string,
   };
@@ -106,16 +108,17 @@ export class Hexo implements houdini.PaintCtor {
   ): void {
     const props = normalizeProps(rawProps, defaultProps);
 
-    const { radius: r, gap, style, strokeWidth, strokeColour } = props;
+    const { radius: r, gap, style, fill, strokeWidth, strokeColour } = props;
     const styleFn = getStyle(style);
     const noise = new SimplexNoise();
     const scale = 0.002;
 
     const rowH = r * Math.sin(a);
     const colW = r * (1 + Math.cos(a));
+    let fillProps = parseFill(fill);
 
-    const radiusMin = Math.sqrt(Math.pow(r, 2) - Math.pow(r / 2, 2));
-    console.log(rowH, radiusMin);
+    // const radiusMin = Math.sqrt(Math.pow(r, 2) - Math.pow(r / 2, 2));
+    // console.log(rowH, radiusMin);
 
     ctx.lineWidth = strokeWidth;
     ctx.strokeStyle = strokeColour;
@@ -129,9 +132,27 @@ export class Hexo implements houdini.PaintCtor {
         const path = drawHex(x, y, r - gap);
         const n = noise.noise2D(scale * x, scale * y) + 1;
 
-        ctx.fillStyle = styleFn(n, props.hue);
-        ctx.fill(path);
-        if (strokeWidth > 0) ctx.stroke(path);
+        switch (style) {
+          case "rainbow":
+            ctx.fillStyle = rainbow(n);
+            ctx.fill(path);
+            break;
+
+          case "rainbow-stroke":
+            ctx.strokeStyle = rainbow(n);
+            ctx.stroke(path);
+            break;
+
+          default:
+            if (props.fill.length) {
+              ctx.fillStyle = styleFn(n, fillProps);
+              ctx.fill(path);
+            }
+            if (strokeWidth > 0) {
+              ctx.stroke(path);
+            }
+            break;
+        }
       }
     }
   }

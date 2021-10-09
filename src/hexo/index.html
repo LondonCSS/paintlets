@@ -6,30 +6,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hexo</title>
     <style>
+      body {
+        height: 100%;
+        overflow: hidden;
+        background-repeat: no-repeat;
+      }
+
       .sample {
         background-image: paint(hexo);
         border: 1px solid #ccc;
       }
 
       .sample--1 {
-        --style: monochrome;
-        --bg: black;
-        /* --radius: 36; */
-        /* --gap: 15; */
+        --bg: hsl(0, 0%, 10%);
+        --fill: hsl(0, 0%, 100%, 0.5);
       }
 
       .sample--2 {
         --style: hue;
-        --hue: 180;
         --radius: 9;
-        --bg: mediumseagreen;
-        /* --gap: 0.2; */
+        --fill: hsla(180, 100%, 20%, 0.5);
+        --bg: hsl(180, 100%, 20%);
       }
 
       .sample--3 {
-        --radius: 9;
-        --bg: rebeccapurple;
+        --radius: 10;
         --gap: 0.2;
+        --fill: hsl(320, 100%, 40%);
+        --bg: lightblue;
+      }
+
+      .sample--4 {
+        --radius: 30;
+        --gap: 6;
+        --stroke-width: 3;
+        --stroke-colour: gold;
+        --bg: orangered;
+
+        background-image: paint(hexo), linear-gradient(to top, orangered, gold);
+      }
+
+      .sample--5 {
+        --style: rainbow-stroke;
+        --radius: 58;
+        --stroke-width: 4;
+        --gap: 5;
+        --bg: black;
+        /* --radius: 13; */
       }
     </style>
   </head>
@@ -38,6 +61,8 @@
       <li class="sample sample--1"></li>
       <li class="sample sample--2"></li>
       <li class="sample sample--3"></li>
+      <li class="sample sample--4"></li>
+      <li class="sample sample--5"></li>
     </ul>
     <script type="module" src="./demo.ts"></script>
   </body>
