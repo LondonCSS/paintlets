@@ -1,4 +1,4 @@
-import { StylePropertyMapReadOnly } from "../../../typings/houdini";
+import { StylePropertyMapReadOnly } from "../../../../typings/houdini";
 import { normalizeProps } from "./worklet";
 
 const mockDefaults = {
