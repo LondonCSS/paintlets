@@ -1,16 +1,20 @@
-import "../_lib/styles.scss";
+import { init } from "../_lib/demo";
 
-async function init() {
-  if (CSS["paintWorklet"] === undefined) {
-    await import("https://unpkg.com/css-paint-polyfill");
+init("hexo");
+
+const customProps = ["--style", "--radius", "--hue", "--gap", "--stroke-width", "--stroke-colour"];
+
+document.addEventListener("click", (event) => {
+  const el = event.target as HTMLElement;
+  const li = el?.closest("li");
+  if (li) {
+    const props: Record<string, unknown> = {};
+    for (const prop of customProps) {
+      const computedProp = getComputedStyle(li).getPropertyValue(prop);
+      if (computedProp) {
+        props[prop] = computedProp;
+      }
+    }
+    console.log(props);
   }
-
-  if (import.meta.env.PROD) {
-    const workletURL = await import("./dist/paintlet-hexo.es.js?url");
-    CSS.paintWorklet.addModule(workletURL.default);
-  } else {
-    CSS.paintWorklet.addModule("./src/index.ts");
-  }
-}
-
-init();
+});

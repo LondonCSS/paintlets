@@ -9,13 +9,13 @@
   "packageManager": "pnpm@6.15.2",
   "devDependencies": {
     "@tsconfig/recommended": "1.0.1",
-    "@types/node": "16.10.2",
-    "@typescript-eslint/eslint-plugin": "4.32.0",
-    "@typescript-eslint/parser": "4.32.0",
+    "@types/node": "16.10.3",
+    "@typescript-eslint/eslint-plugin": "4.33.0",
+    "@typescript-eslint/parser": "4.33.0",
     "eslint": "7.32.0",
     "sass": "1.42.1",
     "typescript": "4.4.3",
-    "vite": "2.6.2"
+    "vite": "2.6.5"
   },
   "scripts": {
     "preinstall": "npx only-allow pnpm",
