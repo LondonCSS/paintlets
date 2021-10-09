@@ -1,6 +1,6 @@
-import * as houdini from "../../../typings/houdini";
+import * as houdini from "../../../../typings/houdini";
 
-import { parseInput } from "../../_lib/utils";
+import { parseInput } from "../../../_lib/utils";
 
 type Area = [number, number];
 type Point = [number, number];

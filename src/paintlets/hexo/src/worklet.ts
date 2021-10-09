@@ -1,8 +1,8 @@
 import SimplexNoise from "https://cdn.skypack.dev/simplex-noise";
 
-import * as houdini from "../../../typings/houdini";
+import * as houdini from "../../../../typings/houdini";
 
-import { parseInput } from "../../_lib/utils";
+import { parseInput } from "../../../_lib/utils";
 
 type InputKey = typeof inputProps[number];
 type DefaultProps = typeof defaultProps;

@@ -1,4 +1,4 @@
-import { StylePropertyMapReadOnly } from "../../../typings/houdini";
+import { StylePropertyMapReadOnly } from "../../../../typings/houdini";
 import { normalizeProps, defaultProps } from "./worklet";
 
 describe("Truchet", () => {

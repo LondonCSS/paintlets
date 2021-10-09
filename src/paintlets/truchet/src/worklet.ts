@@ -1,7 +1,7 @@
-import * as houdini from "../../../typings/houdini";
+import * as houdini from "../../../../typings/houdini";
 import { PointXY, Tile, TileProps } from "../types";
 
-import { parseInput } from "../../_lib/utils";
+import { parseInput } from "../../../_lib/utils";
 
 type DefaultProps = typeof defaultProps;
 type InputKey = typeof inputProps[number];

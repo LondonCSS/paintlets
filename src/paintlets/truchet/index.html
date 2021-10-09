@@ -4,30 +4,31 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Contours</title>
+    <title>Document</title>
 
-    <link rel="stylesheet" href="../_lib/styles.scss" />
+    <link rel="stylesheet" href="../../_lib/styles.scss" />
     <style>
-      .sample {
-        --grid-unit: 64;
-        --line-width: 1;
-        --line-frequency: 12;
-        --line-colour: #fff2;
-      }
       .sample--1 {
-        background-image: paint(contour), linear-gradient(to top, cornflowerblue, hotpink);
+        --stroke-width: 1;
+        --stroke-colour: gold;
+        background-image: paint(truchet), linear-gradient(to bottom, #eecda3, #ef629f);
       }
+
       .sample--2 {
-        --line-colour: #0001;
-        background-image: paint(contour), linear-gradient(to right, gold, mediumseagreen);
+        --tile-size: 20;
+        --stroke-width: 1;
+        --stroke-colour: #fff5;
+        background-image: paint(truchet), linear-gradient(to top, #373b44, #4286f4);
       }
 
       .sample--3 {
-        --line-width: 1;
-        --line-colour: #ffd70088;
-        background-image: paint(contour), linear-gradient(to top left, red, orange);
+        --tile-size: 30;
+        --stroke-width: 2;
+        --stroke-colour: #fffa;
+        background-image: paint(truchet), linear-gradient(to top, #ec38bc, #7303c0, #03001e); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
       }
     </style>
+    <script src="https://unpkg.com/css-paint-polyfill"></script>
   </head>
   <body>
     <ul class="index">
@@ -42,7 +43,7 @@
       }
 
       if (import.meta.env.PROD) {
-        const workletURL = await import("./dist/paintlet-contour.es.js?url");
+        const workletURL = await import("./dist/paintlet-truchet.es.js?url");
         CSS.paintWorklet.addModule(workletURL.default);
       } else {
         CSS.paintWorklet.addModule("./src/index.ts");

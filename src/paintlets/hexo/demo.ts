@@ -1,4 +1,4 @@
-import { init } from "../_lib/demo";
+import { init } from "../../_lib/demo";
 
 init("hexo");
 
