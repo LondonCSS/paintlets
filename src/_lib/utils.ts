@@ -30,7 +30,7 @@ export function normaliseInput(
   rawProps: houdini.StylePropertyMapReadOnly,
   paintlet: typeof PaintletCls
 ): Record<string, string | number | string[]> {
-  const testProps = {} as Record<string, string | number | string[]>;
+  const testProps = {} as ReturnType<typeof normaliseInput>;
   for (const inputKey of paintlet.inputProperties) {
     const { key, value, parseAs } = paintlet.defaultProperties[inputKey];
     const parse = parsers[parseAs];
