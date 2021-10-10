@@ -2,19 +2,7 @@ import * as houdini from "../../typings/houdini";
 
 export type ParserKey = keyof typeof parsers;
 
-// TODO: deprecate in favour of v2
 const parsers = {
-  int: (str: string, fallback: number): number => parseInt(str, 10) || fallback,
-  float: (str: string, fallback: number): number => parseFloat(str) || fallback,
-  string: (str: string, fallback: string): string => (str?.length > 0 ? str : fallback),
-  colours: (str: string, fallback: string[]): string[] => {
-    // Use a negative lookbehind to split on spaces that aren't preceded by a comma
-    // e.g. "hsl(100, 100%, 50%) hsl(200, 50%, 25%)" is only 2 values
-    return str?.length > 0 ? str.split(/(?<!,)\s/gi) : fallback;
-  },
-} as const;
-
-const parsersV2 = {
   int: (str: string): number => parseInt(str, 10),
   float: (str: string): number => parseFloat(str),
   string: (str: string): string => str,
@@ -26,15 +14,7 @@ const parsersV2 = {
   },
 } as const;
 
-export function parseInput(
-  input: string,
-  fallback: number | string | string[],
-  type: ParserKey = "string"
-): string | number | string[] {
-  const parser = parsers[type];
-  return parser(input, fallback as never);
-}
-
+// TODO extract into typings
 class PaintletCls {
   static inputProperties: string[]
   static defaultProperties: {
@@ -53,7 +33,7 @@ export function normaliseInput(
   const testProps = {} as Record<string, string | number | string[]>;
   for (const inputKey of paintlet.inputProperties) {
     const { key, value, parseAs } = paintlet.defaultProperties[inputKey];
-    const parse = parsersV2[parseAs];
+    const parse = parsers[parseAs];
     if (rawProps.has(inputKey)) {
       const val = rawProps.get(inputKey)?.toString().trim() || "";
       testProps[key] = val?.length > 0 ? parse(val) : value;
