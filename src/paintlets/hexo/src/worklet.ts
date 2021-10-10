@@ -1,28 +1,50 @@
 import SimplexNoise from "simplex-noise";
 
 import * as houdini from "../../../../typings/houdini";
-import { parseInput } from "../../../_lib/utils";
+import { normaliseInput } from "../../../_lib/utils";
 
-type InputKey = typeof inputProps[number];
-type DefaultProps = typeof defaultProps;
-type InputRecord = Record<InputKey, string>;
 type FillProps = { h: string; s: string; l: string; a: string };
 
-export const inputProps = [
-  "--style",
-  "--radius",
-  "--gap",
-  "--fill",
-  "--stroke-width",
-  "--stroke-colour",
-] as const;
+type PaintletProps = {
+  style: string;
+  radius: number;
+  gap: number;
+  fill: string;
+  strokeWidth: number;
+  strokeColour: string;
+};
+
 export const defaultProps = {
-  style: "overlay",
-  radius: 16,
-  gap: 0,
-  fill: "",
-  strokeWidth: 0,
-  strokeColour: "#fff",
+  "--style": {
+    key: "style",
+    value: "overlay",
+    parseAs: "string",
+  },
+  "--radius": {
+    key: "radius",
+    value: 16,
+    parseAs: "int",
+  },
+  "--gap": {
+    key: "gap",
+    value: 0,
+    parseAs: "float",
+  },
+  "--fill": {
+    key: "fill",
+    value: "",
+    parseAs: "string",
+  },
+  "--stroke-width": {
+    key: "strokeWidth",
+    value: 0,
+    parseAs: "float",
+  },
+  "--stroke-colour": {
+    key: "strokeColour",
+    value: "#fff",
+    parseAs: "string",
+  },
 };
 
 const a = (2 * Math.PI) / 6;
@@ -76,25 +98,6 @@ function overlay(n: number, fillProps?: FillProps) {
   return hsl;
 }
 
-export function normalizeProps(
-  rawProps: houdini.StylePropertyMapReadOnly,
-  opts: DefaultProps
-): DefaultProps {
-  const props = {} as InputRecord;
-  for (const [key, value] of rawProps.entries()) {
-    props[key as InputKey] = value.toString().trim();
-  }
-
-  return {
-    style: parseInput(props["--style"], opts.style) as string,
-    radius: parseInput(props["--radius"], opts.radius, "int") as number,
-    gap: parseInput(props["--gap"], opts.gap, "float") as number,
-    fill: parseInput(props["--fill"], opts.fill) as string,
-    strokeWidth: parseInput(props["--stroke-width"], opts.strokeWidth, "float") as number,
-    strokeColour: parseInput(props["--stroke-colour"], opts.strokeColour) as string,
-  };
-}
-
 function drawPathFn(
   ctx: houdini.PaintRenderingContext2D,
   { style, fill, strokeWidth }: DefaultProps
@@ -140,15 +143,15 @@ function drawPathFn(
 
 // TODO: allow "pointy" mode
 export class Hexo implements houdini.PaintCtor {
-  public static inputProperties = inputProps;
   public static defaultProperties = defaultProps;
+  public static inputProperties = Object.keys(Hexo.defaultProperties);
 
   paint(
     ctx: houdini.PaintRenderingContext2D,
     { width, height }: houdini.PaintSize,
     rawProps: houdini.StylePropertyMapReadOnly
   ): void {
-    const props = normalizeProps(rawProps, defaultProps);
+    const props = normaliseInput(rawProps, Hexo) as PaintletProps;
     const drawPath = drawPathFn(ctx, props);
 
     const { radius: r, gap, strokeWidth, strokeColour } = props;

@@ -1,33 +1,45 @@
 import * as houdini from "../../../../typings/houdini";
 
-import { parseInput } from "../../../_lib/utils";
+import { normaliseInput } from "../../../_lib/utils";
 
 type Area = [number, number];
 type Point = [number, number];
 type PolyLine = Point[];
-
-type DefaultProps = typeof defaultProps;
-type InputKey = typeof inputProps[number];
-type InputRecord = Record<InputKey, string>;
 
 import SimplexNoise from "simplex-noise";
 import { mapRange, linspace } from "canvas-sketch-util/math";
 import { clipPolylinesToBox } from "canvas-sketch-util/geometry";
 import { isoBands } from "marchingsquares";
 
-export const inputProps = [
-  "--grid-unit",
-  "--line-colour",
-  "--line-width",
-  "--line-frequency",
-] as const;
+type PaintletProps = {
+  gridUnit: number;
+  lineColour: string;
+  lineWidth: number;
+  lineFrequency: number;
+};
 
 export const defaultProps = {
-  gridUnit: 192,
-  lineColour: "#fff",
-  lineWidth: 0.1,
-  lineFrequency: 12,
-};
+  "--grid-unit": {
+    key: "gridUnit",
+    value: 192,
+    parseAs: "int",
+  },
+  "--line-colour": {
+    key: "lineColour",
+    value: "#fff",
+    parseAs: "string",
+  },
+  "--line-width": {
+    key: "lineWidth",
+    value: 0.1,
+    parseAs: "float",
+  },
+  "--line-frequency": {
+    key: "lineFrequency",
+    value: 12,
+    parseAs: "int",
+  },
+} as const;
 
 function drawShape([start, ...pts]: PolyLine) {
   return [start, ...pts, start];
@@ -77,36 +89,17 @@ function makeNoise(simplex: SimplexNoise, gridUnit: number): PolyLine[] {
   return noiseData;
 }
 
-export function normalizeProps(
-  rawProps: houdini.StylePropertyMapReadOnly,
-  opts: DefaultProps
-): DefaultProps {
-  const props = {} as InputRecord;
-  for (const [key, value] of rawProps.entries()) {
-    props[key as InputKey] = value.toString().trim();
-  }
-
-  return {
-    gridUnit: parseInput(props["--grid-unit"], opts.gridUnit, "int") as number,
-    lineWidth: parseInput(props["--line-width"], opts.lineWidth, "float") as number,
-    lineFrequency: parseInput(props["--line-frequency"], opts.lineFrequency, "int") as number,
-    lineColour: parseInput(props["--line-colour"], opts.lineColour) as string,
-  };
-}
-
 export class Contour implements houdini.PaintCtor {
-  public static inputProperties = inputProps;
   public static defaultProperties = defaultProps;
+  public static inputProperties = Object.keys(Contour.defaultProperties);
 
   paint(
     ctx: houdini.PaintRenderingContext2D,
     { width, height }: houdini.PaintSize,
     rawProps: houdini.StylePropertyMapReadOnly
   ): void {
-    const { gridUnit, lineWidth, lineFrequency, lineColour } = normalizeProps(
-      rawProps,
-      defaultProps
-    );
+    const props = normaliseInput(rawProps, Contour) as PaintletProps;
+    const { gridUnit, lineWidth, lineFrequency, lineColour } = props;
     const simplex = new SimplexNoise();
 
     const intervals = linspace(lineFrequency, gridUnit);
