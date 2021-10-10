@@ -4,6 +4,14 @@ import { normaliseInput } from "../../../_lib/utils";
 
 const PI2 = Math.PI * 2;
 
+type PaintletProps = {
+  radius: number;
+  ringNum: number;
+  strokeWidth: number;
+  strokeColour: string;
+  colours: string[];
+};
+
 export const defaultProps = {
   "--radius": {
     key: "radius",
@@ -47,6 +55,7 @@ export function makeCircle(
   }
 }
 
+// TODO return a path instead of updating the canvas directly
 export function circleFactory(
   ctx: houdini.PaintRenderingContext2D,
   radius: number,
@@ -67,16 +76,16 @@ export function circleFactory(
   };
 }
 
-export class seigaiha implements houdini.PaintCtor {
+export class Seigaiha implements houdini.PaintCtor {
   public static defaultProperties = defaultProps;
-  public static inputProperties = Object.keys(seigaiha.defaultProperties);
+  public static inputProperties = Object.keys(Seigaiha.defaultProperties);
 
   paint(
     ctx: houdini.PaintRenderingContext2D,
     { width, height }: houdini.PaintSize,
     rawProps: houdini.StylePropertyMapReadOnly
   ): void {
-    const props = normaliseInput(rawProps, seigaiha.inputProperties, seigaiha.defaultProperties);
+    const props = normaliseInput(rawProps, Seigaiha) as PaintletProps;
     const { radius, ringNum } = props;
     const [colourA] = props.colours;
 

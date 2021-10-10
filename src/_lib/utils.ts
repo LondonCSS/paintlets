@@ -35,20 +35,24 @@ export function parseInput(
   return parser(input, fallback as never);
 }
 
-export function normaliseInput(
-  rawProps: houdini.StylePropertyMapReadOnly,
-  inputProperties: string[],
-  defaultProperties: {
+class PaintletCls {
+  static inputProperties: string[]
+  static defaultProperties: {
     [key: string]: {
       key: string;
       value: string | number | string[];
       parseAs: ParserKey;
     };
   }
+}
+
+export function normaliseInput(
+  rawProps: houdini.StylePropertyMapReadOnly,
+  paintlet: typeof PaintletCls
 ): Record<string, string | number | string[]> {
-  const testProps = {};
-  for (const inputKey of inputProperties) {
-    const { key, value, parseAs } = defaultProperties[inputKey];
+  const testProps = {} as Record<string, string | number | string[]>;
+  for (const inputKey of paintlet.inputProperties) {
+    const { key, value, parseAs } = paintlet.defaultProperties[inputKey];
     const parse = parsersV2[parseAs];
     if (rawProps.has(inputKey)) {
       const val = rawProps.get(inputKey)?.toString().trim() || "";

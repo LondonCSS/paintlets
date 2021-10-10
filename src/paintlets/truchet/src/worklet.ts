@@ -1,18 +1,36 @@
 import * as houdini from "../../../../typings/houdini";
 import { PointXY, Tile, TileProps } from "../types";
 
-import { parseInput } from "../../../_lib/utils";
+import { normaliseInput } from "../../../_lib/utils";
 
-type DefaultProps = typeof defaultProps;
-type InputKey = typeof inputProps[number];
-type InputRecord = Record<InputKey, string>;
+type PaintletProps = {
+  seed: number;
+  tileSize: number;
+  lineWidth: number;
+  strokeStyle: string;
+};
 
-export const inputProps = ["--seed", "--stroke-width", "--stroke-colour", "--tile-size"] as const;
 export const defaultProps = {
-  seed: 1,
-  tileSize: 50,
-  lineWidth: 3,
-  strokeStyle: "#fff",
+  "--seed": {
+    key: "seed",
+    value: 1,
+    parseAs: "int",
+  },
+  "--tile-size": {
+    key: "tileSize",
+    value: 50,
+    parseAs: "int",
+  },
+  "--stroke-width": {
+    key: "lineWidth",
+    value: 1,
+    parseAs: "float",
+  },
+  "--stroke-colour": {
+    key: "strokeStyle",
+    value: "#fff",
+    parseAs: "string",
+  },
 };
 
 const K = (4 * (Math.sqrt(2) - 1)) / 3.0;
@@ -96,32 +114,17 @@ function getTile(x: number, y: number, tileSize: number): Tile {
   };
 }
 
-export function normalizeProps(
-  rawProps: houdini.StylePropertyMapReadOnly,
-  opts: DefaultProps
-): DefaultProps {
-  const props = {} as InputRecord;
-  for (const [key, value] of rawProps.entries()) {
-    props[key as InputKey] = value.toString().trim();
-  }
-
-  return {
-    seed: parseInput(props["--seed"], opts.seed, "int") as number,
-    tileSize: parseInput(props["--tile-size"], opts.tileSize, "int") as number,
-    lineWidth: parseInput(props["--stroke-width"], opts.lineWidth, "float") as number,
-    strokeStyle: parseInput(props["--stroke-colour"], opts.strokeStyle) as string,
-  };
-}
-
 export class Truchet implements houdini.PaintCtor {
-  static inputProperties = inputProps;
+  public static defaultProperties = defaultProps;
+  public static inputProperties = Object.keys(Truchet.defaultProperties);
 
   paint(
     ctx: houdini.PaintRenderingContext2D,
     { width, height }: houdini.PaintSize,
-    props: houdini.StylePropertyMapReadOnly
+    rawProps: houdini.StylePropertyMapReadOnly
   ): void {
-    const { strokeStyle, lineWidth, seed, tileSize } = normalizeProps(props, defaultProps);
+    const props = normaliseInput(rawProps, Truchet) as PaintletProps;
+    const { strokeStyle, lineWidth, seed, tileSize } = props;
     const tileProps = {
       strokeStyle,
       lineWidth,
