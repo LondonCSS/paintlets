@@ -30,10 +30,11 @@
       }
 
       .sample--3 {
-        --radius: 10;
         --gap: 0.2;
-        --fill: hsl(320, 100%, 40%);
-        --bg: lightblue;
+        /* --stroke-colour: hsl(60, 100%, 70%);
+        --stroke-width: 2; */
+        --fill: hsl(60, 100%, 70%);
+        --bg: rebeccapurple;
       }
 
       .sample--4 {
@@ -52,20 +53,29 @@
         --stroke-width: 4;
         --gap: 5;
         --bg: black;
-        /* --radius: 13; */
+      }
+
+      .sample--6 {
+        --style: rainbow;
+        --radius: 20;
+        --gap: 10;
+        --bg: black;
       }
     </style>
   </head>
   <body>
+    <div class="bg"></div>
     <ul class="index">
       <li class="sample sample--1"></li>
       <li class="sample sample--2"></li>
       <li class="sample sample--3"></li>
       <li class="sample sample--4"></li>
       <li class="sample sample--5"></li>
+      <li class="sample sample--6"></li>
     </ul>
     <script type="module">
       import "../../_lib/styles.scss";
+      import "./demo.ts";
 
       if (CSS["paintWorklet"] === undefined) {
         await import("https://unpkg.com/css-paint-polyfill");
