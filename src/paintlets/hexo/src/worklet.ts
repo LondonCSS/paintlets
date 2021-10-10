@@ -138,10 +138,10 @@ function drawPathFn(
   };
 }
 
-// const radiusMin = Math.sqrt(Math.pow(r, 2) - Math.pow(r / 2, 2));
-// console.log(rowH, radiusMin);
+// TODO: allow "pointy" mode
 export class Hexo implements houdini.PaintCtor {
   public static inputProperties = inputProps;
+  public static defaultProperties = defaultProps;
 
   paint(
     ctx: houdini.PaintRenderingContext2D,

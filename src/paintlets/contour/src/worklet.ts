@@ -96,6 +96,7 @@ export function normalizeProps(
 
 export class Contour implements houdini.PaintCtor {
   public static inputProperties = inputProps;
+  public static defaultProperties = defaultProps;
 
   paint(
     ctx: houdini.PaintRenderingContext2D,
