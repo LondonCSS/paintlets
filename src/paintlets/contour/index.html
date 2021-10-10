@@ -13,10 +13,13 @@
         --line-width: 1;
         --line-frequency: 12;
         --line-colour: #fff2;
+        background-image: paint(contour);
       }
+
       .sample--1 {
         background-image: paint(contour), linear-gradient(to top, cornflowerblue, hotpink);
       }
+
       .sample--2 {
         --line-colour: #0001;
         background-image: paint(contour), linear-gradient(to right, gold, mediumseagreen);
@@ -27,16 +30,31 @@
         --line-colour: #ffd70088;
         background-image: paint(contour), linear-gradient(to top left, red, orange);
       }
+
+      .sample--4 {
+        --line-colour: #fff6;
+        --bg: #222;
+      }
+
+      .sample__demo {
+        --line-frequency: 24;
+      }
     </style>
   </head>
   <body>
-    <ul class="index">
-      <li class="sample sample--1"></li>
-      <li class="sample sample--2"></li>
-      <li class="sample sample--3"></li>
-    </ul>
+    <div class="samples">
+      <ul class="sample__nav">
+        <li class="sample sample--4"></li>
+        <li class="sample sample--1"></li>
+        <li class="sample sample--2"></li>
+        <li class="sample sample--3"></li>
+      </ul>
+      <div class="sample__demo"></div>
+    </div>
 
     <script type="module">
+      import "./demo.ts";
+
       if (CSS["paintWorklet"] === undefined) {
         await import("https://unpkg.com/css-paint-polyfill");
       }

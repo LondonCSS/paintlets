@@ -17,7 +17,7 @@ export const inputProps = [
   "--stroke-colour",
 ] as const;
 export const defaultProps = {
-  style: "overlay" as StyleKey,
+  style: "overlay",
   radius: 16,
   gap: 0,
   fill: "",
@@ -86,7 +86,7 @@ export function normalizeProps(
   }
 
   return {
-    style: parseInput(props["--style"], opts.style) as StyleKey,
+    style: parseInput(props["--style"], opts.style) as string,
     radius: parseInput(props["--radius"], opts.radius, "int") as number,
     gap: parseInput(props["--gap"], opts.gap, "float") as number,
     fill: parseInput(props["--fill"], opts.fill) as string,
