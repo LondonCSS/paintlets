@@ -1,45 +1,36 @@
 import * as houdini from "../../../../typings/houdini";
 
-import { parseInput } from "../../../_lib/utils";
-
-type DefaultProps = typeof defaultProps;
-type InputKey = typeof inputProps[number];
-type InputRecord = Record<InputKey, string>;
+import { normaliseInput } from "../../../_lib/utils";
 
 const PI2 = Math.PI * 2;
 
-export const inputProps = [
-  "--radius",
-  "--rings",
-  "--stroke-width",
-  "--stroke-colour",
-  "--colours",
-] as const;
 export const defaultProps = {
-  radius: 55,
-  ringNum: 5,
-  strokeWidth: 0.5,
-  strokeColour: "#b6b58e",
-  colours: ["#0b605f", "#402132"],
+  "--radius": {
+    key: "radius",
+    value: 55,
+    parseAs: "int",
+  },
+  "--rings": {
+    key: "ringNum",
+    value: 5,
+    parseAs: "int",
+  },
+  "--stroke-width": {
+    key: "strokeWidth",
+    value: 0.5,
+    parseAs: "float",
+  },
+  "--stroke-colour": {
+    key: "strokeColour",
+    value: "#b6b58e",
+    parseAs: "string",
+  },
+  "--colours": {
+    key: "colours",
+    value: ["#0b605f", "#402132"],
+    parseAs: "colours",
+  },
 };
-
-export function normalizeProps(
-  rawProps: houdini.StylePropertyMapReadOnly,
-  opts: DefaultProps
-): DefaultProps {
-  const props = {} as InputRecord;
-  for (const [key, value] of rawProps.entries()) {
-    props[key as InputKey] = value.toString().trim();
-  }
-
-  return {
-    radius: parseInput(props["--radius"], opts.radius, "int") as number,
-    ringNum: parseInput(props["--rings"], opts.ringNum, "int") as number,
-    colours: parseInput(props["--colours"], opts.colours, "colours") as string[],
-    strokeWidth: parseInput(props["--stroke-width"], opts.strokeWidth, "float") as number,
-    strokeColour: parseInput(props["--stroke-colour"], opts.strokeColour) as string,
-  };
-}
 
 export function makeCircle(
   ctx: houdini.PaintRenderingContext2D,
@@ -76,19 +67,18 @@ export function circleFactory(
   };
 }
 
-export class Seigaiha implements houdini.PaintCtor {
-  public static inputProperties = inputProps;
+export class seigaiha implements houdini.PaintCtor {
+  public static defaultProperties = defaultProps;
+  public static inputProperties = Object.keys(seigaiha.defaultProperties);
 
   paint(
     ctx: houdini.PaintRenderingContext2D,
     { width, height }: houdini.PaintSize,
     rawProps: houdini.StylePropertyMapReadOnly
   ): void {
-    const props = normalizeProps(rawProps, defaultProps);
+    const props = normaliseInput(rawProps, seigaiha.inputProperties, seigaiha.defaultProperties);
     const { radius, ringNum } = props;
-    const [colourA, colourB] = props.colours;
-
-    console.log({ colourA, colourB });
+    const [colourA] = props.colours;
 
     ctx.fillStyle = colourA;
     ctx.lineWidth = props.strokeWidth;
