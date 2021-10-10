@@ -20,11 +20,20 @@ a {
   color: inherit;
 }
 
+.bg {
+  grid-area: 1/1/2/2;
+  inset: 0;
+  position: absolute;
+}
+
 .index {
+  grid-area: 1/1/2/2;
+
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(var(--wh), 1fr));
   gap: 1rem;
 
+  position: relative;
   width: 70vw;
   margin: 0;
   padding: 1rem;

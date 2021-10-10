@@ -30,5 +30,8 @@
     "test": "jest",
     "dev": "vite",
     "build": "vite build"
+  },
+  "dependencies": {
+    "simplex-noise": "3.0.0"
   }
 }

@@ -1,13 +1,11 @@
-import SimplexNoise from "https://cdn.skypack.dev/simplex-noise";
+import SimplexNoise from "simplex-noise";
 
 import * as houdini from "../../../../typings/houdini";
-
 import { parseInput } from "../../../_lib/utils";
 
 type InputKey = typeof inputProps[number];
 type DefaultProps = typeof defaultProps;
 type InputRecord = Record<InputKey, string>;
-type StyleKey = keyof typeof styles;
 type FillProps = { h: string; s: string; l: string; a: string };
 
 export const inputProps = [
@@ -48,12 +46,18 @@ function drawHex(x: number, y: number, rad: number) {
   return path;
 }
 
+/**
+ * Create a layer varying the hue
+ */
 function rainbow(n: number) {
-  const h = Math.floor((360 * (n - 1)) / 2);
+  const h = Math.floor((300 * (n - 1)) / 2);
   const hsl = `hsl(${h}, 55%, 55%)`;
   return hsl;
 }
 
+/**
+ * Create a layer in the supplied colour (or black if not supplied), varying the lightness
+ */
 function hue(n: number, fillProps?: FillProps) {
   const { h, s, a } = { h: "0", s: "50", a: "1", ...fillProps };
   const l = Math.floor(50 * n + 25) / 2;
@@ -61,22 +65,15 @@ function hue(n: number, fillProps?: FillProps) {
   return hsl;
 }
 
+/**
+ * Create a layer in the supplied colour (or black if not supplied), varying the transparency
+ */
 function overlay(n: number, fillProps?: FillProps) {
   const { h, s, l } = { h: "0", s: "0", l: "100", ...fillProps };
   const a = (n - 0.75) / 2;
 
   const hsl = `hsla(${h}, ${s}%, ${l}%, ${a})`;
   return hsl;
-}
-
-const styles = {
-  hue,
-  overlay,
-  rainbow,
-};
-
-function getStyle(style: StyleKey) {
-  return styles[style] || overlay;
 }
 
 export function normalizeProps(
@@ -98,6 +95,51 @@ export function normalizeProps(
   };
 }
 
+function drawPathFn(
+  ctx: houdini.PaintRenderingContext2D,
+  { style, fill, strokeWidth }: DefaultProps
+) {
+  let fillProps: FillProps | undefined;
+  if (fill.length) fillProps = parseFill(fill);
+
+  return function (path: Path2D, n: number) {
+    switch (style) {
+      case "rainbow":
+        ctx.fillStyle = rainbow(n);
+        ctx.fill(path);
+        break;
+
+      case "rainbow-stroke":
+        ctx.strokeStyle = rainbow(n);
+        ctx.stroke(path);
+        break;
+
+      case "hue":
+        if (fillProps) {
+          ctx.fillStyle = hue(n, fillProps);
+          ctx.fill(path);
+        }
+        if (strokeWidth > 0) {
+          ctx.stroke(path);
+        }
+        break;
+
+      case "overlay":
+      default:
+        if (fillProps) {
+          ctx.fillStyle = overlay(n, fillProps);
+          ctx.fill(path);
+        }
+        if (strokeWidth > 0) {
+          ctx.stroke(path);
+        }
+        break;
+    }
+  };
+}
+
+// const radiusMin = Math.sqrt(Math.pow(r, 2) - Math.pow(r / 2, 2));
+// console.log(rowH, radiusMin);
 export class Hexo implements houdini.PaintCtor {
   public static inputProperties = inputProps;
 
@@ -107,52 +149,31 @@ export class Hexo implements houdini.PaintCtor {
     rawProps: houdini.StylePropertyMapReadOnly
   ): void {
     const props = normalizeProps(rawProps, defaultProps);
+    const drawPath = drawPathFn(ctx, props);
 
-    const { radius: r, gap, style, fill, strokeWidth, strokeColour } = props;
-    const styleFn = getStyle(style);
+    const { radius: r, gap, strokeWidth, strokeColour } = props;
     const noise = new SimplexNoise();
-    const scale = 0.002;
+    const scale = 0.002; // TODO make this configurable
 
-    const rowH = r * Math.sin(a);
-    const colW = r * (1 + Math.cos(a));
-    let fillProps = parseFill(fill);
-
-    // const radiusMin = Math.sqrt(Math.pow(r, 2) - Math.pow(r / 2, 2));
-    // console.log(rowH, radiusMin);
+    const rMin = r * Math.sin(a);
+    const rowH = rMin * 2;
+    const colW = r * 1.5;
+    const rowNum = 1 + Math.ceil(height / rowH);
+    const colNum = 1 + Math.ceil(width / colW);
 
     ctx.lineWidth = strokeWidth;
     ctx.strokeStyle = strokeColour;
 
-    for (let y = 0; y + rowH <= height + rowH; y += rowH) {
-      for (
-        let x = 0, j = 0; // initialise row vars
-        x + colW <= width + colW * 2; // predicate
-        x += colW, y += (-1) ** j++ * rowH // increment row vars
-      ) {
-        const path = drawHex(x, y, r - gap);
+    for (let i = 0; i < rowNum; i++) {
+      const y = i * rowH;
+
+      for (let j = 0; j < colNum; j++) {
+        const x = j * colW;
+        const yOff = j % 2 === 0 ? 0 : rMin;
+
+        const path = drawHex(x, y + yOff, r - gap);
         const n = noise.noise2D(scale * x, scale * y) + 1;
-
-        switch (style) {
-          case "rainbow":
-            ctx.fillStyle = rainbow(n);
-            ctx.fill(path);
-            break;
-
-          case "rainbow-stroke":
-            ctx.strokeStyle = rainbow(n);
-            ctx.stroke(path);
-            break;
-
-          default:
-            if (props.fill.length) {
-              ctx.fillStyle = styleFn(n, fillProps);
-              ctx.fill(path);
-            }
-            if (strokeWidth > 0) {
-              ctx.stroke(path);
-            }
-            break;
-        }
+        drawPath(path, n);
       }
     }
   }
