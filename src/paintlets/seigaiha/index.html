@@ -17,7 +17,8 @@
         background-image: paint(seigaiha);
       }
 
-      .sample--1 {
+      .sample--2 {
+        --radius: 55;
       }
 
       .sample--2 {
@@ -35,16 +36,20 @@
         --radius: 70;
       }
     </style>
-    <script src="https://unpkg.com/css-paint-polyfill"></script>
   </head>
   <body>
-    <ul class="index">
-      <li class="sample sample--1"></li>
-      <li class="sample sample--2"></li>
-      <li class="sample sample--3"></li>
-    </ul>
+    <div class="samples">
+      <ul class="sample__nav">
+        <li class="sample sample--1"></li>
+        <li class="sample sample--2"></li>
+        <li class="sample sample--3"></li>
+      </ul>
+      <div class="sample__demo"></div>
+    </div>
 
     <script type="module">
+      import "./demo.ts";
+
       if (CSS["paintWorklet"] === undefined) {
         await import("https://unpkg.com/css-paint-polyfill");
       }

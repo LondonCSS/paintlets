@@ -3,12 +3,9 @@ import { showSample } from "../../_lib/show-sample";
 const sampleProps = [
   "background-color",
   "background-image",
-  "--style",
-  "--radius",
-  "--gap",
-  "--fill",
+  "--tile-size",
   "--stroke-width",
   "--stroke-colour",
 ];
 
-showSample("hexo", sampleProps);
+showSample("truchet", sampleProps);
