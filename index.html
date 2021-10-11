@@ -29,13 +29,13 @@
 
       .contour {
         /* TODO make these defaults for "contour" */
-        --grid-unit: 192;
+        --grid-unit: 64;
         --line-frequency: 16;
       }
 
       .seigaiha {
-        /* TODO make "seigaiha" inherit colours? */
-        /* TODO Use 2 colours to trigger a river */
+        /* TODO switch from --colours to --bg */
+        /* TODO specify optional --river as a sepearate prop */
         --colours: var(--bg) var(--bg);
       }
 
@@ -46,6 +46,7 @@
       }
 
       .hexo {
+        /* TODO vary --radius */
         --gap: 5;
       }
     </style>
