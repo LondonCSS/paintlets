@@ -65,6 +65,7 @@ a {
   grid-template-columns: var(--nav-w) 1fr;
 
   height: 100vh;
+  background-color: #111;
 }
 
 .sample__nav {
@@ -77,28 +78,27 @@ a {
   background-color: #000;
 }
 
+.index__item,
 .sample {
   overflow: hidden;
   border-radius: 0.5rem;
+
+  background-image: var(--bg-image);
   background-color: var(--bg);
 }
 
-.sample__demo {
-  background-color: #111;
-}
-
 .contour {
-  background-image: paint(contour);
+  --bg-image: paint(contour);
 }
 
 .seigaiha {
-  background-image: paint(seigaiha);
+  --bg-image: paint(seigaiha);
 }
 
 .truchet {
-  background-image: paint(truchet);
+  --bg-image: paint(truchet);
 }
 
 .hexo {
-  background-image: paint(hexo);
+  --bg-image: paint(hexo);
 }

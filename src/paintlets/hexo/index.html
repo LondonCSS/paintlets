@@ -4,11 +4,13 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hexo</title>
+    <title>Hexo - London CSS: Paintlets</title>
     <link rel="stylesheet" href="../../_lib/styles.scss" />
     <style>
       .sample {
-        background-image: paint(hexo);
+        --bg: #000;
+        --bg-image: paint(hexo);
+        background-image: var(--bg-image);
       }
 
       .sample--1 {
@@ -35,12 +37,10 @@
         --stroke-width: 3;
         --stroke-colour: lemonchiffon;
         --bg: palevioletred;
-
-        background-image: paint(hexo), linear-gradient(to top, var(--bg), var(--stroke-colour) 75%);
+        --bg-image: paint(hexo), linear-gradient(to top, var(--bg), var(--stroke-colour) 75%);
       }
 
       .sample--5 {
-        /* --style: rainbow-stroke; */
         --radius: 48;
         --gap: -36;
         --stroke-width: 2;
