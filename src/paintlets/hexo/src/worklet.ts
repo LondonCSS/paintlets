@@ -73,7 +73,7 @@ function drawHex(x: number, y: number, rad: number) {
  */
 function rainbow(n: number) {
   const h = Math.floor((300 * (n - 1)) / 2);
-  const hsl = `hsl(${h}, 55%, 55%)`;
+  const hsl = `hsl(${h}, 40%, 65%)`;
   return hsl;
 }
 
