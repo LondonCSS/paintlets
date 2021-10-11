@@ -24,7 +24,7 @@
     "@types/jest": "27.0.2",
     "babel-jest": "27.2.5",
     "jest": "27.2.5",
-    "vite": "2.6.5"
+    "vite": "2.6.7"
   },
   "scripts": {
     "test": "jest",

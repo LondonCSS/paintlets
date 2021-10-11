@@ -9,7 +9,8 @@ type PaintletProps = {
   ringNum: number;
   strokeWidth: number;
   strokeColour: string;
-  colours: string[];
+  bg: string;
+  river: string;
 };
 
 export const defaultProps = {
@@ -33,35 +34,35 @@ export const defaultProps = {
     value: "#b6b58e",
     parseAs: "string",
   },
-  "--colours": {
-    key: "colours",
-    value: ["#0b605f", "#402132"],
-    parseAs: "colours",
+  "--bg": {
+    key: "bg",
+    value: "#0b605f",
+    parseAs: "string",
+  },
+  "--river": {
+    key: "river",
+    parseAs: "string",
   },
 };
 
-export function makeCircle(
-  ctx: houdini.PaintRenderingContext2D,
-  x: number,
-  y: number,
-  radii: number[]
-): void {
+export function makeCircle(x: number, y: number, radii: number[]): Path2D {
+  const rootPath = new Path2D();
   for (const r of radii) {
-    ctx.beginPath();
-    ctx.arc(x, y, r, 0, PI2);
-    ctx.fill();
-    ctx.stroke();
-    ctx.closePath();
+    const path = new Path2D();
+    path.arc(x, y, r, 0, PI2);
+    path.closePath();
+    rootPath.addPath(path);
   }
+
+  return rootPath;
 }
 
 // TODO return a path instead of updating the canvas directly
 export function circleFactory(
-  ctx: houdini.PaintRenderingContext2D,
   radius: number,
   ringNum: number,
-  fn: typeof makeCircle
-): (x: number, y: number) => void {
+  makeCircleFn: typeof makeCircle
+): (x: number, y: number) => Path2D {
   const ringW = 1 / ringNum;
   const rings = [];
   let n = 1;
@@ -72,8 +73,19 @@ export function circleFactory(
   const radii = rings.map((r) => r * radius);
 
   return function makeCircles(x: number, y: number) {
-    fn(ctx, x, y, radii);
+    return makeCircleFn(x, y, radii);
   };
+}
+
+function getRiverIndex(r: number, rMin: number, rMax: number, isEven: boolean): number {
+  const i = Math.random() > 0.5 ? (isEven ? 1 : 0) : isEven ? 0 : -1;
+  const a = r + i;
+
+  console.log({ a, r, rMin, rMax });
+
+  if (a < rMin) return a + 1;
+  if (a > rMax) return a - 1;
+  return a;
 }
 
 export class Seigaiha implements houdini.PaintCtor {
@@ -86,25 +98,37 @@ export class Seigaiha implements houdini.PaintCtor {
     rawProps: houdini.StylePropertyMapReadOnly
   ): void {
     const props = normaliseInput(rawProps, Seigaiha) as PaintletProps;
-    const { radius, ringNum } = props;
-    const [colourA] = props.colours;
+    const { bg, river, radius, ringNum } = props;
 
-    ctx.fillStyle = colourA;
     ctx.lineWidth = props.strokeWidth;
     ctx.strokeStyle = props.strokeColour;
 
     const diam = radius * 2;
-    const makeCircles = circleFactory(ctx, radius, ringNum, makeCircle);
+    const makeCircles = circleFactory(radius, ringNum, makeCircle);
 
-    const cols = 1 + Math.ceil(width / radius);
+    const cols = Math.ceil(width / (radius * 2));
     const rows = 2 + Math.ceil((height * 2) / radius);
+    const riverMin = Math.ceil(cols * 0.25);
+    const riverMax = Math.floor(cols * 0.75);
+    const riverCols = riverMax - riverMin;
+    const riverStart = Math.round(Math.random() * riverCols) + riverMin;
 
+    console.log({ cols });
+
+    let riverIndex = riverStart;
     for (let j = 0; j < rows; j++) {
       const y = j * (radius / 2);
-      const offset = j % 2 === 0 ? 0 : radius;
+      const isEven = j % 2 === 0;
+      const offset = isEven ? 0 : radius;
+      riverIndex = getRiverIndex(riverIndex, riverMin, riverMax, isEven);
+
       for (let i = 0; i < cols; i++) {
         const x = i * diam + offset;
-        makeCircles(x, y);
+        const path = makeCircles(x, y);
+
+        ctx.fillStyle = river && i === riverIndex ? river : bg;
+        ctx.fill(path);
+        ctx.stroke(path);
       }
     }
   }

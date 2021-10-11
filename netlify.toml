@@ -9,7 +9,7 @@ command = "npx pnpm install --store=node_modules/.pnpm-store && npx pnpm build"
   [headers.values]
     Content-Security-Policy = '''
       default-src 'self';
-      script-src 'self' 'unsafe-inline' data: 'https://unpkg.com/css-paint-polyfill';
+      script-src 'self' 'unsafe-inline' data: 'https://unpkg.com/css-paint-polyfill' 'https://unpkg.com/@londoncss/';
       style-src 'self' 'unsafe-inline';
       object-src 'none'
     '''
