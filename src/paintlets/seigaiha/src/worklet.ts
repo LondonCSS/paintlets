@@ -81,8 +81,6 @@ function getRiverIndex(r: number, rMin: number, rMax: number, isEven: boolean): 
   const i = Math.random() > 0.5 ? (isEven ? 1 : 0) : isEven ? 0 : -1;
   const a = r + i;
 
-  console.log({ a, r, rMin, rMax });
-
   if (a < rMin) return a + 1;
   if (a > rMax) return a - 1;
   return a;
@@ -112,8 +110,6 @@ export class Seigaiha implements houdini.PaintCtor {
     const riverMax = Math.floor(cols * 0.75);
     const riverCols = riverMax - riverMin;
     const riverStart = Math.round(Math.random() * riverCols) + riverMin;
-
-    console.log({ cols });
 
     let riverIndex = riverStart;
     for (let j = 0; j < rows; j++) {
