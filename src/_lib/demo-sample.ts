@@ -1,4 +1,4 @@
-export function showSample(): void {
+export function demoSampleOnHover(): void {
   const demo = document.querySelector(".sample__demo");
   const lis = document.querySelectorAll(".sample__nav li");
   const classes: Set<string> = new Set();

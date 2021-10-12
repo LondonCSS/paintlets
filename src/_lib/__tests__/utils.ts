@@ -1,10 +1,10 @@
-import { parseInput } from "../utils";
+import { parsers } from "../utils";
 
 describe("utils", () => {
-  describe("parseInput", () => {
+  describe("normaliseInput", () => {
     describe("colours", () => {
       test.each([
-        [undefined, ["black"]],
+        [undefined, undefined],
         ["red green blue", ["red", "green", "blue"]],
         ["#0b605f #402132", ["#0b605f", "#402132"]],
         [
@@ -20,7 +20,7 @@ describe("utils", () => {
           ["red", "hsl(300, 25%, 0)", "rgba(255,255,255,.5)", "green", "blue"],
         ],
       ])("%s", (input, expected) => {
-        expect(parseInput(input as string, "black", "colours")).toEqual(expected);
+        expect(parsers.colours(input)).toEqual(expected);
       });
     });
   });
