@@ -1,8 +1,28 @@
 import * as houdini from "../../typings/houdini";
 
+// TODO extract into typings
+interface DefaultProp {
+  key: string;
+  value: string | number | string[];
+  parseAs: ParserKey;
+}
+class PaintletCls {
+  static inputProperties: string[];
+  static defaultProperties: Record<string, DefaultProp>;
+}
+
 export type ParserKey = keyof typeof parsers;
 
-const parsers = {
+export function convertPropsToObject(props: Record<string, DefaultProp>) {
+  const obj: Record<string, DefaultProp["value"]> = {};
+  for (const val of Object.values(props)) {
+    obj[val.key] = val.value;
+  }
+
+  return obj;
+}
+
+export const parsers = {
   int: (str: string): number => parseInt(str, 10),
   float: (str: string): number => parseFloat(str),
   string: (str: string): string => str,
@@ -10,30 +30,19 @@ const parsers = {
     // Split colour lists on spaces
     // Use a negative lookbehind to target spaces that aren't preceded by a comma
     // e.g. "hsl(100, 100%, 50%) hsl(200, 50%, 25%)" is only 2 values
-    return str.split(/(?<!,)\s/gi);
+    return str?.split(/(?<!,)\s/gi);
   },
 } as const;
 
-// TODO extract into typings
-class PaintletCls {
-  static inputProperties: string[]
-  static defaultProperties: {
-    [key: string]: {
-      key: string;
-      value: string | number | string[];
-      parseAs: ParserKey;
-    };
-  }
-}
-
 export function normaliseInput(
   rawProps: houdini.StylePropertyMapReadOnly,
-  paintlet: typeof PaintletCls
+  Paintlet: PaintletCls
 ): Record<string, string | number | string[]> {
   const testProps = {} as ReturnType<typeof normaliseInput>;
-  for (const inputKey of paintlet.inputProperties) {
-    const { key, value, parseAs } = paintlet.defaultProperties[inputKey];
-    const parse = parsers[parseAs];
+
+  for (const inputKey of Paintlet.inputProperties) {
+    const { key, value, parseAs } = Paintlet.defaultProperties[inputKey];
+    const parse = parsers[parseAs as ParserKey];
     if (rawProps.has(inputKey)) {
       const val = rawProps.get(inputKey)?.toString().trim() || "";
       testProps[key] = val?.length > 0 ? parse(val) : value;

@@ -1,3 +1,3 @@
-import { showSample } from "../../_lib/show-sample";
+import { demoSampleOnHover } from "../../_lib/demo-sample";
 
-showSample()
+demoSampleOnHover()

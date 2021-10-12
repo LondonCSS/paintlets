@@ -1,13 +1,19 @@
-import { StylePropertyMapReadOnly } from "../../../../typings/houdini";
-import { normalizeProps, defaultProps } from "./worklet";
+import { StylePropertyMapReadOnly } from "../../../../../typings/houdini";
+import { normaliseInput } from "../../../../_lib/utils";
+import { Truchet } from "../worklet";
 
 describe("Truchet", () => {
   describe("normalizeProps", () => {
     it("Defaults are used when no custom props are specified", () => {
       const mockInputs = new Map() as unknown as StylePropertyMapReadOnly;
-      const expectOutput = { ...defaultProps };
+      const expectOutput = {
+        lineWidth: 1,
+        seed: 1,
+        strokeStyle: "#fff",
+        tileSize: 50,
+      };
 
-      expect(normalizeProps(mockInputs, defaultProps)).toEqual(expectOutput);
+      expect(normaliseInput(mockInputs, Truchet)).toEqual(expectOutput);
     });
 
     it("Custom props override defaults", () => {
@@ -25,7 +31,7 @@ describe("Truchet", () => {
         strokeStyle: "#f00",
       };
 
-      expect(normalizeProps(mockInputs, defaultProps)).toEqual(expectOutput);
+      expect(normaliseInput(mockInputs, Truchet)).toEqual(expectOutput);
     });
   });
 });

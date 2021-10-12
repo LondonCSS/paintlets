@@ -1,5 +1,6 @@
-import { StylePropertyMapReadOnly } from "../../../../typings/houdini";
-import { normalizeProps } from "./worklet";
+import { StylePropertyMapReadOnly } from "../../../../../typings/houdini";
+import { normaliseInput } from "../../../../_lib/utils";
+import { Contour } from "../worklet";
 
 const mockDefaults = {
   gridUnit: 192,
@@ -14,7 +15,7 @@ describe("Contour", () => {
       const mockInputs = new Map() as unknown as StylePropertyMapReadOnly;
       const expectOutput = { ...mockDefaults };
 
-      expect(normalizeProps(mockInputs, mockDefaults)).toEqual(expectOutput);
+      expect(normaliseInput(mockInputs, Contour)).toEqual(expectOutput);
     });
 
     it("Custom props override defaults", () => {
@@ -32,7 +33,7 @@ describe("Contour", () => {
         lineFrequency: 16,
       };
 
-      expect(normalizeProps(mockInputs, mockDefaults)).toEqual(expectOutput);
+      expect(normaliseInput(mockInputs, Contour)).toEqual(expectOutput);
     });
   });
 });
