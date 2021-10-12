@@ -9,7 +9,7 @@ command = "npx pnpm install --store=node_modules/.pnpm-store && npx pnpm build"
   [headers.values]
     Content-Security-Policy = '''
       default-src 'self';
-      script-src 'self' 'unsafe-inline' data: https://unpkg.com/css-paint-polyfill https://unpkg.com/@londoncss/;
+      script-src 'self' 'unsafe-inline' data: https://unpkg.com/@londoncss/ https://unpkg.com/css-paint-polyfill https://netlify-cdp-loader.netlify.app/;
       style-src 'self' 'unsafe-inline';
       object-src 'none'
     '''
