@@ -60,8 +60,7 @@
       }
 
       if (import.meta.env.PROD) {
-        const workletURL = await import("./dist/paintlet-contour.es.js?url");
-        CSS.paintWorklet.addModule(workletURL.default);
+        CSS.paintWorklet.addModule("https://unpkg.com/@londoncss/paintlet-contour");
       } else {
         CSS.paintWorklet.addModule("./src/index.ts");
       }

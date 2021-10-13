@@ -1,10 +1,13 @@
 {
   "name": "@londoncss/paintlet-hexo",
+  "version": "1.0.1",
   "description": "",
-  "version": "1.0.0",
   "author": "Oliver Turner",
   "keywords": [],
   "license": "ISC",
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "files": [
     "dist"

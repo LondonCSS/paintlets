@@ -80,8 +80,7 @@
       }
 
       if (import.meta.env.PROD) {
-        const workletURL = await import(`./dist/paintlet-hexo.es.js?url`);
-        CSS.paintWorklet.addModule(workletURL.default);
+        CSS.paintWorklet.addModule("https://unpkg.com/@londoncss/paintlet-hexo");
       } else {
         CSS.paintWorklet.addModule("./src/index.ts");
       }
