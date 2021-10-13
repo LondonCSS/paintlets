@@ -77,13 +77,22 @@ export function circleFactory(
   };
 }
 
-function getRiverIndex(r: number, rMin: number, rMax: number, isEven: boolean): number {
-  const i = Math.random() > 0.5 ? (isEven ? 1 : 0) : isEven ? 0 : -1;
-  const a = r + i;
+function getRiverIndexFn(cols: number): [number, (r: number, isEven: boolean) => number] {
+  const min = Math.ceil(cols * 0.25);
+  const max = Math.floor(cols * 0.75);
+  const riverCols = max - min;
+  const riverStart = Math.round(Math.random() * riverCols) + min;
 
-  if (a < rMin) return a + 1;
-  if (a > rMax) return a - 1;
-  return a;
+  function getRiverIndex(r: number, isEven: boolean): number {
+    const i = Math.random() > 0.5 ? (isEven ? 1 : 0) : isEven ? 0 : -1;
+    const a = r + i;
+
+    if (a < min) return a + 1;
+    if (a > max) return a - 1;
+    return a;
+  }
+
+  return [riverStart, getRiverIndex];
 }
 
 export class Seigaiha implements houdini.PaintCtor {
@@ -106,17 +115,14 @@ export class Seigaiha implements houdini.PaintCtor {
 
     const cols = Math.ceil(width / (radius * 2));
     const rows = 2 + Math.ceil((height * 2) / radius);
-    const riverMin = Math.ceil(cols * 0.25);
-    const riverMax = Math.floor(cols * 0.75);
-    const riverCols = riverMax - riverMin;
-    const riverStart = Math.round(Math.random() * riverCols) + riverMin;
+    const [riverStart, getRiverIndex] = getRiverIndexFn(cols);
 
     let riverIndex = riverStart;
     for (let j = 0; j < rows; j++) {
       const y = j * (radius / 2);
       const isEven = j % 2 === 0;
       const offset = isEven ? 0 : radius;
-      riverIndex = getRiverIndex(riverIndex, riverMin, riverMax, isEven);
+      riverIndex = getRiverIndex(riverIndex, isEven);
 
       for (let i = 0; i < cols; i++) {
         const x = i * diam + offset;
