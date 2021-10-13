@@ -5,17 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hexo - London CSS: Paintlets</title>
-    <link rel="stylesheet" href="../../_lib/styles.scss" />
+
     <style>
       .sample {
         --bg: #000;
         --bg-image: paint(hexo);
-        background-image: var(--bg-image);
+        /* background-image: var(--bg-image); */
       }
 
       .sample--1 {
         --bg: hsl(0, 0%, 10%);
         --fill: hsl(0, 0%, 50%, 0.5);
+        --cube-tints: #0003 #0006;
       }
 
       .sample--2 {
@@ -53,6 +54,7 @@
         --radius: 20;
         --gap: 10;
         --bg: black;
+        --cube-tints: #0003 #0006;
       }
     </style>
   </head>
@@ -70,6 +72,7 @@
     </div>
 
     <script type="module">
+      import("../../_lib/styles.scss");
       import "./demo.ts";
 
       if (CSS["paintWorklet"] === undefined) {

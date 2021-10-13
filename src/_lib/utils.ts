@@ -34,11 +34,11 @@ export const parsers = {
   },
 } as const;
 
-export function normaliseInput(
+export function normaliseInput<T>(
   rawProps: houdini.StylePropertyMapReadOnly,
   Paintlet: PaintletCls
-): Record<string, string | number | string[]> {
-  const testProps = {} as ReturnType<typeof normaliseInput>;
+): T {
+  const testProps = {} as T;
 
   for (const inputKey of Paintlet.inputProperties) {
     const { key, value, parseAs } = Paintlet.defaultProperties[inputKey];

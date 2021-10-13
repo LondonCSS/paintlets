@@ -3,16 +3,28 @@ import SimplexNoise from "simplex-noise";
 import * as houdini from "../../../../typings/houdini";
 import { normaliseInput } from "../../../_lib/utils";
 
-type FillProps = { h: string; s: string; l: string; a: string };
+interface FillProps {
+  h: string;
+  s: string;
+  l: string;
+  a: string;
+}
 
-type PaintletProps = {
+interface PaintletProps {
   style: string;
   radius: number;
   gap: number;
   fill: string;
   strokeWidth: number;
   strokeColour: string;
-};
+  cubeTints: [string, string];
+}
+
+interface HexProps {
+  x: number;
+  y: number;
+  rad: number;
+}
 
 export const defaultProps = {
   "--style": {
@@ -45,9 +57,13 @@ export const defaultProps = {
     value: "#fff",
     parseAs: "string",
   },
+  "--cube-tints": {
+    key: "cubeTints",
+    parseAs: "colours",
+  },
 };
 
-const a = (2 * Math.PI) / 6;
+const ANGLE = (2 * Math.PI) / 6;
 
 const hslRegex = /hsla?\((\d{1,3}),\s*(\d{1,3})%,\s*(\d{1,3})%,?\s?(\d*\.?\d+)?\)/g;
 
@@ -58,14 +74,32 @@ function parseFill(fill: string): FillProps | undefined {
   }
 }
 
-function drawHex(x: number, y: number, rad: number) {
+function getHexPath({ x, y, rad }: HexProps) {
   const path = new Path2D();
   for (let i = 0; i < 6; i++) {
-    path.lineTo(x + rad * Math.cos(a * i), y + rad * Math.sin(a * i));
+    path.lineTo(x + rad * Math.cos(ANGLE * i), y + rad * Math.sin(ANGLE * i));
   }
   path.closePath();
 
   return path;
+}
+
+function getCubePaths({ x, y, rad }: HexProps): [Path2D, Path2D] {
+  const leftFace = new Path2D();
+  leftFace.lineTo(x + rad * Math.cos(ANGLE * 5), y + rad * Math.sin(ANGLE * 5));
+  leftFace.lineTo(x + rad * Math.cos(ANGLE * 4), y + rad * Math.sin(ANGLE * 4));
+  leftFace.lineTo(x + rad * Math.cos(ANGLE * 3), y + rad * Math.sin(ANGLE * 3));
+  leftFace.lineTo(x, y);
+  leftFace.closePath();
+
+  const rightFace = new Path2D();
+  rightFace.lineTo(x + rad * Math.cos(ANGLE * 1), y + rad * Math.sin(ANGLE * 1));
+  rightFace.lineTo(x + rad * Math.cos(ANGLE * 2), y + rad * Math.sin(ANGLE * 2));
+  rightFace.lineTo(x + rad * Math.cos(ANGLE * 3), y + rad * Math.sin(ANGLE * 3));
+  rightFace.lineTo(x, y);
+  rightFace.closePath();
+
+  return [leftFace, rightFace];
 }
 
 /**
@@ -73,7 +107,7 @@ function drawHex(x: number, y: number, rad: number) {
  */
 function rainbow(n: number) {
   const h = Math.floor((300 * (n - 1)) / 2);
-  const hsl = `hsl(${h}, 40%, 65%)`;
+  const hsl = `hsl(${h}, 50%, 70%)`;
   return hsl;
 }
 
@@ -100,7 +134,7 @@ function overlay(n: number, fillProps?: FillProps) {
 
 function drawPathFn(
   ctx: houdini.PaintRenderingContext2D,
-  { style, fill, strokeWidth }: DefaultProps
+  { style, fill, strokeWidth }: PaintletProps
 ) {
   let fillProps: FillProps | undefined;
   if (fill.length) fillProps = parseFill(fill);
@@ -141,6 +175,18 @@ function drawPathFn(
   };
 }
 
+function drawCubeFaces(
+  [leftFace, rightFace]: [Path2D, Path2D],
+  [leftFill, rightFill]: [string, string],
+  ctx: houdini.PaintRenderingContext2D
+) {
+  ctx.fillStyle = leftFill;
+  ctx.fill(leftFace);
+
+  ctx.fillStyle = rightFill;
+  ctx.fill(rightFace);
+}
+
 // TODO: allow "pointy" mode
 export class Hexo implements houdini.PaintCtor {
   public static defaultProperties = defaultProps;
@@ -151,14 +197,14 @@ export class Hexo implements houdini.PaintCtor {
     { width, height }: houdini.PaintSize,
     rawProps: houdini.StylePropertyMapReadOnly
   ): void {
-    const props = normaliseInput(rawProps, Hexo) as PaintletProps;
+    const props = normaliseInput<PaintletProps>(rawProps, Hexo);
     const drawPath = drawPathFn(ctx, props);
 
-    const { radius: r, gap, strokeWidth, strokeColour } = props;
+    const { radius: r, gap, strokeWidth, strokeColour, cubeTints } = props;
     const noise = new SimplexNoise();
     const scale = 0.002; // TODO make this configurable
 
-    const rMin = r * Math.sin(a);
+    const rMin = r * Math.sin(ANGLE);
     const rowH = rMin * 2;
     const colW = r * 1.5;
     const rowNum = 1 + Math.ceil(height / rowH);
@@ -173,10 +219,20 @@ export class Hexo implements houdini.PaintCtor {
       for (let j = 0; j < colNum; j++) {
         const x = j * colW;
         const yOff = j % 2 === 0 ? 0 : rMin;
+        const hexProps = {
+          x,
+          y: y + yOff,
+          rad: r - gap,
+        };
 
-        const path = drawHex(x, y + yOff, r - gap);
+        const hexPath = getHexPath(hexProps);
         const n = noise.noise2D(scale * x, scale * y) + 1;
-        drawPath(path, n);
+        drawPath(hexPath, n);
+
+        if (cubeTints) {
+          const cubePaths = getCubePaths(hexProps);
+          drawCubeFaces(cubePaths, cubeTints, ctx);
+        }
       }
     }
   }
