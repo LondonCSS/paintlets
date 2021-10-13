@@ -11,7 +11,8 @@ command = "npx pnpm install --store=node_modules/.pnpm-store && npx pnpm build"
       default-src 'self';
       script-src 'self' 'unsafe-inline' data: https://unpkg.com/@londoncss/ https://unpkg.com/css-paint-polyfill https://*.netlify.app/;
       style-src 'self' 'unsafe-inline';
-      object-src 'none'
+      object-src 'none';
+      frame-src https://*.netlify.app/;
     '''
     Feature-Policy = "fullscreen 'self'"
     Referrer-Policy = "same-origin"
