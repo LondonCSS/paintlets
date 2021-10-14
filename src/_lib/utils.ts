@@ -1,20 +1,20 @@
 import * as houdini from "../../typings/houdini";
 
 // TODO extract into typings
-interface DefaultProp {
+interface PaintletProp {
   key: string;
   value: string | number | string[];
   parseAs: ParserKey;
 }
 class PaintletCls {
   static inputProperties: string[];
-  static defaultProperties: Record<string, DefaultProp>;
+  static defaultProperties: Record<string, PaintletProp>;
 }
 
 export type ParserKey = keyof typeof parsers;
 
-export function convertPropsToObject(props: Record<string, DefaultProp>) {
-  const obj: Record<string, DefaultProp["value"]> = {};
+export function convertPropsToObject(props: Record<string, PaintletProp>) {
+  const obj: Record<string, PaintletProp["value"]> = {};
   for (const val of Object.values(props)) {
     obj[val.key] = val.value;
   }
@@ -27,29 +27,32 @@ export const parsers = {
   float: (str: string): number => parseFloat(str),
   string: (str: string): string => str,
   colours: (str: string): string[] => {
-    // Split colour lists on spaces
-    // Use a negative lookbehind to target spaces that aren't preceded by a comma
-    // e.g. "hsl(100, 100%, 50%) hsl(200, 50%, 25%)" is only 2 values
-    return str?.split(/(?<!,)\s/gi);
+    try {
+      // Split colour lists on spaces
+      // Use a negative lookbehind to target spaces that aren't preceded by a comma
+      // e.g. "hsl(100, 100%, 50%) hsl(200, 50%, 25%)" is only 2 values
+      const regex = /(?<!,)\s/gi;
+      return str?.split(regex);
+    } catch (err) {
+      // Safari doesn't support negative lookbehind
+      return str?.replaceAll(/,\s/g, ",").split(" ");
+    }
   },
 } as const;
 
-export function normaliseInput<T>(
-  rawProps: houdini.StylePropertyMapReadOnly,
-  Paintlet: PaintletCls
-): T {
-  const testProps = {} as T;
+export function normaliseInput(rawProps: houdini.StylePropertyMapReadOnly, Paintlet: PaintletCls) {
+  const props = {} as Record<string, PaintletProp["value"]>;
 
   for (const inputKey of Paintlet.inputProperties) {
-    const { key, value, parseAs } = Paintlet.defaultProperties[inputKey];
+    const { key, value, parseAs } = Paintlet.defaultProperties[inputKey] as PaintletProp;
     const parse = parsers[parseAs as ParserKey];
     if (rawProps.has(inputKey)) {
       const val = rawProps.get(inputKey)?.toString().trim() || "";
-      testProps[key] = val?.length > 0 ? parse(val) : value;
+      props[key] = val?.length > 0 ? parse(val) : value;
     } else {
-      testProps[key] = value;
+      props[key] = value;
     }
   }
 
-  return testProps;
+  return props;
 }

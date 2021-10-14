@@ -13,6 +13,9 @@ function applyClasses({ li, demo, classes }: Props) {
   }
 }
 
+/**
+ * Apply .sample classes to the .sample__demo element on hover
+ */
 export function demoSampleOnHover(): void {
   const demo = document.querySelector(".sample__demo") as HTMLElement;
   const li = document.querySelector(".sample__nav li") as HTMLElement;

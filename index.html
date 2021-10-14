@@ -15,7 +15,6 @@
     <meta name="msapplication-TileColor" content="#da532c" />
     <meta name="theme-color" content="#ffffff" />
 
-    <link rel="stylesheet" href="./src/_lib/styles.scss" />
     <style>
       :root {
         --bg: #222;
@@ -66,22 +65,18 @@
     </ul>
 
     <script type="module">
+      import "./src/_lib/styles.scss";
+
       if (CSS["paintWorklet"] === undefined) {
         await import("https://unpkg.com/css-paint-polyfill");
       }
 
       if (import.meta.env.PROD) {
         try {
-          const worklets = await Promise.all([
-            import("./src/paintlets/contour/dist/paintlet-contour.es.js?url"),
-            import("./src/paintlets/seigaiha/dist/paintlet-seigaiha.es.js?url"),
-            import("./src/paintlets/truchet/dist/paintlet-truchet.es.js?url"),
-            import("./src/paintlets/hexo/dist/paintlet-hexo.es.js?url"),
-          ]);
-
-          for (const worklet of worklets) {
-            CSS.paintWorklet.addModule(worklet.default);
-          }
+          CSS.paintWorklet.addModule("https://unpkg.com/@londoncss/paintlet-contour?url");
+          CSS.paintWorklet.addModule("https://unpkg.com/@londoncss/paintlet-seigaiha?url");
+          CSS.paintWorklet.addModule("https://unpkg.com/@londoncss/paintlet-truchet?url");
+          CSS.paintWorklet.addModule("https://unpkg.com/@londoncss/paintlet-hexo?url");
         } catch (error) {
           console.error(error);
         }
