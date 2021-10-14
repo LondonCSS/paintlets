@@ -34,5 +34,6 @@ export function demoSampleOnHover(): void {
     applyClasses({ li, demo, classes });
   });
 
+  // Auto select the first example on load
   applyClasses({ li, demo, classes });
 }
