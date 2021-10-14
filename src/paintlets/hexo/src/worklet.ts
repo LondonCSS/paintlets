@@ -17,7 +17,7 @@ interface PaintletProps {
   fill: string;
   strokeWidth: number;
   strokeColour: string;
-  cubeTints: [string, string];
+  cubeTints: [string, string, string];
 }
 
 interface HexProps {
@@ -61,6 +61,11 @@ export const defaultProps = {
     key: "cubeTints",
     parseAs: "colours",
   },
+  "--scale": {
+    key: "scale",
+    value: 0.001,
+    parseAs: "float",
+  },
 };
 
 const ANGLE = (2 * Math.PI) / 6;
@@ -84,22 +89,29 @@ function getHexPath({ x, y, rad }: HexProps) {
   return path;
 }
 
-function getCubePaths({ x, y, rad }: HexProps): [Path2D, Path2D] {
+function getCubeFaces({ x, y, rad }: HexProps): [Path2D, Path2D, Path2D] {
   const leftFace = new Path2D();
-  leftFace.lineTo(x + rad * Math.cos(ANGLE * 5), y + rad * Math.sin(ANGLE * 5));
-  leftFace.lineTo(x + rad * Math.cos(ANGLE * 4), y + rad * Math.sin(ANGLE * 4));
   leftFace.lineTo(x + rad * Math.cos(ANGLE * 3), y + rad * Math.sin(ANGLE * 3));
+  leftFace.lineTo(x + rad * Math.cos(ANGLE * 4), y + rad * Math.sin(ANGLE * 4));
+  leftFace.lineTo(x + rad * Math.cos(ANGLE * 5), y + rad * Math.sin(ANGLE * 5));
   leftFace.lineTo(x, y);
   leftFace.closePath();
 
+  const topFace = new Path2D();
+  topFace.lineTo(x + rad * Math.cos(ANGLE * 1), y + rad * Math.sin(ANGLE * 1));
+  topFace.lineTo(x + rad * Math.cos(ANGLE * 2), y + rad * Math.sin(ANGLE * 2));
+  topFace.lineTo(x + rad * Math.cos(ANGLE * 3), y + rad * Math.sin(ANGLE * 3));
+  topFace.lineTo(x, y);
+  topFace.closePath();
+
   const rightFace = new Path2D();
+  rightFace.lineTo(x + rad * Math.cos(ANGLE * 5), y + rad * Math.sin(ANGLE * 5));
+  rightFace.lineTo(x + rad * Math.cos(ANGLE * 0), y + rad * Math.sin(ANGLE * 0));
   rightFace.lineTo(x + rad * Math.cos(ANGLE * 1), y + rad * Math.sin(ANGLE * 1));
-  rightFace.lineTo(x + rad * Math.cos(ANGLE * 2), y + rad * Math.sin(ANGLE * 2));
-  rightFace.lineTo(x + rad * Math.cos(ANGLE * 3), y + rad * Math.sin(ANGLE * 3));
   rightFace.lineTo(x, y);
   rightFace.closePath();
 
-  return [leftFace, rightFace];
+  return [leftFace, topFace, rightFace];
 }
 
 /**
@@ -176,10 +188,13 @@ function drawPathFn(
 }
 
 function drawCubeFaces(
-  [leftFace, rightFace]: [Path2D, Path2D],
-  [leftFill, rightFill]: [string, string],
+  [leftFace, rightFace, topFace]: [Path2D, Path2D, Path2D],
+  [leftFill, rightFill, topFill]: [string, string, string],
   ctx: houdini.PaintRenderingContext2D
 ) {
+  ctx.fillStyle = topFill;
+  ctx.fill(topFace);
+
   ctx.fillStyle = leftFill;
   ctx.fill(leftFace);
 
@@ -197,12 +212,12 @@ export class Hexo implements houdini.PaintCtor {
     { width, height }: houdini.PaintSize,
     rawProps: houdini.StylePropertyMapReadOnly
   ): void {
-    const props = normaliseInput<PaintletProps>(rawProps, Hexo);
+    // TODO make normaliseInput generic
+    const props = normaliseInput(rawProps, Hexo) as PaintletProps;
     const drawPath = drawPathFn(ctx, props);
 
-    const { radius: r, gap, strokeWidth, strokeColour, cubeTints } = props;
+    const { radius: r, gap, strokeWidth, strokeColour, cubeTints, scale } = props;
     const noise = new SimplexNoise();
-    const scale = 0.002; // TODO make this configurable
 
     const rMin = r * Math.sin(ANGLE);
     const rowH = rMin * 2;
@@ -230,7 +245,7 @@ export class Hexo implements houdini.PaintCtor {
         drawPath(hexPath, n);
 
         if (cubeTints) {
-          const cubePaths = getCubePaths(hexProps);
+          const cubePaths = getCubeFaces(hexProps);
           drawCubeFaces(cubePaths, cubeTints, ctx);
         }
       }
