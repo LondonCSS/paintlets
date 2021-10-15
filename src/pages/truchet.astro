@@ -1,0 +1,34 @@
+---
+import BaseLayout from "../layouts/base.astro";
+import Samples from "$components/samples";
+import PaintletLoader from "$components/paintlet-loader.astro";
+
+const title = 'Truchet';
+---
+
+<style lang="scss" global>
+.truchet--1 {
+  --stroke-width: 3;
+  --stroke-colour: gold;
+  --bg-image: paint(truchet), linear-gradient(to bottom, #eecda3, #ef629f);
+}
+
+.truchet--2 {
+  --tile-size: 20;
+  --stroke-width: 1;
+  --stroke-colour: #fff5;
+  --bg-image: paint(truchet), linear-gradient(to top, #000, #4286f4);
+}
+
+.truchet--3 {
+  --tile-size: 30;
+  --stroke-width: 0.5;
+  --stroke-colour: #ec38bc88;
+  --bg-image: paint(truchet), linear-gradient(to top, #ec38bc, #7303c0, #03001e); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+</style>
+
+<BaseLayout title={title}>
+  <Samples paintlet="truchet" samples="3" />
+  <PaintletLoader paintlet="truchet" />
+</BaseLayout>

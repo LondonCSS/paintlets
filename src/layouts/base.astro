@@ -1,0 +1,61 @@
+---
+import "../styles/main.scss";
+
+const defaults = {
+  title: "London CSS: Paintlets"
+}
+
+const { title = defaults.title } = Astro.props
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <title>{title}</title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
+  </head>
+  <body>
+    <header class="header title">
+      <a href="/"><h1 class="header__title">{defaults.title}</h1></a>
+      <nav class="header__nav">
+        <a href="/contour/">Contour</a>
+        <a href="/hexo/">Hexo</a>
+        <a href="/seigaiha/">Seigaiha</a>
+        <a href="/truchet/">Truchet</a>
+      </nav>
+    </header>
+    <slot />
+  </body>
+</html>
+
+<style lang="scss">
+.header {
+  display: flex;
+  justify-content: space-between;
+
+  padding: 0.5rem;
+
+  & a {
+    text-decoration: none;
+  }
+}
+
+.header__nav {
+  display: flex;
+  gap: 1rem;
+  font-size: small;
+}
+
+.header__title {
+  margin: 0;
+  font-size: 1rem;
+}
+</style>
