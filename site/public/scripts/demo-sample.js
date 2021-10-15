@@ -1,10 +1,4 @@
-type Props = {
-  li: HTMLElement | null;
-  demo: HTMLElement | null;
-  classes: Set<string>;
-};
-
-function applyClasses({ li, demo, classes }: Props) {
+function applyClasses({ li, demo, classes }) {
   if (li && demo) {
     demo.classList.remove(...classes);
     for (const cls of li.classList.values()) {
@@ -16,11 +10,11 @@ function applyClasses({ li, demo, classes }: Props) {
 /**
  * Apply .sample classes to the .sample__demo element on hover
  */
-export function demoSampleOnHover(): void {
-  const demo = document.querySelector(".sample__demo") as HTMLElement;
-  const li = document.querySelector(".sample__nav li") as HTMLElement;
+export function demoSampleOnHover() {
+  const demo = document.querySelector(".sample__demo");
+  const li = document.querySelector(".sample__nav li");
   const lis = document.querySelectorAll(".sample__nav li");
-  const classes: Set<string> = new Set();
+  const classes = new Set();
 
   for (const li of lis) {
     for (const cls of li.classList.values()) {
@@ -29,7 +23,7 @@ export function demoSampleOnHover(): void {
   }
 
   document.addEventListener("mouseover", (event) => {
-    const el = event.target as HTMLElement;
+    const el = event.target;
     const li = el?.closest("li");
     applyClasses({ li, demo, classes });
   });
@@ -37,3 +31,5 @@ export function demoSampleOnHover(): void {
   // Auto select the first example on load
   applyClasses({ li, demo, classes });
 }
+
+demoSampleOnHover();

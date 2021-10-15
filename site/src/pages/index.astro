@@ -1,0 +1,65 @@
+---
+// Component Imports
+import BaseLayout from '../layouts/base.astro'
+---
+<style>
+  :root {
+    --bg: #222;
+
+    /* TODO namespace variables! */
+    --stroke-width: 1;
+    --stroke-colour: #fff6;
+    --line-width: 0.5;
+    --line-colour: #fff6;
+  }
+
+  .home {
+    height: 100vh;
+  }
+
+  .contour {
+    /* TODO make these defaults for "contour" */
+    --grid-unit: 64;
+    --line-frequency: 16;
+  }
+
+  .seigaiha {
+    /* --bg is inherited */
+  }
+
+  .truchet {
+    /* TODO make "seigaiha" inherit colours? */
+    /* TODO Allow a single colour */
+    --tile-size: 30;
+  }
+
+  .hexo {
+    /* TODO vary --radius */
+    --gap: 5;
+  }
+</style>
+
+<BaseLayout>
+<div class="home">
+  <ul class="index">
+    <li class="index__item contour">
+      <a href="/contour/"><span>Contour</span></a>
+    </li>
+    <li class="index__item seigaiha">
+      <a href="/seigaiha/"><span>Seigaiha</span></a>
+    </li>
+    <li class="index__item truchet">
+      <a href="/truchet/"><span>Truchet</span></a>
+    </li>
+    <li class="index__item hexo">
+      <a href="/hexo/"><span>Hexo</span></a>
+    </li>
+  </ul>
+</div>
+  <script>
+    CSS.paintWorklet.addModule("https://unpkg.com/@londoncss/paintlet-contour");
+    CSS.paintWorklet.addModule("https://unpkg.com/@londoncss/paintlet-hexo");
+    CSS.paintWorklet.addModule("https://unpkg.com/@londoncss/paintlet-seigaiha");
+    CSS.paintWorklet.addModule("https://unpkg.com/@londoncss/paintlet-truchet");
+  </script>
+</BaseLayout>

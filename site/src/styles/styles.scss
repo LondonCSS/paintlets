@@ -17,6 +17,14 @@ a {
 }
 
 .home {
+  --bg: #222;
+
+  /* TODO namespace variables! */
+  --stroke-width: 1;
+  --stroke-colour: #fff6;
+  --line-width: 0.5;
+  --line-colour: #fff6;
+
   display: grid;
   place-content: center;
 }

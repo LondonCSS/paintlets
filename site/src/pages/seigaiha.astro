@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../layouts/base.astro'
+---
+
+<style lang="scss">
+  .samples {
+    --wh: 360px;
+    --radius: 55;
+  }
+
+  .sample {
+    --bg-image: paint(seigaiha);
+  }
+
+  .sample--1 {
+    --radius: 55;
+  }
+
+  .sample--2 {
+    --rings: 4;
+    --stroke-width: 8;
+    --stroke-colour: #222 ;
+    --bg: #111;
+  }
+
+  .sample--3 {
+    --rings: 8;
+    --radius: 70;
+    --bg: hsl(200deg, 50%, 30%);
+    --stroke-width: 2;
+    --stroke-colour: hsl(200deg, 50%, 40%);
+  }
+
+  .sample__demo.sample--1 {
+    --river: hsl(200deg, 60%, 20%);
+  }
+
+  .sample__demo.sample--2 {
+    --river: hsl(200deg, 60%, 45%);
+  }
+
+  .sample__demo.sample--3 {
+    --river: hsl(200deg, 70%, 20%);
+  }
+</style>
+
+<BaseLayout>
+  <div class="samples">
+    <ul class="sample__nav">
+      <li class="sample sample--1"></li>
+      <li class="sample sample--2"></li>
+      <li class="sample sample--3"></li>
+    </ul>
+    <div class="sample__demo"></div>
+  </div>
+
+  <script type="module">
+    import "/scripts/demo-sample.js";
+    CSS.paintWorklet.addModule("https://unpkg.com/@londoncss/paintlet-seigaiha");
+  </script>
+</BaseLayout>

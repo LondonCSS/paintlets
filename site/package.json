@@ -1,0 +1,16 @@
+{
+  "name": "@example/framework-svelte",
+  "version": "0.0.1",
+  "private": true,
+  "devDependencies": {
+    "astro": "^0.20.12",
+    "sass": "1.43.2",
+    "typescript": "4.4.4"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  }
+}
