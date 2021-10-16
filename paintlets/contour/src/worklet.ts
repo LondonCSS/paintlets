@@ -12,6 +12,7 @@ import { clipPolylinesToBox } from "canvas-sketch-util/geometry";
 import { isoBands } from "marchingsquares";
 
 type PaintletProps = {
+  seed: number;
   gridUnit: number;
   lineColour: string;
   lineWidth: number;
@@ -19,6 +20,11 @@ type PaintletProps = {
 };
 
 export const defaultProps = {
+  "--seed": {
+    key: "seed",
+    value: Math.floor(Math.random() * 100),
+    parseAs: "number",
+  },
   "--grid-unit": {
     key: "gridUnit",
     value: 192,
@@ -99,8 +105,8 @@ export class Contour implements houdini.PaintCtor {
     rawProps: houdini.StylePropertyMapReadOnly
   ): void {
     const props = normaliseInput(rawProps, Contour) as PaintletProps;
-    const { gridUnit, lineWidth, lineFrequency, lineColour } = props;
-    const simplex = new SimplexNoise();
+    const { gridUnit, lineWidth, lineFrequency, lineColour, seed } = props;
+    const simplex = new SimplexNoise(seed);
 
     const intervals = linspace(lineFrequency, gridUnit);
     const drawIsoLines = getIsoLineFn(intervals, gridUnit, [width, height]);

@@ -1,6 +1,6 @@
 import SimplexNoise from "simplex-noise";
 
-import * as houdini from "../../../../typings/houdini";
+import * as houdini from "../../../typings/houdini";
 import { normaliseInput } from "../../../lib/utils";
 
 interface FillProps {
@@ -13,6 +13,7 @@ interface FillProps {
 interface PaintletProps {
   style: string;
   seed: number;
+  scale: number;
   radius: number;
   gap: number;
   fill: string;
@@ -222,8 +223,8 @@ export class Hexo implements houdini.PaintCtor {
     const props = normaliseInput(rawProps, Hexo) as PaintletProps;
     const drawPath = drawPathFn(ctx, props);
 
-    const { radius: r, gap, strokeWidth, strokeColour, cubeTints, scale } = props;
-    const noise = new SimplexNoise();
+    const { radius: r, gap, strokeWidth, strokeColour, cubeTints, scale, seed } = props;
+    const noise = new SimplexNoise(seed);
 
     const rMin = r * Math.sin(ANGLE);
     const rowH = rMin * 2;

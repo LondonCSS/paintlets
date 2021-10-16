@@ -14,21 +14,25 @@ const title = 'Contour';
   }
 
   .sample--1 {
+    --seed: 1;
     --bg-image: paint(contour), linear-gradient(to top, cornflowerblue, hotpink);
   }
 
   .sample--2 {
+    --seed: 2;
     --line-colour: #0001;
     --bg-image: paint(contour), linear-gradient(to right, gold, mediumseagreen);
   }
 
   .sample--3 {
+    --seed: 3;
     --line-width: 1;
     --line-colour: #ffd70088;
     --bg-image: paint(contour), linear-gradient(to top left, red, orange);
   }
 
   .sample--4 {
+    --seed: 4;
     --bg: #222;
   }
 
@@ -51,5 +55,6 @@ const title = 'Contour';
   <script type="module">
     import "/scripts/demo-sample.js";
     CSS.paintWorklet.addModule("https://unpkg.com/@londoncss/paintlet-contour");
+    // CSS.paintWorklet.addModule({path});
   </script>
 </BaseLayout>
