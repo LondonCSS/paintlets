@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../layouts/base.astro';
+const title = 'Contour';
+---
+
+<style>
+  .sample {
+    --grid-unit: 128;
+    --line-width: 1;
+    --line-frequency: 12;
+    --line-colour: #fff2;
+    --bg: #000;
+    --bg-image: paint(contour);
+  }
+
+  .sample--1 {
+    --seed: 1;
+    --bg-image: paint(contour), linear-gradient(to top, cornflowerblue, hotpink);
+  }
+
+  .sample--2 {
+    --seed: 2;
+    --line-colour: #0001;
+    --bg-image: paint(contour), linear-gradient(to right, gold, mediumseagreen);
+  }
+
+  .sample--3 {
+    --seed: 3;
+    --line-width: 1;
+    --line-colour: #ffd70088;
+    --bg-image: paint(contour), linear-gradient(to top left, red, orange);
+  }
+
+  .sample--4 {
+    --seed: 4;
+    --bg: #222;
+  }
+
+  .sample__demo {
+    --line-frequency: 24;
+  }
+</style>
+
+<BaseLayout title={title}>
+  <div class="samples">
+    <ul class="sample__nav">
+      <li class="sample sample--4"></li>
+      <li class="sample sample--1"></li>
+      <li class="sample sample--2"></li>
+      <li class="sample sample--3"></li>
+    </ul>
+    <div class="sample__demo"></div>
+  </div>
+
+  <script type="module">
+    import "/scripts/demo-sample.js";
+    CSS.paintWorklet.addModule("https://unpkg.com/@londoncss/paintlet-contour");
+    // CSS.paintWorklet.addModule({path});
+  </script>
+</BaseLayout>
