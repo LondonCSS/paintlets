@@ -31,7 +31,7 @@
     "lint:js": "eslint ./paintlets",
     "lint:types": "tsc",
     "prebuild": "[[ $CI = true ]] && npx pnpm@6 install -r --store=node_modules/.pnpm-store || echo skipping pnpm install",
-    "build": "pnpm run -r build && astro build",
+    "build": "pnpm run -r build && astro build || true",
     "test": "jest",
     "dev": "astro dev",
     "start": "astro dev",
