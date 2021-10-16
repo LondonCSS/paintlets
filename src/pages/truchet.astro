@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../layouts/base.astro'
+const title = 'Truchet';
+---
+
+<style>
+.sample--1 {
+  --stroke-width: 1;
+  --stroke-colour: gold;
+  --bg-image: paint(truchet), linear-gradient(to bottom, #eecda3, #ef629f);
+}
+
+.sample--2 {
+  --tile-size: 20;
+  --stroke-width: 1;
+  --stroke-colour: #fff5;
+  --bg-image: paint(truchet), linear-gradient(to top, #373b44, #4286f4);
+}
+
+.sample--3 {
+  --tile-size: 30;
+  --stroke-width: 0.5;
+  --stroke-colour: #ec38bc88;
+  --bg-image: paint(truchet), linear-gradient(to top, #ec38bc, #7303c0, #03001e); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+</style>
+
+<BaseLayout title={title}>
+  <div class="samples">
+    <ul class="sample__nav">
+      <li class="sample sample--1"></li>
+      <li class="sample sample--2"></li>
+      <li class="sample sample--3"></li>
+    </ul>
+    <div class="sample__demo"></div>
+  </div>
+
+  <script type="module">
+    import "/scripts/demo-sample.js";
+    CSS.paintWorklet.addModule("https://unpkg.com/@londoncss/paintlet-truchet");
+  </script>
+</BaseLayout>

@@ -1,0 +1,104 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --wh: 200px;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+}
+
+a {
+  color: inherit;
+}
+
+.home {
+  display: grid;
+  place-content: center;
+}
+
+.index {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--wh), 1fr));
+  place-content: center;
+  gap: 1rem;
+
+  width: 70vw;
+  margin: 0;
+  padding: 1rem;
+  list-style: none;
+}
+
+.index__item {
+  overflow: hidden;
+  border-radius: 1rem;
+  aspect-ratio: 1;
+  background-color: var(--bg);
+
+  a {
+    display: grid;
+    align-items: flex-end;
+
+    width: 100%;
+    aspect-ratio: 1;
+    text-decoration: none;
+  }
+
+  span {
+    padding: 0.5rem;
+    text-transform: lowercase;
+    letter-spacing: 2px;
+    font-variant: small-caps;
+    background: #fffd;
+    color: #000;
+  }
+}
+
+.samples {
+  --nav-w: 200px;
+
+  display: grid;
+  grid-template-columns: var(--nav-w) 1fr;
+
+  height: 100vh;
+  background-color: #111;
+}
+
+.sample__nav {
+  display: grid;
+  gap: 1rem;
+
+  margin: 0;
+  padding: 1rem;
+  list-style: none;
+  background-color: #000;
+}
+
+.index__item,
+.sample {
+  overflow: hidden;
+  border-radius: 0.5rem;
+
+  background-image: var(--bg-image);
+  background-color: var(--bg);
+}
+
+.contour {
+  --bg-image: paint(contour);
+}
+
+.seigaiha {
+  --bg-image: paint(seigaiha);
+}
+
+.truchet {
+  --bg-image: paint(truchet);
+}
+
+.hexo {
+  --bg-image: paint(hexo);
+}
