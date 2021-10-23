@@ -1,15 +1,8 @@
-import * as houdini from "../../../../typings/houdini";
-
-import { normaliseInput } from "../../../lib/utils";
+import * as houdini from "../../../typings/houdini";
 
 type Area = [number, number];
 type Point = [number, number];
 type PolyLine = Point[];
-
-import SimplexNoise from "simplex-noise";
-import { mapRange, linspace } from "canvas-sketch-util/math";
-import { clipPolylinesToBox } from "canvas-sketch-util/geometry";
-import { isoBands } from "marchingsquares";
 
 type PaintletProps = {
   seed: number;
@@ -19,33 +12,13 @@ type PaintletProps = {
   lineFrequency: number;
 };
 
-export const defaultProps = {
-  "--seed": {
-    key: "seed",
-    value: Math.floor(Math.random() * 100),
-    parseAs: "number",
-  },
-  "--grid-unit": {
-    key: "gridUnit",
-    value: 192,
-    parseAs: "int",
-  },
-  "--line-colour": {
-    key: "lineColour",
-    value: "#fff",
-    parseAs: "string",
-  },
-  "--line-width": {
-    key: "lineWidth",
-    value: 0.1,
-    parseAs: "float",
-  },
-  "--line-frequency": {
-    key: "lineFrequency",
-    value: 12,
-    parseAs: "int",
-  },
-} as const;
+import SimplexNoise from "simplex-noise";
+import { mapRange, linspace } from "canvas-sketch-util/math";
+import { clipPolylinesToBox } from "canvas-sketch-util/geometry";
+import { isoBands } from "marchingsquares";
+
+import { normaliseInput } from "../../../lib/utils";
+import { defaultProps } from "./config";
 
 function drawShape([start, ...pts]: PolyLine) {
   return [start, ...pts, start];

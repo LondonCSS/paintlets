@@ -28,52 +28,7 @@ interface HexProps {
   rad: number;
 }
 
-export const defaultProps = {
-  "--style": {
-    key: "style",
-    value: "overlay",
-    parseAs: "string",
-  },
-  "--seed": {
-    key: "seed",
-    value: Math.floor(Math.random() * 100),
-    parseAs: "number",
-  },
-  "--radius": {
-    key: "radius",
-    value: 16,
-    parseAs: "int",
-  },
-  "--gap": {
-    key: "gap",
-    value: 0,
-    parseAs: "float",
-  },
-  "--fill": {
-    key: "fill",
-    value: "",
-    parseAs: "string",
-  },
-  "--stroke-width": {
-    key: "strokeWidth",
-    value: 0,
-    parseAs: "float",
-  },
-  "--stroke-colour": {
-    key: "strokeColour",
-    value: "#fff",
-    parseAs: "string",
-  },
-  "--cube-tints": {
-    key: "cubeTints",
-    parseAs: "colours",
-  },
-  "--scale": {
-    key: "scale",
-    value: 0.001,
-    parseAs: "float",
-  },
-};
+import { defaultProps } from "./config";
 
 const ANGLE = (2 * Math.PI) / 6;
 

@@ -87,6 +87,30 @@ a {
   background-color: var(--bg);
 }
 
+.sample__demo {
+  grid-area: 1/-1/-1/-2;
+}
+
+.sample__controls {
+  grid-area: 1/-1/-1/-2;
+  align-self: end;
+  justify-self: end;
+
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  align-items: center;
+  gap: 0.5rem;
+
+  margin: 1rem;
+  padding: 1rem;
+  color: #fff;
+  background: #000a;
+
+  & label {
+    text-align: right;
+  }
+}
+
 .contour {
   --bg-image: paint(contour);
 }

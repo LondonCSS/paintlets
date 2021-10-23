@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Seigaiha - London CSS: Paintlets</title>
 
-    <link rel="stylesheet" href="../../_lib/styles.scss" />
     <style lang="scss">
       .samples {
         --wh: 360px;
@@ -56,21 +55,24 @@
         <li class="sample sample--2"></li>
         <li class="sample sample--3"></li>
       </ul>
-      <div class="sample__demo"></div>
+      <div class="sample__demo" data-component="demo"></div>
+      <form class="sample__controls" data-component="controls"></form>
     </div>
 
     <script type="module">
-      import "./demo.ts";
+      import "../../lib/styles.scss";
+      import { applySampleStyles } from "../../lib/demo-sample";
+      import { makeControls } from "../../lib/demo-controls.ts";
+      import { defaultProps } from "./src/worklet";
 
-      if (CSS["paintWorklet"] === undefined) {
-        await import("https://unpkg.com/css-paint-polyfill");
-      }
+      const demoPanel = document.querySelector("[data-component='demo']");
+      const controlForm = document.querySelector("[data-component='controls']");
+      const samples = document.querySelectorAll(".sample__nav .sample");
 
-      if (import.meta.env.PROD) {
-        CSS.paintWorklet.addModule("https://unpkg.com/@londoncss/paintlet-seigaiha");
-      } else {
-        CSS.paintWorklet.addModule("./src/index.ts");
-      }
+      makeControls({ controlForm, demoPanel, defaultProps });
+      applySampleStyles({ demoPanel, samples });
+
+      CSS.paintWorklet.addModule("./src/index.ts");
     </script>
   </body>
 </html>

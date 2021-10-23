@@ -1,6 +1,7 @@
-import * as houdini from "../../../../typings/houdini";
+import * as houdini from "../../../typings/houdini";
 
 import { normaliseInput } from "../../../lib/utils";
+import { defaultProps } from "./config";
 
 const PI2 = Math.PI * 2;
 
@@ -11,38 +12,6 @@ type PaintletProps = {
   strokeColour: string;
   bg: string;
   river: string;
-};
-
-export const defaultProps = {
-  "--radius": {
-    key: "radius",
-    value: 55,
-    parseAs: "int",
-  },
-  "--rings": {
-    key: "ringNum",
-    value: 5,
-    parseAs: "int",
-  },
-  "--stroke-width": {
-    key: "strokeWidth",
-    value: 0.5,
-    parseAs: "float",
-  },
-  "--stroke-colour": {
-    key: "strokeColour",
-    value: "#b6b58e",
-    parseAs: "string",
-  },
-  "--bg": {
-    key: "bg",
-    value: "#0b605f",
-    parseAs: "string",
-  },
-  "--river": {
-    key: "river",
-    parseAs: "string",
-  },
 };
 
 export function makeCircle(x: number, y: number, radii: number[]): Path2D {

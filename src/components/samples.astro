@@ -10,6 +10,7 @@ const sampleArr = Array.from({length: samples}, (_, i) => i + 1);
     })}
   </ul>
   <div class="sample__demo"></div>
+  <form action="#" class="sample__controls"></form>
 </div>
 
 <style lang="scss">
@@ -43,11 +44,33 @@ const sampleArr = Array.from({length: samples}, (_, i) => i + 1);
 }
 
 .sample__demo {
+  grid-area: 1/-1/-1/-2;
+
   display: none;
   border-radius: 0;
 
   @media (min-width: 768px) {
     display: block;
+  }
+}
+
+.sample__controls {
+  grid-area: 1/-1/-1/-2;
+  align-self: end;
+  justify-self: end;
+
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  align-items: center;
+  gap: 0.5rem;
+
+  margin: 1rem;
+  padding: 1rem;
+  color: #fff;
+  background: #000a;
+
+  & label {
+    text-align: right;
   }
 }
 </style>

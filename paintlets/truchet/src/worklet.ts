@@ -1,36 +1,14 @@
-import * as houdini from "../../../../typings/houdini";
+import * as houdini from "../../../typings/houdini";
 import { PointXY, Tile, TileProps } from "../types";
 
 import { normaliseInput } from "../../../lib/utils";
+import { defaultProps } from "./config";
 
 type PaintletProps = {
   seed: number;
   tileSize: number;
   lineWidth: number;
   strokeStyle: string;
-};
-
-export const defaultProps = {
-  "--seed": {
-    key: "seed",
-    value: 1,
-    parseAs: "int",
-  },
-  "--tile-size": {
-    key: "tileSize",
-    value: 50,
-    parseAs: "int",
-  },
-  "--stroke-width": {
-    key: "lineWidth",
-    value: 1,
-    parseAs: "float",
-  },
-  "--stroke-colour": {
-    key: "strokeStyle",
-    value: "#fff",
-    parseAs: "string",
-  },
 };
 
 const K = (4 * (Math.sqrt(2) - 1)) / 3.0;
