@@ -20,8 +20,24 @@
     });
   }
 
+  function onControlsUpdate(event) {
+    const { name, value } = event.target;
+    demoStyle[name] = value;
+  }
+
+  function parseStyles(demoStyle) {
+    const styles = [];
+    for (const key in demoStyle) {
+      styles.push(`${key}: ${demoStyle[key]};`);
+    }
+    return styles.join(" ");
+  }
+
   let sampleClasses = getSampleClasses(sampleNum);
   let demoCls = "sample__demo " + sampleClasses[0];
+  let demoStyle = {};
+
+  $: styles = parseStyles(demoStyle);
 </script>
 
 <div class="samples">
@@ -30,8 +46,8 @@
       <li class={`sample ${sampleCls}`} on:mouseover={onSampleHover} on:focus={onSampleHover} />
     {/each}
   </ul>
-  <div class={demoCls}><slot /></div>
-  <Controls {config} />
+  <div class={demoCls} style={styles}><slot /></div>
+  <Controls {config} onInput={onControlsUpdate} />
 </div>
 
 <style lang="scss">

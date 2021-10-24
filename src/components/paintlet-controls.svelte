@@ -1,25 +1,25 @@
 <script>
   export let config;
+  export let onInput;
 
   function parseConfig(config) {
-    let controls = [];
-    for (const [k, v] of Object.entries(config)) {
-      if (v.controls?.type === "color") continue;
+    let _controls = [];
+    for (const [name, val] of Object.entries(config)) {
+      // TODO: support colour, options, etc
+      if (!val.controls) continue;
+      if (val?.controls?.type === "color") continue;
 
-      controls.push({
-        id: v.key,
-        name: k,
-        value: v.value,
-        controls: v.controls,
-      });
+      const { key: id, value, controls } = val;
+      _controls.push({ id, name, value, controls });
     }
-    return controls;
-  };
+
+    return _controls;
+  }
 
   $: controls = parseConfig(config);
 </script>
 
-<form action="#" class="sample__controls">
+<form action="#" class="sample__controls" on:input={onInput}>
   {#each controls as { id, name, value, controls }}
     <label for={id}>{name}</label>
     <input {id} {name} {value} {...controls} />
