@@ -27,16 +27,14 @@ export const parsers = {
   float: (str: string): number => parseFloat(str),
   string: (str: string): string => str,
   colours: (str: string): string[] => {
-    try {
-      // Split colour lists on spaces
-      // Use a negative lookbehind to target spaces that aren't preceded by a comma
-      // e.g. "hsl(100, 100%, 50%) hsl(200, 50%, 25%)" is only 2 values
-      const regex = /(?<!,)\s/gi;
-      return str?.split(regex);
-    } catch (err) {
-      // Safari doesn't support negative lookbehind
-      return str?.replaceAll(/,\s/g, ",").split(" ");
-    }
+    // Split colour lists on spaces
+    // Use a negative lookbehind to target spaces that aren't preceded by a comma
+    // e.g. "hsl(100, 100%, 50%) hsl(200, 50%, 25%)" is only 2 values
+    // const regex = /(?<!,)\s/gi;
+    // return str?.split(regex);
+
+    // Safari doesn't do negative lookbehinds
+    return str?.replace(/,\s/g, ",").split(" ");
   },
 } as const;
 
