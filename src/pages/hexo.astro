@@ -8,6 +8,11 @@ import PaintletDemo from "../components/paintlet-demo.svelte";
 const title = 'Hexo';
 ---
 
+<BaseLayout title={title}>
+  <PaintletDemo paintlet="hexo" sampleNum="6" {config} client:visible />
+  <PaintletLoader paintlet="hexo" />
+</BaseLayout>
+
 <style global>
   .hexo {
     --bg: #000;
@@ -68,8 +73,3 @@ const title = 'Hexo';
     --scale: 0.001;
   }
 </style>
-
-<BaseLayout title={title}>
-  <PaintletDemo paintlet="hexo" sampleNum="6" {config} client:visible />
-  <PaintletLoader paintlet="hexo" />
-</BaseLayout>

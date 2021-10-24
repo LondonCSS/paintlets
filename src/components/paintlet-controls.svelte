@@ -1,14 +1,29 @@
-<script>
-  export let config;
-  export let onInput;
+<script lang="ts">
+  interface ConfigVal {
+    key: string;
+    value: unknown;
+    controls: {
+      type: string;
+      label: string;
+      options?: {
+        key: string;
+        value: unknown;
+      }[];
+    };
+  }
+  type Config = Record<string, ConfigVal>
 
-  function parseConfig(config) {
+  export let config: Config;
+  export let onInput: svelte.JSX.FormEventHandler<HTMLFormElement>;
+
+  function parseConfig(config: Config): any[] {
     let _controls = [];
     for (const [name, val] of Object.entries(config)) {
       // TODO: support colour, options, etc
       if (!val.controls) continue;
-      if (val?.controls?.type === "color") continue;
+      if (val.controls.type === "color") continue;
 
+      // TODO change key to id: will allow pushing val directly into _controls
       const { key: id, value, controls } = val;
       _controls.push({ id, name, value, controls });
     }

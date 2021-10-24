@@ -8,6 +8,11 @@ import PaintletDemo from "../components/paintlet-demo.svelte";
 const title = 'Seigaiha';
 ---
 
+<BaseLayout title={title}>
+  <PaintletDemo paintlet="seigaiha" sampleNum="3" {config} client:visible />
+  <PaintletLoader paintlet="seigaiha" />
+</BaseLayout>
+
 <style lang="scss" global>
   .samples {
     --wh: 360px;
@@ -49,8 +54,3 @@ const title = 'Seigaiha';
     --river: hsl(200deg, 70%, 20%);
   }
 </style>
-
-<BaseLayout title={title}>
-  <PaintletDemo paintlet="seigaiha" sampleNum="3" {config} client:visible />
-  <PaintletLoader paintlet="seigaiha" />
-</BaseLayout>

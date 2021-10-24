@@ -8,6 +8,11 @@ import PaintletDemo from "../components/paintlet-demo.svelte";
 const title = 'Contour';
 ---
 
+<BaseLayout title={title}>
+  <PaintletDemo paintlet="contour" sampleNum="4" {config} client:visible />
+  <PaintletLoader paintlet="contour" />
+</BaseLayout>
+
 <style global>
   .contour {
     --grid-unit: 128;
@@ -45,8 +50,3 @@ const title = 'Contour';
     --line-frequency: 24;
   }
 </style>
-
-<BaseLayout title={title}>
-  <PaintletDemo paintlet="contour" sampleNum="4" {config} client:visible />
-  <PaintletLoader paintlet="contour" />
-</BaseLayout>

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Controls from "./paintlet-controls.svelte";
 
   export let paintlet = "";
@@ -9,9 +9,15 @@
   let demoCls = "sample__demo " + sampleClasses[0];
   let demoStyle = {};
 
+  function getSampleClasses(length: number): string[] {
+    return Array.from({ length }, (_, idx) => {
+      return `${paintlet} ${paintlet}--${idx + 1}`;
+    });
+  }
+
   // TODO switch to data attributes?
-  function onSampleHover(event) {
-    const el = event.target;
+  function onSampleHover(event: Event): void {
+    const el = event.target as HTMLElement;
     let _cls = "";
     for (const cls of el.classList.values()) {
       _cls += " " + cls;
@@ -19,23 +25,17 @@
     demoCls = "sample__demo " + _cls;
   }
 
-  function getSampleClasses(length) {
-    return Array.from({ length }, (_, idx) => {
-      return `${paintlet} ${paintlet}--${idx + 1}`;
-    });
-  }
-
-  function onControlsUpdate(event) {
-    const { name, value } = event.target;
+  function onControlsUpdate(event: Event): void {
+    const { name, value } = event.target as HTMLFormElement;
     demoStyle[name] = value;
   }
 
-  function parseStyles(demoStyle) {
+  function parseStyles(demoStyle: Record<string, string>): string {
     const styles = [];
     for (const key in demoStyle) {
-      styles.push(`${key}: ${demoStyle[key]};`);
+      styles.push(`${key}: ${demoStyle[key]}`);
     }
-    return styles.join(" ");
+    return styles.join(";");
   }
 
   $: styles = parseStyles(demoStyle);

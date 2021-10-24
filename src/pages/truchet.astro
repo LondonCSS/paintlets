@@ -8,6 +8,11 @@ import PaintletDemo from "../components/paintlet-demo.svelte";
 const title = 'Truchet';
 ---
 
+<BaseLayout title={title}>
+  <PaintletDemo paintlet="truchet" sampleNum="3" {config} client:visible />
+  <PaintletLoader paintlet="truchet" />
+</BaseLayout>
+
 <style lang="scss" global>
 .truchet--1 {
   --stroke-width: 3;
@@ -29,8 +34,3 @@ const title = 'Truchet';
   --bg-image: paint(truchet), linear-gradient(to top, #ec38bc, #7303c0, #03001e); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 </style>
-
-<BaseLayout title={title}>
-  <PaintletDemo paintlet="truchet" sampleNum="3" {config} client:visible />
-  <PaintletLoader paintlet="truchet" />
-</BaseLayout>

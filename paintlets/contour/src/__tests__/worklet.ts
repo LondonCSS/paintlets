@@ -1,4 +1,4 @@
-import { StylePropertyMapReadOnly } from "../../../../../typings/houdini";
+import { StylePropertyMapReadOnly } from "../../../../typings/houdini";
 import { normaliseInput } from "../../../../lib/utils";
 import { Contour } from "../worklet";
 
