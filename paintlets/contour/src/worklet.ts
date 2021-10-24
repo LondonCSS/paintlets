@@ -98,3 +98,5 @@ export class Contour implements houdini.PaintCtor {
     });
   }
 }
+
+export { defaultProps };

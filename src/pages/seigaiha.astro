@@ -1,7 +1,9 @@
 ---
+import config from "@londoncss/paintlet-seigaiha/config.json";
+
 import BaseLayout from '../layouts/base.astro'
-import Samples from "$components/samples";
 import PaintletLoader from "$components/paintlet-loader.astro";
+import PaintletDemo from "../components/paintlet-demo.svelte";
 
 const title = 'Seigaiha';
 ---
@@ -12,7 +14,7 @@ const title = 'Seigaiha';
     --radius: 55;
   }
 
-  .sample {
+  .seigaiha {
     --bg-image: paint(seigaiha);
   }
 
@@ -49,6 +51,6 @@ const title = 'Seigaiha';
 </style>
 
 <BaseLayout title={title}>
-  <Samples paintlet="seigaiha" samples="3" />
+  <PaintletDemo paintlet="seigaiha" sampleNum="3" {config} client:visible />
   <PaintletLoader paintlet="seigaiha" />
 </BaseLayout>

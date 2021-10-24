@@ -10,6 +10,12 @@
   "workspaces": [
     "./paintlets/*"
   ],
+  "dependencies": {
+    "@londoncss/paintlet-contour": "file:./paintlets/contour",
+    "@londoncss/paintlet-hexo": "file:./paintlets/hexo",
+    "@londoncss/paintlet-seigaiha": "file:./paintlets/seigaiha",
+    "@londoncss/paintlet-truchet": "file:./paintlets/truchet"
+  },
   "devDependencies": {
     "@astrojs/renderer-svelte": "0.1.2",
     "@babel/core": "7.15.8",

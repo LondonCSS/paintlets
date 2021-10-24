@@ -3,7 +3,7 @@ const {paintlet} = Astro.props;
 const paintletUrl = `https://unpkg.com/@londoncss/paintlet-${paintlet}`;
 const script = `
 <script type="module">
-  import "/scripts/demo-sample.js";
+  // import "/scripts/demo-sample.js";
   CSS.paintWorklet.addModule("${paintletUrl}");
 </script>
 `

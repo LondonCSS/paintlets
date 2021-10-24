@@ -104,3 +104,5 @@ export class Seigaiha implements houdini.PaintCtor {
     }
   }
 }
+
+export { defaultProps };

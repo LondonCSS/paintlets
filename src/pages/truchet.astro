@@ -1,7 +1,9 @@
 ---
-import BaseLayout from "../layouts/base.astro";
-import Samples from "$components/samples";
+import config from "@londoncss/paintlet-truchet/config.json";
+
+import BaseLayout from '../layouts/base.astro'
 import PaintletLoader from "$components/paintlet-loader.astro";
+import PaintletDemo from "../components/paintlet-demo.svelte";
 
 const title = 'Truchet';
 ---
@@ -29,6 +31,6 @@ const title = 'Truchet';
 </style>
 
 <BaseLayout title={title}>
-  <Samples paintlet="truchet" samples="3" />
+  <PaintletDemo paintlet="truchet" sampleNum="3" {config} client:visible />
   <PaintletLoader paintlet="truchet" />
 </BaseLayout>

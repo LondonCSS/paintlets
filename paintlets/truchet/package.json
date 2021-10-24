@@ -12,13 +12,14 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/paintlet-truchet.umd.js",
-  "module": "./dist/paintlet-truchet.es.js",
+  "main": "./dist/paintlet.umd.js",
+  "module": "./dist/paintlet.es.js",
   "exports": {
     ".": {
-      "import": "./dist/paintlet-truchet.es.js",
-      "require": "./dist/paintlet-truchet.umd.js"
-    }
+      "import": "./dist/paintlet.es.js",
+      "require": "./dist/paintlet.umd.js"
+    },
+    "./config.json": "./dist/config.json"
   },
   "devDependencies": {
     "@babel/core": "7.15.8",

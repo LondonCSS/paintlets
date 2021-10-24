@@ -1,7 +1,9 @@
 ---
+import config from "@londoncss/paintlet-hexo/config.json";
+
 import BaseLayout from "../layouts/base.astro";
-import Samples from "$components/samples";
 import PaintletLoader from "$components/paintlet-loader.astro";
+import PaintletDemo from "../components/paintlet-demo.svelte";
 
 const title = 'Hexo';
 ---
@@ -68,6 +70,6 @@ const title = 'Hexo';
 </style>
 
 <BaseLayout title={title}>
-  <Samples paintlet="hexo" samples="6" />
+  <PaintletDemo paintlet="hexo" sampleNum="6" {config} client:visible />
   <PaintletLoader paintlet="hexo" />
 </BaseLayout>

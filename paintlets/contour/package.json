@@ -12,13 +12,14 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/paintlet-contour.umd.js",
-  "module": "./dist/paintlet-contour.es.js",
+  "main": "./dist/paintlet.umd.js",
+  "module": "./dist/paintlet.es.js",
   "exports": {
     ".": {
-      "import": "./dist/paintlet-contour.es.js",
-      "require": "./dist/paintlet-contour.umd.js"
-    }
+      "import": "./dist/paintlet.es.js",
+      "require": "./dist/paintlet.umd.js"
+    },
+    "./config.json": "./dist/config.json"
   },
   "dependencies": {
     "canvas-sketch-util": "1.10.0",

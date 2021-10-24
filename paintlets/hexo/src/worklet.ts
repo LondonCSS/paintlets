@@ -214,3 +214,5 @@ export class Hexo implements houdini.PaintCtor {
     }
   }
 }
+
+export { defaultProps };

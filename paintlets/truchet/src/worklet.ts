@@ -117,3 +117,5 @@ export class Truchet implements houdini.PaintCtor {
     }
   }
 }
+
+export { defaultProps };

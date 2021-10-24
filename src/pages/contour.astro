@@ -1,7 +1,9 @@
 ---
+import config from "@londoncss/paintlet-contour/config.json";
+
 import BaseLayout from "../layouts/base.astro";
-import Samples from "$components/samples";
 import PaintletLoader from "$components/paintlet-loader.astro";
+import PaintletDemo from "../components/paintlet-demo.svelte";
 
 const title = 'Contour';
 ---
@@ -45,6 +47,6 @@ const title = 'Contour';
 </style>
 
 <BaseLayout title={title}>
-  <Samples paintlet="contour" samples="4" />
+  <PaintletDemo paintlet="contour" sampleNum="4" {config} client:visible />
   <PaintletLoader paintlet="contour" />
 </BaseLayout>

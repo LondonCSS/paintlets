@@ -10,8 +10,10 @@ async function saveConfig(args: string[]) {
     }
 
     const thisPath = new URL(".", import.meta.url).pathname;
-    const configPath = `../paintlets/${paintletName}/src/config.ts`;
-    const destPath = `../public/data/${paintletName}.json`;
+    const paintletPath = `../paintlets/${paintletName}`;
+    const configPath = `${paintletPath}/src/config.ts`;
+    // const destPath = `../public/data/${paintletName}.json`;
+    const destPath = `${paintletPath}/dist/config.json`;
     const { defaultProps } = await import(path.resolve(thisPath, configPath));
     const json = JSON.stringify(defaultProps, null, 2);
     await fs.writeFile(path.resolve(thisPath, destPath), json);

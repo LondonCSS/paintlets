@@ -12,13 +12,14 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/paintlet-seigaiha.umd.js",
-  "module": "./dist/paintlet-seigaiha.es.js",
+  "main": "./dist/paintlet.umd.js",
+  "module": "./dist/paintlet.es.js",
   "exports": {
     ".": {
-      "import": "./dist/paintlet-seigaiha.es.js",
-      "require": "./dist/paintlet-seigaiha.umd.js"
-    }
+      "import": "./dist/paintlet.es.js",
+      "require": "./dist/paintlet.umd.js"
+    },
+    "./config.json": "./dist/config.json"
   },
   "devDependencies": {
     "@babel/core": "7.15.8",

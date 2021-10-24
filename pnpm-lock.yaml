@@ -8,6 +8,10 @@ importers:
       '@babel/core': 7.15.8
       '@babel/preset-env': 7.15.8
       '@babel/preset-typescript': 7.15.0
+      '@londoncss/paintlet-contour': file:./paintlets/contour
+      '@londoncss/paintlet-hexo': file:./paintlets/hexo
+      '@londoncss/paintlet-seigaiha': file:./paintlets/seigaiha
+      '@londoncss/paintlet-truchet': file:./paintlets/truchet
       '@tsconfig/recommended': 1.0.1
       '@types/node': 16.11.4
       '@typescript-eslint/eslint-plugin': 5.1.0
@@ -21,6 +25,11 @@ importers:
       svelte: 3.44.0
       typescript: 4.4.4
       vite: 2.6.10
+    dependencies:
+      '@londoncss/paintlet-contour': link:paintlets/contour
+      '@londoncss/paintlet-hexo': link:paintlets/hexo
+      '@londoncss/paintlet-seigaiha': link:paintlets/seigaiha
+      '@londoncss/paintlet-truchet': link:paintlets/truchet
     devDependencies:
       '@astrojs/renderer-svelte': 0.1.2_f4b8cfc04a01c8df8584c1d8921bff16
       '@babel/core': 7.15.8
