@@ -5,6 +5,11 @@
   export let config = {};
   export let sampleNum = 0;
 
+  let sampleClasses = getSampleClasses(sampleNum);
+  let demoCls = "sample__demo " + sampleClasses[0];
+  let demoStyle = {};
+
+  // TODO switch to data attributes?
   function onSampleHover(event) {
     const el = event.target;
     let _cls = "";
@@ -32,10 +37,6 @@
     }
     return styles.join(" ");
   }
-
-  let sampleClasses = getSampleClasses(sampleNum);
-  let demoCls = "sample__demo " + sampleClasses[0];
-  let demoStyle = {};
 
   $: styles = parseStyles(demoStyle);
 </script>
