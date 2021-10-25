@@ -51,4 +51,4 @@ export const defaultProps = {
       type: "color"
     }
   },
-};
+} as const;
