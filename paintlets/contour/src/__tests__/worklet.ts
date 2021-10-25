@@ -4,9 +4,10 @@ import { Contour } from "../worklet";
 
 const mockDefaults = {
   gridUnit: 192,
-  lineColour: "#fff",
+  lineColour: "#fffa",
   lineWidth: 0.1,
   lineFrequency: 12,
+  seed: 31415,
 };
 
 describe("Contour", () => {
@@ -31,6 +32,7 @@ describe("Contour", () => {
         lineColour: "#fffa",
         lineWidth: 0.5,
         lineFrequency: 16,
+        seed: 31415,
       };
 
       expect(normaliseInput(mockInputs, Contour)).toEqual(expectOutput);

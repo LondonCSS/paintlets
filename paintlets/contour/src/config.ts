@@ -1,7 +1,7 @@
 export const defaultProps = {
   "--seed": {
     key: "seed",
-    value: Math.floor(Math.random() * 100),
+    value: Math.floor(Math.PI * 10000),
     parseAs: "number",
   },
   "--grid-unit": {
@@ -16,7 +16,7 @@ export const defaultProps = {
   },
   "--line-colour": {
     key: "lineColour",
-    value: "#ffffff",
+    value: "#fffa",
     parseAs: "string",
     controls: {
       type: "color",
