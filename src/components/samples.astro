@@ -1,0 +1,76 @@
+---
+const {paintlet, samples} = Astro.props;
+const sampleArr = Array.from({length: samples}, (_, i) => i + 1);
+---
+<div class="samples">
+  <ul class="sample__nav">
+    {sampleArr.map((idx) => {
+      const cls = `sample ${paintlet} ${paintlet}--${idx}`;
+      return <li class={cls} />
+    })}
+  </ul>
+  <div class="sample__demo"></div>
+  <form action="#" class="sample__controls"></form>
+</div>
+
+<style lang="scss">
+.samples {
+  --nav-w: 200px;
+
+  display: grid;
+  background-color: #111;
+
+  @media (min-width: 768px) {
+    grid-template-columns: var(--nav-w) 1fr;
+  }
+}
+
+.sample__nav {
+  display: grid;
+  gap: 1rem;
+
+  margin: 0;
+  padding: 1rem;
+  list-style: none;
+  background-color: #000;
+}
+
+.sample {
+  overflow: hidden;
+  border-radius: 0.5rem;
+
+  background-image: var(--bg-image);
+  background-color: var(--bg);
+}
+
+.sample__demo {
+  grid-area: 1/-1/-1/-2;
+
+  display: none;
+  border-radius: 0;
+
+  @media (min-width: 768px) {
+    display: block;
+  }
+}
+
+.sample__controls {
+  grid-area: 1/-1/-1/-2;
+  align-self: end;
+  justify-self: end;
+
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  align-items: center;
+  gap: 0.5rem;
+
+  margin: 1rem;
+  padding: 1rem;
+  color: #fff;
+  background: #000a;
+
+  & label {
+    text-align: right;
+  }
+}
+</style>

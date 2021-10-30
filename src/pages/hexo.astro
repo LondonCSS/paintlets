@@ -1,0 +1,75 @@
+---
+import config from "@londoncss/paintlet-hexo/config.json";
+
+import BaseLayout from "../layouts/base.astro";
+import PaintletLoader from "$components/paintlet-loader.astro";
+import PaintletDemo from "../components/paintlet-demo.svelte";
+
+const title = 'Hexo';
+---
+
+<BaseLayout title={title}>
+  <PaintletDemo paintlet="hexo" sampleNum="6" {config} client:visible />
+  <PaintletLoader paintlet="hexo" />
+</BaseLayout>
+
+<style global>
+  .hexo {
+    --bg: #000;
+    --bg-image: paint(hexo);
+    --scale: 0.002;
+  }
+
+  .hexo--1 {
+    --seed: 1;
+    --bg: hsl(0, 0%, 10%);
+    --fill: hsl(0, 0%, 50%, 0.5);
+  }
+
+  .hexo--2 {
+    --seed: 2;
+    --style: hue;
+    --radius: 9;
+    --fill: hsla(180, 100%, 20%, 0.5);
+    --bg: deeppink;
+  }
+
+  .hexo--3 {
+    --seed: 3;
+    --gap: 0.2;
+    --fill: hsl(60, 100%, 70%);
+    --bg: rebeccapurple;
+  }
+
+  .hexo--4 {
+    --seed: 4;
+    --radius: 30;
+    --gap: 6;
+    --stroke-width: 3;
+    --stroke-colour: lemonchiffon;
+    --bg: palevioletred;
+    --bg-image: paint(hexo), linear-gradient(to top, var(--bg), var(--stroke-colour) 75%);
+  }
+
+  .hexo--5 {
+    --seed: 5;
+    --radius: 48;
+    --gap: -36;
+    --stroke-width: 2;
+    --stroke-colour: #333;
+    --bg: black;
+  }
+
+  .hexo--6 {
+    --seed: 6;
+    --style: rainbow;
+    --radius: 20;
+    --gap: 10;
+    --bg: black;
+    --cube-tints: #0003 #0006;
+  }
+
+  .sample__demo {
+    --scale: 0.001;
+  }
+</style>

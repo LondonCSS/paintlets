@@ -1,0 +1,27 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --wh: 200px;
+}
+
+body {
+  display: grid;
+  grid-template-rows: auto 1fr;
+
+  height: 100vh;
+  overflow: hidden;
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+}
+
+a {
+  color: inherit;
+}
+
+.title {
+  font-weight: 400;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}

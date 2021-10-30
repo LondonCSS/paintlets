@@ -1,0 +1,56 @@
+---
+import config from "@londoncss/paintlet-seigaiha/config.json";
+
+import BaseLayout from '../layouts/base.astro'
+import PaintletLoader from "$components/paintlet-loader.astro";
+import PaintletDemo from "../components/paintlet-demo.svelte";
+
+const title = 'Seigaiha';
+---
+
+<BaseLayout title={title}>
+  <PaintletDemo paintlet="seigaiha" sampleNum="3" {config} client:visible />
+  <PaintletLoader paintlet="seigaiha" />
+</BaseLayout>
+
+<style lang="scss" global>
+  .samples {
+    --wh: 360px;
+    --radius: 55;
+  }
+
+  .seigaiha {
+    --bg-image: paint(seigaiha);
+  }
+
+  .seigaiha--1 {
+    --radius: 55;
+  }
+
+  .seigaiha--2 {
+    --rings: 4;
+    --stroke-width: 8;
+    --stroke-colour: #222 ;
+    --bg: #111;
+  }
+
+  .seigaiha--3 {
+    --rings: 8;
+    --radius: 70;
+    --bg: hsl(200deg, 50%, 30%);
+    --stroke-width: 2;
+    --stroke-colour: hsl(200deg, 50%, 40%);
+  }
+
+  .sample__demo.seigaiha--1 {
+    --river: hsl(200deg, 60%, 20%);
+  }
+
+  .sample__demo.seigaiha--2 {
+    --river: hsl(200deg, 60%, 45%);
+  }
+
+  .sample__demo.seigaiha--3 {
+    --river: hsl(200deg, 70%, 20%);
+  }
+</style>

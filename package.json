@@ -6,30 +6,49 @@
   "keywords": [],
   "license": "ISC",
   "type": "module",
-  "packageManager": "pnpm@6.15.2",
+  "packageManager": "pnpm@6.16.1",
+  "volta": {
+    "node": "16.11.0",
+    "npm": "8.1.1"
+  },
+  "workspaces": [
+    "./paintlets/*"
+  ],
+  "dependencies": {
+    "@londoncss/paintlet-contour": "file:./paintlets/contour",
+    "@londoncss/paintlet-hexo": "file:./paintlets/hexo",
+    "@londoncss/paintlet-seigaiha": "file:./paintlets/seigaiha",
+    "@londoncss/paintlet-truchet": "file:./paintlets/truchet",
+    "astro": "^0.20.12"
+  },
   "devDependencies": {
+    "@astrojs/renderer-svelte": "0.1.2",
     "@babel/core": "7.15.8",
     "@babel/preset-env": "7.15.8",
     "@babel/preset-typescript": "7.15.0",
     "@tsconfig/recommended": "1.0.1",
-    "@types/node": "16.10.3",
-    "@typescript-eslint/eslint-plugin": "5.0.0",
-    "@typescript-eslint/parser": "5.0.0",
-    "babel-jest": "27.2.5",
-    "eslint": "8.0.0",
-    "jest": "27.2.5",
-    "sass": "1.42.1",
-    "typescript": "4.4.3",
-    "vite": "2.6.7"
+    "@types/node": "16.11.4",
+    "@typescript-eslint/eslint-plugin": "5.1.0",
+    "@typescript-eslint/parser": "5.1.0",
+    "babel-jest": "27.3.1",
+    "eslint": "8.1.0",
+    "jest": "27.3.1",
+    "rollup": "2.58.3",
+    "sass": "1.43.3",
+    "svelte": "3.44.0",
+    "typescript": "4.4.4",
+    "vite": "2.6.11"
   },
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "lint:js": "eslint ./src/*/src",
+    "lint:js": "eslint ./paintlets",
     "lint:types": "tsc",
-    "prebuild": "[[ $CI = true ]] && npx pnpm@6 install -r --store=node_modules/.pnpm-store || echo skiping pnpm install",
-    "build": "pnpm run -r build && vite build",
-    "dev": "vite",
-    "serve": "pnpm build && vite preview",
-    "test": "jest"
+    "prebuild": "[[ $CI = true ]] && npx pnpm@6 install -r --store=node_modules/.pnpm-store || echo skipping pnpm install",
+    "build": "pnpm run -r build && astro build || true",
+    "test": "jest",
+    "dev": "astro dev",
+    "start": "astro dev",
+    "preserve": "echo 'exporting config'",
+    "serve": "pnpm build && astro preview"
   }
 }

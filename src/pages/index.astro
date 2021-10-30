@@ -1,0 +1,124 @@
+---
+// Component Imports
+import BaseLayout from '../layouts/base.astro'
+---
+<BaseLayout>
+<div class="home">
+  <ul class="index">
+    <li class="index__item contour">
+      <a href="/contour/"><span>Contour</span></a>
+    </li>
+    <li class="index__item seigaiha">
+      <a href="/seigaiha/"><span>Seigaiha</span></a>
+    </li>
+    <li class="index__item truchet">
+      <a href="/truchet/"><span>Truchet</span></a>
+    </li>
+    <li class="index__item hexo">
+      <a href="/hexo/"><span>Hexo</span></a>
+    </li>
+  </ul>
+</div>
+  <script>
+    CSS.paintWorklet.addModule("https://unpkg.com/@londoncss/paintlet-contour");
+    CSS.paintWorklet.addModule("https://unpkg.com/@londoncss/paintlet-hexo");
+    CSS.paintWorklet.addModule("https://unpkg.com/@londoncss/paintlet-seigaiha");
+    CSS.paintWorklet.addModule("https://unpkg.com/@londoncss/paintlet-truchet");
+  </script>
+</BaseLayout>
+
+<style lang="scss">
+  :root {
+    --bg: #222;
+
+    /* TODO namespace variables! */
+    --stroke-width: 1;
+    --stroke-colour: #fff6;
+    --line-width: 0.5;
+    --line-colour: #fff6;
+  }
+
+  .home {
+    --bg: #222;
+
+    /* TODO namespace variables! */
+    --stroke-width: 1;
+    --stroke-colour: #fff6;
+    --line-width: 0.5;
+    --line-colour: #fff6;
+
+    display: grid;
+    place-content: center;
+
+    height: 100vh;
+  }
+
+  .index {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(var(--wh), 1fr));
+    place-content: center;
+    gap: 1rem;
+
+    width: 70vw;
+    margin: 0;
+    padding: 1rem;
+    list-style: none;
+  }
+
+  .index__item {
+    overflow: hidden;
+    border-radius: 1rem;
+    aspect-ratio: 1;
+    background-color: var(--bg);
+
+    a {
+      display: grid;
+      align-items: flex-end;
+
+      width: 100%;
+      aspect-ratio: 1;
+      text-decoration: none;
+    }
+
+    span {
+      padding: 0.5rem;
+      text-transform: lowercase;
+      letter-spacing: 2px;
+      font-variant: small-caps;
+      background: #fffd;
+      color: #000;
+    }
+  }
+
+  .index__item {
+    overflow: hidden;
+    border-radius: 0.5rem;
+
+    background-image: var(--bg-image);
+    background-color: var(--bg);
+  }
+
+  .contour {
+    /* TODO make these defaults for "contour" */
+    --grid-unit: 64;
+    --line-frequency: 16;
+    --bg-image: paint(contour);
+  }
+
+  .seigaiha {
+    --bg-image: paint(seigaiha);
+  }
+
+  .truchet {
+    /* TODO make "seigaiha" inherit colours? */
+    /* TODO Allow a single colour */
+    --tile-size: 30;
+    --bg-image: paint(truchet);
+  }
+
+  .hexo {
+    /* TODO vary --radius */
+    --gap: 5;
+    --bg-image: paint(hexo);
+  }
+</style>

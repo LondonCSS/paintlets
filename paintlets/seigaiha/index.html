@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Seigaiha - London CSS: Paintlets</title>
+
+    <style lang="scss">
+      .samples {
+        --wh: 360px;
+        --radius: 55;
+      }
+
+      .sample {
+        --bg-image: paint(seigaiha);
+      }
+
+      .sample--1 {
+        --radius: 55;
+      }
+
+      .sample--2 {
+        --rings: 4;
+        --stroke-width: 8;
+        --stroke-colour: #222 ;
+        --bg: #111;
+      }
+
+      .sample--3 {
+        --rings: 8;
+        --radius: 70;
+        --bg: hsl(200deg, 50%, 30%);
+        --stroke-width: 2;
+        --stroke-colour: hsl(200deg, 50%, 40%);
+      }
+
+      .sample__demo.sample--1 {
+        --river: hsl(200deg, 60%, 20%);
+      }
+
+      .sample__demo.sample--2 {
+        --river: hsl(200deg, 60%, 45%);
+      }
+
+      .sample__demo.sample--3 {
+        --river: hsl(200deg, 70%, 20%);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="samples">
+      <ul class="sample__nav">
+        <li class="sample sample--1"></li>
+        <li class="sample sample--2"></li>
+        <li class="sample sample--3"></li>
+      </ul>
+      <div class="sample__demo" data-component="demo"></div>
+      <form class="sample__controls" data-component="controls"></form>
+    </div>
+
+    <script type="module">
+      import "../../lib/styles.scss";
+      import { applySampleStyles } from "../../lib/demo-sample";
+      import { makeControls } from "../../lib/demo-controls.ts";
+      import { defaultProps } from "./src/worklet";
+
+      const demoPanel = document.querySelector("[data-component='demo']");
+      const controlForm = document.querySelector("[data-component='controls']");
+      const samples = document.querySelectorAll(".sample__nav .sample");
+
+      makeControls({ controlForm, demoPanel, defaultProps });
+      applySampleStyles({ demoPanel, samples });
+
+      CSS.paintWorklet.addModule("./src/index.ts");
+    </script>
+  </body>
+</html>

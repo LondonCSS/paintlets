@@ -1,0 +1,52 @@
+---
+import config from "@londoncss/paintlet-contour/config.json";
+
+import BaseLayout from "../layouts/base.astro";
+import PaintletLoader from "$components/paintlet-loader.astro";
+import PaintletDemo from "../components/paintlet-demo.svelte";
+
+const title = 'Contour';
+---
+
+<BaseLayout title={title}>
+  <PaintletDemo paintlet="contour" sampleNum="4" {config} client:visible />
+  <PaintletLoader paintlet="contour" />
+</BaseLayout>
+
+<style global>
+  .contour {
+    --grid-unit: 128;
+    --line-width: 1;
+    --line-frequency: 12;
+    --line-colour: #fff2;
+    --bg: #000;
+    --bg-image: paint(contour);
+  }
+
+  .contour--1 {
+    --seed: 1;
+    --bg-image: paint(contour), linear-gradient(to top, cornflowerblue, hotpink);
+  }
+
+  .contour--2 {
+    --seed: 2;
+    --line-colour: #0001;
+    --bg-image: paint(contour), linear-gradient(to right, gold, mediumseagreen);
+  }
+
+  .contour--3 {
+    --seed: 3;
+    --line-width: 1;
+    --line-colour: #ffd70088;
+    --bg-image: paint(contour), linear-gradient(to top left, red, orange);
+  }
+
+  .contour--4 {
+    --seed: 4;
+    --bg: #222;
+  }
+
+  .sample__demo {
+    --line-frequency: 24;
+  }
+</style>

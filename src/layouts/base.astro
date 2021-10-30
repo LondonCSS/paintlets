@@ -1,0 +1,56 @@
+---
+import "../styles/main.scss";
+
+const defaults = {
+  title: "London CSS: Paintlets"
+}
+
+const { title = defaults.title } = Astro.props
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>{title}</title>
+
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  </head>
+  <body>
+    <header class="header title">
+      <a href="/"><h1 class="header__title">{defaults.title}</h1></a>
+      <nav class="header__nav">
+        <a href="/contour/">Contour</a>
+        <a href="/hexo/">Hexo</a>
+        <a href="/seigaiha/">Seigaiha</a>
+        <a href="/truchet/">Truchet</a>
+      </nav>
+    </header>
+    <slot />
+  </body>
+</html>
+
+<style lang="scss">
+.header {
+  display: flex;
+  justify-content: space-between;
+
+  padding: 0.5rem;
+
+  & a {
+    text-decoration: none;
+  }
+}
+
+.header__nav {
+  display: flex;
+  gap: 1rem;
+  font-size: small;
+}
+
+.header__title {
+  margin: 0;
+  font-size: 1rem;
+}
+</style>
