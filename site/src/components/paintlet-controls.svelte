@@ -54,8 +54,11 @@
 
     margin: 1rem;
     padding: 1rem;
+    border-radius: 0.5rem;
     color: #fff;
-    background: #000a;
+    background: #0008;
+    // box-shadow: inset 0 0 0 #0004;
+    backdrop-filter: blur(3px);
 
     & label {
       text-align: right;
