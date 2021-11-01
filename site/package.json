@@ -29,15 +29,10 @@
     "vite": "2.6.13"
   },
   "scripts": {
-    "preinstall": "npx only-allow pnpm",
-    "lint:js": "eslint ./paintlets",
-    "lint:types": "tsc",
-    "prebuild": "[[ $CI = true ]] && npx pnpm@6 install -r --store=node_modules/.pnpm-store || echo skipping pnpm install",
-    "build": "pnpm run -r build && astro build || true",
+    "build": "astro build || true",
     "test": "jest",
     "dev": "astro dev",
     "start": "astro dev",
-    "preserve": "echo 'exporting config'",
     "serve": "pnpm build && astro preview"
   }
 }

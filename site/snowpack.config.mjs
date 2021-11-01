@@ -1,5 +1,5 @@
 export default {
-  workspaceRoot: './',
+  workspaceRoot: '../',
   alias: {
     $lib: "./lib",
     $components: "./src/components",

@@ -23,14 +23,11 @@
   "scripts": {
     "clean": "git clean -fxd",
     "preinstall": "npx only-allow pnpm",
-    "lint:js": "eslint ./paintlets",
-    "lint:types": "tsc",
+    "lint:js": "pnpm run -r lint:js",
+    "lint:types": "pnpm run -r lint:types",
     "prebuild": "[[ $CI = true ]] && npx pnpm@6 install -r --store=node_modules/.pnpm-store || echo skipping pnpm install",
-    "build": "pnpm run -r build && astro build || true",
+    "build": "pnpm run -r build",
     "test": "jest",
-    "dev": "astro dev",
-    "start": "astro dev",
-    "preserve": "echo 'exporting config'",
-    "serve": "pnpm build && astro preview"
+    "dev": "pnpm dev --filter ./site"
   }
 }
