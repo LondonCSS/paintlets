@@ -48,16 +48,15 @@
     justify-self: end;
 
     display: grid;
-    grid-template-columns: max-content 1fr;
+    grid-template-columns: max-content 8ch;
     align-items: center;
     gap: 0.5rem;
 
     margin: 1rem;
-    padding: 1rem;
+    padding: 0.75rem;
     border-radius: 0.5rem;
     color: #fff;
     background: #0008;
-    // box-shadow: inset 0 0 0 #0004;
     backdrop-filter: blur(3px);
 
     & label {
