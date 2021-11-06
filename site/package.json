@@ -24,7 +24,7 @@
   "devDependencies": {
     "@astrojs/renderer-svelte": "0.1.2",
     "sass": "1.43.4",
-    "svelte": "3.44.0",
+    "svelte": "3.44.1",
     "typescript": "4.4.4",
     "vite": "2.6.13"
   },
