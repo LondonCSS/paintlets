@@ -6,9 +6,9 @@
     "module": "es2020",
     "moduleResolution": "node",
     "downlevelIteration": true,
+    "resolveJsonModule": true,
     "checkJs": false,
     "noEmit": true
   },
-  "include": ["../typings/*", "../lib", "./**/*"],
   "exclude": [".eslintrc.cjs"]
 }

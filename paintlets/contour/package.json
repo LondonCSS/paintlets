@@ -40,7 +40,7 @@
   "scripts": {
     "test": "jest",
     "build:paintlet": "vite build",
-    "build:config": "tsm ../../lib/export-config.ts contour",
+    "build:config": "cp config.json dist/config.json",
     "build": "run-s build:*",
     "dev": "vite"
   }
