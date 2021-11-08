@@ -16,6 +16,10 @@ body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
 }
 
+input {
+  font: inherit;
+}
+
 a {
   color: inherit;
 }

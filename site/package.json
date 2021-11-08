@@ -1,0 +1,38 @@
+{
+  "name": "@londoncss/paintlets-site",
+  "description": "",
+  "version": "1.0.0",
+  "author": "Oliver Turner",
+  "keywords": [],
+  "license": "ISC",
+  "type": "module",
+  "packageManager": "pnpm@6.16.1",
+  "volta": {
+    "node": "16.11.0",
+    "npm": "8.1.1"
+  },
+  "workspaces": [
+    "./paintlets/*"
+  ],
+  "dependencies": {
+    "@londoncss/paintlet-contour": "file:../paintlets/contour",
+    "@londoncss/paintlet-hexo": "file:../paintlets/hexo",
+    "@londoncss/paintlet-seigaiha": "file:../paintlets/seigaiha",
+    "@londoncss/paintlet-truchet": "file:../paintlets/truchet",
+    "astro": "^0.20.12"
+  },
+  "devDependencies": {
+    "@astrojs/renderer-svelte": "0.1.2",
+    "sass": "1.43.4",
+    "svelte": "3.44.1",
+    "typescript": "4.4.4",
+    "vite": "2.6.13"
+  },
+  "scripts": {
+    "build": "astro build || true",
+    "test": "jest",
+    "dev": "astro dev",
+    "start": "astro dev",
+    "serve": "pnpm build && astro preview"
+  }
+}

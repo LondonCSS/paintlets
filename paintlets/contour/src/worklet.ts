@@ -18,7 +18,7 @@ import { clipPolylinesToBox } from "canvas-sketch-util/geometry";
 import { isoBands } from "marchingsquares";
 
 import { normaliseInput } from "../../../lib/utils";
-import { defaultProps } from "./config";
+import  defaultProps from "./config.json";
 
 function drawShape([start, ...pts]: PolyLine) {
   return [start, ...pts, start];
