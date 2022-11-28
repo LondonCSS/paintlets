@@ -1,8 +1,5 @@
-[build.environment]
-NPM_FLAGS = "--version"
-
 [build]
-command = "npx pnpm install --store=node_modules/.pnpm-store && npx pnpm build"
+  command = "pnpm run build"
 
 [[headers]]
   for = "/*"
@@ -14,7 +11,6 @@ command = "npx pnpm install --store=node_modules/.pnpm-store && npx pnpm build"
       object-src 'none';
       frame-src https://*.netlify.app/ https://*.netlify.com/;
     '''
-    Feature-Policy = "fullscreen 'self'"
     Referrer-Policy = "same-origin"
     X-Content-Type-Options = "nosniff"
     X-Frame-Options = "DENY"
